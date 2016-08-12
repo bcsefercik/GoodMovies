@@ -1,0 +1,6 @@
+framework module Pods_GoodMovies {
+  umbrella header "Pods-GoodMovies-umbrella.h"
+
+  export *
+  module * { export * }
+}
