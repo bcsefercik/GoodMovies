@@ -25,8 +25,8 @@ class LoginViewController: UIViewController {
         loginButton.backgroundColor = Color.wetAsphalt
         loginButton.tintColor = Color.clouds
         loginButton.layer.borderWidth = 0
-        loginButton.layer.cornerRadius = 8
-        loginButton.heightAnchor.constraintEqualToConstant(50).active = true
+        loginButton.layer.cornerRadius = 6
+        loginButton.heightAnchor.constraintEqualToConstant(39).active = true
     }
 
 }
