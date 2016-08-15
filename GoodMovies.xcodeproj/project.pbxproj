@@ -13,6 +13,10 @@
 		C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B201D5DCB1400223DBF /* LoginViewModel.swift */; };
 		C2321B231D5DCD2A00223DBF /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B221D5DCD2A00223DBF /* NavigationViewController.swift */; };
 		C2321B251D5DE0C200223DBF /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B241D5DE0C200223DBF /* Structs.swift */; };
+		C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76621D61DB8000626786 /* RegisterViewController.swift */; };
+		C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76641D61DBA300626786 /* RegisterViewModel.swift */; };
+		C2DD76671D61EBF100626786 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2DD76661D61EBF100626786 /* LoadingView.xib */; };
+		C2DD76691D61EC0200626786 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76681D61EC0200626786 /* LoadingView.swift */; };
 		C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DE131A1D5DC88C00698C12 /* AppDelegate.swift */; };
 		C2DE13201D5DC88C00698C12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2DE131E1D5DC88C00698C12 /* Main.storyboard */; };
 		C2DE13221D5DC88C00698C12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2DE13211D5DC88C00698C12 /* Assets.xcassets */; };
@@ -27,6 +31,10 @@
 		C2321B201D5DCB1400223DBF /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		C2321B221D5DCD2A00223DBF /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		C2321B241D5DE0C200223DBF /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		C2DD76621D61DB8000626786 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		C2DD76641D61DBA300626786 /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		C2DD76661D61EBF100626786 /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
+		C2DD76681D61EC0200626786 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C2DE13171D5DC88B00698C12 /* GoodMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2DE131A1D5DC88C00698C12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2DE131F1D5DC88C00698C12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -97,8 +105,12 @@
 				C2321B1C1D5DCACC00223DBF /* User.swift */,
 				C2321B1E1D5DCB0600223DBF /* LoginViewController.swift */,
 				C2321B201D5DCB1400223DBF /* LoginViewModel.swift */,
+				C2DD76621D61DB8000626786 /* RegisterViewController.swift */,
+				C2DD76641D61DBA300626786 /* RegisterViewModel.swift */,
 				C2321B221D5DCD2A00223DBF /* NavigationViewController.swift */,
 				C2321B241D5DE0C200223DBF /* Structs.swift */,
+				C2DD76661D61EBF100626786 /* LoadingView.xib */,
+				C2DD76681D61EC0200626786 /* LoadingView.swift */,
 			);
 			path = GoodMovies;
 			sourceTree = "<group>";
@@ -169,6 +181,7 @@
 				C2DE132D1D5DC9BE00698C12 /* GoogleService-Info.plist in Resources */,
 				C2DE13221D5DC88C00698C12 /* Assets.xcassets in Resources */,
 				C2DE13201D5DC88C00698C12 /* Main.storyboard in Resources */,
+				C2DD76671D61EBF100626786 /* LoadingView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,9 +243,12 @@
 				C2321B231D5DCD2A00223DBF /* NavigationViewController.swift in Sources */,
 				C2321B251D5DE0C200223DBF /* Structs.swift in Sources */,
 				C2321B1F1D5DCB0600223DBF /* LoginViewController.swift in Sources */,
+				C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */,
 				C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */,
 				C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */,
+				C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */,
 				C2321B1D1D5DCACC00223DBF /* User.swift in Sources */,
+				C2DD76691D61EC0200626786 /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
