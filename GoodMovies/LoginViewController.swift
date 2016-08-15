@@ -29,6 +29,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         setupForm()
         
         loading = addLoading()
+        loading.setLabel("Signing in...")
     }
     
     func applyStateChange(change: LoginViewModel.LoginState.Change) {
@@ -132,6 +133,7 @@ extension UIViewController{
         
         let heightConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         self.view.addConstraints(heightConstraints)
+        lv.layer.cornerRadius = 13
         lv.hide()
        return lv
     }
