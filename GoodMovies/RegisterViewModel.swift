@@ -9,22 +9,60 @@ class RegisterViewModel{
     private(set) var state = RegisterState()
     var stateChangeHandler: ((RegisterState.Change) -> Void)?
     
-    func signIn(email: String, password: String){
+    func signUp(email: String, password: String, username: String, name: String){
         
-        if (email=="" || password==""){
+        if (email == "" || password == "" || username == "" || name == ""){
             self.stateChangeHandler?(RegisterState.Change.emptyError)
             return
         }
         
-        FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+        
+        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user: FIRUser?, error) in
             
             if error != nil {
+                switch error!.code{
+                case FIRAuthErrorCode.ErrorCodeInvalidEmail.rawValue:
+                    self.stateChangeHandler?(RegisterState.Change.invalidEmailError)
+                case FIRAuthErrorCode.ErrorCodeEmailAlreadyInUse.rawValue:
+                    self.stateChangeHandler?(RegisterState.Change.takenEmailError)
+                default:
+                    self.stateChangeHandler?(RegisterState.Change.dbError)
+                    
+                }
+                
+                return
+            }
+            
+            guard let uid = user?.uid else {
                 self.stateChangeHandler?(RegisterState.Change.dbError)
                 return
             }
             
-            self.stateChangeHandler!(RegisterState.Change.loggedIn)
+            let ref = FIRDatabase.database().referenceFromURL("https://goodmovies-e9b7c.firebaseio.com/")
+            let usersReference = ref.child("users").child(uid)
+            let values = ["name": name, "email": email, "username": username]
+            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+                
+                if err != nil {
+                    self.stateChangeHandler?(RegisterState.Change.dbError)
+                    return
+                }
+                
+            })
+            FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+                
+                if error != nil {
+                    self.stateChangeHandler?(RegisterState.Change.dbError)
+                    return
+                }
+                
+                self.stateChangeHandler?(RegisterState.Change.registered)
+                
+            })
+
             
+            
+            return
         })
         
     }
@@ -32,8 +70,11 @@ class RegisterViewModel{
 
 extension RegisterViewModel.RegisterState{
     enum Change {
-        case loggedIn
         case emptyError
+        case invalidEmailError
+        case takenEmailError
+        case takenUsernameError
         case dbError
+        case registered
     }
 }

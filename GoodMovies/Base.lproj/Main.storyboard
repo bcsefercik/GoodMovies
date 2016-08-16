@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KWu-0f-ty5">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,7 +9,7 @@
         <!--loginScreen-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="loginScreen" id="BYZ-38-t0r" customClass="LoginViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" title="loginScreen" id="BYZ-38-t0r" customClass="LoginViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -85,39 +85,46 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2240" y="-588"/>
+            <point key="canvasLocation" x="2683" y="-854"/>
         </scene>
-        <!--Navigation View Controller-->
-        <scene sceneID="sK4-Z4-Rh3">
+        <!--Search-->
+        <scene sceneID="PRe-wp-Q4Z">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsWhenKeyboardAppears="YES" id="pAf-V6-Inr" customClass="NavigationViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="top" barStyle="black" translucent="NO" id="c88-by-loB">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.17254901960784313" green="0.24313725490196078" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
-                            <color key="textShadowColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <outlet property="navbar" destination="c88-by-loB" id="KmM-Ca-CHG"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Gpw-P7-N79" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="Gws-aR-nla" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="iDT-64-Bqy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" text="" placeholder="Movie..." id="Jbm-26-jOg">
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="SGa-i7-x8G">
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SGa-i7-x8G" id="TIf-2q-RJz">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Gws-aR-nla" id="Jfq-R7-gTU"/>
+                            <outlet property="delegate" destination="Gws-aR-nla" id="YQk-gK-0DJ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Search" id="Sem-mP-4FY"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bbQ-Sf-j2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1993" y="386"/>
+            <point key="canvasLocation" x="3684" y="-16"/>
         </scene>
-        <!--loginScreen-->
+        <!--registerScreen-->
         <scene sceneID="ZGU-2k-6oE">
             <objects>
-                <viewController title="loginScreen" id="wKX-eU-WPa" customClass="LoginViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="registerScreen" id="wKX-eU-WPa" customClass="RegisterViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oC0-Ph-Xa5"/>
                         <viewControllerLayoutGuide type="bottom" id="pnm-q3-T7h"/>
@@ -137,7 +144,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="DT7-EG-qe6">
-                                <rect key="frame" x="20" y="46" width="560" height="232"/>
+                                <rect key="frame" x="20" y="46" width="560" height="272"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="xZE-9x-v00">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="52"/>
@@ -146,32 +153,38 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="gBC-ZF-AIf">
-                                        <rect key="frame" x="0.0" y="78" width="560" height="154"/>
+                                        <rect key="frame" x="0.0" y="78" width="560" height="194"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="bNO-2w-u0y">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="bNO-2w-u0y">
                                                 <rect key="frame" x="0.0" y="0.0" width="560" height="34"/>
                                                 <color key="textColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" keyboardAppearance="alert" returnKeyType="next"/>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mail" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZEh-TE-vhh">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Bl9-9j-9td">
                                                 <rect key="frame" x="0.0" y="40" width="560" height="34"/>
+                                                <color key="textColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" keyboardAppearance="alert" returnKeyType="next"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZEh-TE-vhh">
+                                                <rect key="frame" x="0.0" y="80" width="560" height="34"/>
                                                 <color key="textColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DkW-XX-cfG">
-                                                <rect key="frame" x="0.0" y="80" width="560" height="34"/>
+                                                <rect key="frame" x="0.0" y="120" width="560" height="34"/>
                                                 <color key="textColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done" secureTextEntry="YES"/>
                                             </textField>
                                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aF0-GD-h47">
-                                                <rect key="frame" x="0.0" y="120" width="560" height="34"/>
+                                                <rect key="frame" x="0.0" y="160" width="560" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                 <state key="normal" title="Sign Up"/>
                                                 <connections>
-                                                    <action selector="signInTapped:" destination="wKX-eU-WPa" eventType="touchUpInside" id="Pqc-k8-ocq"/>
+                                                    <action selector="registerButtonTapped:" destination="wKX-eU-WPa" eventType="touchUpInside" id="d9K-gc-cxj"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -192,14 +205,52 @@
                     <navigationItem key="navigationItem" title="Welcome" id="hVG-bb-PXx"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="loginButton" destination="aF0-GD-h47" id="to3-Jn-ceT"/>
-                        <outlet property="mailField" destination="bNO-2w-u0y" id="735-5P-EKz"/>
-                        <outlet property="passwordField" destination="DkW-XX-cfG" id="IAS-fX-81v"/>
+                        <outlet property="mailField" destination="ZEh-TE-vhh" id="WcZ-mM-WPt"/>
+                        <outlet property="nameField" destination="Bl9-9j-9td" id="lGD-Ez-UvT"/>
+                        <outlet property="passwordField" destination="DkW-XX-cfG" id="15B-gQ-Vuj"/>
+                        <outlet property="registerButton" destination="aF0-GD-h47" id="3hy-qJ-1Du"/>
+                        <outlet property="usernameField" destination="bNO-2w-u0y" id="TMy-W7-MWg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5P-kJ-wOF" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3079" y="-588"/>
+            <point key="canvasLocation" x="1911" y="-854"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="JIQ-EC-gTQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jxl-N8-2jf" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="search" id="P7B-au-OGu"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cJO-Xd-EcV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Gws-aR-nla" kind="relationship" relationship="rootViewController" id="RFX-jZ-Buy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BG7-CY-Wqf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2909" y="-16"/>
+        </scene>
+        <!--Tabs View Controller-->
+        <scene sceneID="eC5-be-7rr">
+            <objects>
+                <tabBarController storyboardIdentifier="TabBarVC" automaticallyAdjustsScrollViewInsets="NO" id="KWu-0f-ty5" customClass="TabsViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="HV7-hY-rGv">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Jxl-N8-2jf" kind="relationship" relationship="viewControllers" id="MKw-sI-LoC"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AFk-Ww-w6Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2204" y="-32"/>
         </scene>
     </scenes>
     <resources>

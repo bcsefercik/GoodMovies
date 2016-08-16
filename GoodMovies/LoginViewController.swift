@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController,UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var mailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -35,11 +35,23 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     func applyStateChange(change: LoginViewModel.LoginState.Change) {
         switch change{
         case .loggedIn:
-            print("success")
-            let navcon = NavigationViewController()
+            print("LoginViewController: Succesfful login")
             loading.hide(true)
             
-            presentViewController(navcon, animated: true, completion: nil)
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+            //Go to tabbar VC
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let tabcon = storyboard.instantiateViewControllerWithIdentifier("TabBarVC") as! UITabBarController
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            UIView.transitionWithView(appDelegate.window!, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                let oldState: Bool = UIView.areAnimationsEnabled()
+                UIView.setAnimationsEnabled(false)
+                appDelegate.window?.rootViewController = tabcon
+                UIView.setAnimationsEnabled(oldState)
+                }, completion: nil)
+            
+            
         case .emptyError:
             let alert = UIAlertController(
                 title: "",
@@ -68,9 +80,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-    
-    @IBAction func signInTapped(sender: UIButton) {
-    
+    func handleLogin(){
         let mail = mailField.text!
         let password = passwordField.text!
         
@@ -78,9 +88,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         loading.showIn(true)
         
         self.model.signIn(mail, password: password)
-        
     }
     
+    @IBAction func signInTapped(sender: UIButton) {
+        handleLogin()
+    }
     
     
     func setupForm(){
@@ -101,7 +113,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         } else if (textField === passwordField) {
             passwordField.resignFirstResponder()
-            
+            handleLogin()
         }
         
         return true
