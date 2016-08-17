@@ -6,6 +6,7 @@ target 'GoodMovies' do
   use_frameworks!
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'Alamofire', '~> 3.1.2'
   # Pods for GoodMovies
 
 end
