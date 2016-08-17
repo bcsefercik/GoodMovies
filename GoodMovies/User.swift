@@ -41,7 +41,10 @@ struct User: Equatable {
         self.name = name
         self.id = id
     }
+    
+    
 }
+
 
 func ==(lhs: User, rhs: User) -> Bool {
     

@@ -55,6 +55,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchText = searchBar.text
+        
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
