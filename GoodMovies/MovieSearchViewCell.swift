@@ -10,11 +10,27 @@ import UIKit
 
 class MovieSearchViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var movieTitle: UILabel!
+    @IBOutlet weak var movieYear: UILabel!
+    @IBOutlet weak var moviePosterView: UIImageView!
+    
+    var moviePresentation: MoviePresentation?{
+        didSet{
+            updateUI()
+        }
     }
 
+    private func updateUI(){
+        movieTitle?.text = moviePresentation?.title
+        movieYear?.text = moviePresentation?.year
+        
+        if let posterURL = moviePresentation?.poster{
+            if let imageData = NSData(contentsOfURL: posterURL){
+                moviePosterView?.image = UIImage(data: imageData)
+            }
+        }
+    }
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

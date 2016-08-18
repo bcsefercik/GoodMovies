@@ -11,25 +11,18 @@ struct Movie: Equatable {
     }
     
     let name: String
-    let year: UInt
+    let year: String
     let imdbID: String
     let poster: NSURL
     
-    init(name: String, year: UInt, imdbID: String, poster: String) {
+    init(name: String, year: String, imdbID: String, poster: String) {
         
         self.name = name
         self.imdbID = imdbID
         self.poster = NSURL(string: poster)!
-        
-        if year > Const.Year.max {
-            self.year = Const.Year.max
-        }
-        else if year < Const.Year.min {
-            self.year = Const.Year.min
-        }
-        else {
+
             self.year = year
-        }
+        
         
     }
 }

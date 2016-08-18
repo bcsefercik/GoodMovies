@@ -12,6 +12,9 @@
 		C2321B1F1D5DCB0600223DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B1E1D5DCB0600223DBF /* LoginViewController.swift */; };
 		C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B201D5DCB1400223DBF /* LoginViewModel.swift */; };
 		C2321B251D5DE0C200223DBF /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B241D5DE0C200223DBF /* Structs.swift */; };
+		C2C3FB9A1D65806C003863FF /* Presentations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB991D65806C003863FF /* Presentations.swift */; };
+		C2C3FB9C1D65A8A6003863FF /* MovieUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */; };
+		C2C3FBA01D65A97A003863FF /* MovieUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */; };
 		C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76621D61DB8000626786 /* RegisterViewController.swift */; };
 		C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76641D61DBA300626786 /* RegisterViewModel.swift */; };
 		C2DD76671D61EBF100626786 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2DD76661D61EBF100626786 /* LoadingView.xib */; };
@@ -36,6 +39,9 @@
 		C2321B1E1D5DCB0600223DBF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C2321B201D5DCB1400223DBF /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		C2321B241D5DE0C200223DBF /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		C2C3FB991D65806C003863FF /* Presentations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentations.swift; sourceTree = "<group>"; };
+		C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieUserViewModel.swift; path = ../MovieUserViewModel.swift; sourceTree = "<group>"; };
+		C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieUserTableViewController.swift; sourceTree = "<group>"; };
 		C2DD76621D61DB8000626786 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C2DD76641D61DBA300626786 /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		C2DD76661D61EBF100626786 /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
@@ -133,6 +139,8 @@
 				C2ECC3A21D6479DF0024A257 /* Search */,
 				C2ECC39C1D64580C0024A257 /* UserModel.swift */,
 				C2ECC39E1D6459D00024A257 /* FirebaseModel.swift */,
+				C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */,
+				C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */,
 			);
 			path = GoodMovies;
 			sourceTree = "<group>";
@@ -143,6 +151,7 @@
 				C2321B1C1D5DCACC00223DBF /* User.swift */,
 				C2321B241D5DE0C200223DBF /* Structs.swift */,
 				C2ECC3951D64372F0024A257 /* Movie.swift */,
+				C2C3FB991D65806C003863FF /* Presentations.swift */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -287,6 +296,7 @@
 				C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */,
 				C2ECC3991D6438E30024A257 /* MovieSearchViewController.swift in Sources */,
 				C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */,
+				C2C3FB9C1D65A8A6003863FF /* MovieUserViewModel.swift in Sources */,
 				C2ECC39D1D64580C0024A257 /* UserModel.swift in Sources */,
 				C2ECC39F1D6459D00024A257 /* FirebaseModel.swift in Sources */,
 				C2ECC3961D64372F0024A257 /* Movie.swift in Sources */,
@@ -295,8 +305,10 @@
 				C2321B1D1D5DCACC00223DBF /* User.swift in Sources */,
 				C2E797AC1D62EA13007013CC /* TabsViewController.swift in Sources */,
 				C2DD76691D61EC0200626786 /* LoadingView.swift in Sources */,
+				C2C3FB9A1D65806C003863FF /* Presentations.swift in Sources */,
 				C2ECC3A11D6479CB0024A257 /* MovieSearchViewCell.swift in Sources */,
 				C2ECC39B1D644AC60024A257 /* MovieSearchViewModel.swift in Sources */,
+				C2C3FBA01D65A97A003863FF /* MovieUserTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

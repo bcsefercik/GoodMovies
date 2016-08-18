@@ -10,30 +10,31 @@ import UIKit
 import Firebase
 
 
-
+struct MoviesPresentation{
+    var movies: [MoviePresentation] = []
+    
+    mutating func update(withState state: MovieSearchViewModel.State){
+        movies = state.movies.map{(movie) -> MoviePresentation in
+            return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+            
+        }
+    }
+}
 
 class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
+    
+    private struct Const {
+         static let cellReuseID = "movieSearchCell"
+    }
 
     private let model = MovieSearchViewModel()
+    private var presentation = MoviesPresentation()
+    weak var loading: LoadingView!
     
-    var movies = [Array<Movie>](){
-        didSet{
-            tableView.reloadData()
-        }
-    }
-    
-    var searchText: String? {
-        didSet{
-            movies.removeAll()
-            print(searchText!)
-        }
-    }
+    var searchText: String?
     
     
     lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRectMake(0, 0, self.navigationController!.navigationBar.bounds.width-20 , 20))
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,64 +46,133 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView:searchBar)
         navigationItem.title = nil
         
-        searchText = "run"
-
-
+        
+        self.applyState(model.state)
+        
+        model.search(searchFor: "sky")
+        
+        model.stateChangeHandler = { [weak self] change in
+            self?.applyStateChange(change)
+        }
         
         //        self.clearsSelectionOnViewWillAppear = false
         //        self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+        
+        loading = addLoading()
+        loading.text.text = "Searching..."
     }
+    
+    
+    func applyState(state: MovieSearchViewModel.State){
+        presentation.update(withState: state)
+        self.tableView.reloadData()
+    }
+    
+    
+    
+    func applyStateChange(change: MovieSearchViewModel.State.Change){
+        switch change {
+        case .movies(let change):
+            
+            presentation.update(withState: model.state)
+            
+            switch change {
+            case .reload:
+                tableView.reloadData()
+                loading.hide()
+            default:
+                break
+            }
+            
+        case .loading(let loadingState):
+            if loadingState.needsUpdate {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
+            }
+            
+        case .none:
+            break
+        }    }
+    
+    
+    
+    
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        searchText = searchBar.text
+        searchText = searchBar.text!
+        model.search(searchFor: searchText!)
+        loading.showIn(true)
         
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
+        loading.hide()
     }
       // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return presentation.movies.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("movieSearchCell", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        var templateCell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID)
+        
+        if templateCell == nil {
+            templateCell = UITableViewCell(style: .Subtitle, reuseIdentifier: Const.cellReuseID)
+        }
+        
+        guard let cell = templateCell else {
+            fatalError()
+        }
+        
+        let moviePresentation = presentation.movies[indexPath.row]
+        if let movieCell = cell as? MovieSearchViewCell{
+            movieCell.moviePresentation = moviePresentation
+        }
+        
         return cell
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
-    /*
+ 
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let willWatch = UITableViewRowAction(style: .Destructive, title: "🤔") { (action, indexPath) in
+            // delete item at indexPath
+        }
+        willWatch.backgroundColor = Color.wetAsphalt
+        
+        let watched = UITableViewRowAction(style: .Normal, title: "😎") { (action, indexPath) in
+            // share item at indexPath
+        }
+        
+        watched.backgroundColor = Color.clouds
+        
+        return [willWatch, watched]
+    }
+    
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            print("delete")
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -129,4 +199,33 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     }
     */
 
+}
+
+extension UITableViewController{
+    override func addLoading() -> LoadingView{
+        let lv = UINib(nibName: "LoadingView", bundle:
+            NSBundle(forClass:self.dynamicType)).instantiateWithOwner(nil,
+                                                                      options: nil)[0] as! LoadingView
+        
+        self.view.addSubview(lv)
+        
+        lv.translatesAutoresizingMaskIntoConstraints = false
+        
+        let horizontalConstraint = NSLayoutConstraint(item: lv, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        self.view.addConstraint(horizontalConstraint)
+        
+        let verticalConstraint = NSLayoutConstraint(item: lv, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        self.view.addConstraint(verticalConstraint)
+        
+        let views = ["lv": lv]
+        
+        let widthConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        self.view.addConstraints(widthConstraints)
+        
+        let heightConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        self.view.addConstraints(heightConstraints)
+        lv.layer.cornerRadius = 13
+        lv.hide()
+        return lv
+    }
 }

@@ -1,5 +1,7 @@
 
 import Foundation
+import Firebase
+import Alamofire
 
 class MovieSearchViewModel{
     struct State {
@@ -11,7 +13,62 @@ class MovieSearchViewModel{
     private(set) var state = State()
     var stateChangeHandler: ((State.Change) -> Void)?
     
+    func search(searchFor searchText: String){
+        let change = state.addActivity()
+        stateChangeHandler?(change)
+        
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            guard let strongSelf = self else { return }
+            var fetchedMovies: [Movie] = []
+            
+            
+            Alamofire.request(
+                .GET,
+                "http://www.omdbapi.com/?",
+                parameters: ["s": searchText]
+                )
+                .responseJSON { response in
+                    guard response.result.isSuccess else {
+                        print("Error while fetching tags: \(response.result.error)")  
+                        return
+                    }
+                    
+                    guard let responseJSON = response.result.value as? [String: AnyObject],
+                        results = responseJSON["Search"] as? [[String: String]]
+                        else {
+                        print("Invalid tag information received from service")
+                        return
+                    }
+                    
+                    fetchedMovies = results.map{ (r) -> Movie in
+                        let name = r["Title"]!
+                        let year = r["Year"]!
+                        let imdbID = r["imdbID"]!
+                        let poster = r["Poster"]!
+                        return Movie(name: name, year: year, imdbID: imdbID, poster: poster)
+                    }
+                    
+                    strongSelf.emit(strongSelf.state.reloadMovies(fetchedMovies))
+                    strongSelf.emit(strongSelf.state.removeActivity())
+            }
+            
+            
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    func emit(change: State.Change){
+        stateChangeHandler?(change)
+    }
 }
+
+
 
 extension MovieSearchViewModel.State {
     
@@ -24,7 +81,7 @@ extension MovieSearchViewModel.State {
     mutating func addActivity() -> Change {
         
         loadingState.addActivity()
-        return Change.loading(loadingState)
+        return .loading(loadingState)
     }
     
     mutating func removeActivity() -> Change {
