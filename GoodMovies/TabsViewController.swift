@@ -22,12 +22,11 @@ class TabsViewController: UITabBarController {
 //            print(logoutError)
 //        }
         
-        if(!isSignedIn()){
-            print("whaaaa")
-        } else{
-            print("signed in")
-        }
         
+        tabBar.barTintColor = Color.midnightBlue
+        tabBar.tintColor = UIColor.whiteColor()
+        
+
         // Do any additional setup after loading the view.
     }
     

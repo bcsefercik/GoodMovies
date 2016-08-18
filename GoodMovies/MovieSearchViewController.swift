@@ -34,16 +34,19 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     var searchText: String?
     
     
-    lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRectMake(0, 0, self.navigationController!.navigationBar.bounds.width-20 , 20))
+    lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRectMake(0, 0, self.navigationController!.navigationBar.bounds.width, 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.placeholder = "Search movie..."
-        searchBar.showsCancelButton = true
+        searchBar.inputView?.tintColor = Color.midnightBlue
+        searchBar.showsCancelButton = false
+        searchBar.translucent = true
+        searchBar.tintColor = Color.clouds
         searchBar.delegate = self
         searchBar.sizeToFit()
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView:searchBar)
+        self.navigationItem.titleView = searchBar
         navigationItem.title = nil
         
         
@@ -106,10 +109,15 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
         loading.hide()
+        searchBar.setShowsCancelButton(false, animated: true)
     }
       // MARK: - Table view data source
 
