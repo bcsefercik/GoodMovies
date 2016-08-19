@@ -19,11 +19,9 @@ struct Movie: Equatable {
         
         self.name = name
         self.imdbID = imdbID
-        self.poster = NSURL(string: poster)!
-
-            self.year = year
-        
-        
+        let posterString = poster.stringByReplacingOccurrencesOfString("@@._V1_SX300.jpg", withString: "@")
+        self.poster = NSURL(string: posterString)!
+        self.year = year
     }
 }
 

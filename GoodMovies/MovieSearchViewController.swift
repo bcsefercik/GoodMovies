@@ -145,6 +145,8 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             movieCell.moviePresentation = moviePresentation
         }
         
+        
+        
         return cell
     }
     
@@ -157,7 +159,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     }
  
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let willWatch = UITableViewRowAction(style: .Destructive, title: "🤔") { (action, indexPath) in
+        let willWatch = UITableViewRowAction(style: .Normal, title: "🤔") { (action, indexPath) in
             // delete item at indexPath
         }
         willWatch.backgroundColor = Color.wetAsphalt
@@ -178,7 +180,15 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             print("delete")
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
+        
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let lastElement = presentation.movies.count-1
+        if indexPath.row >= (lastElement-1) {
+            model.loadMore()
+        }
     }
     
 

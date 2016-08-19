@@ -24,6 +24,8 @@
 		C2DE13221D5DC88C00698C12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2DE13211D5DC88C00698C12 /* Assets.xcassets */; };
 		C2DE13251D5DC88C00698C12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2DE13231D5DC88C00698C12 /* LaunchScreen.storyboard */; };
 		C2DE132D1D5DC9BE00698C12 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2DE132C1D5DC9BE00698C12 /* GoogleService-Info.plist */; };
+		C2E07CAA1D66E91F00244D5E /* MovieSearchNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07CA91D66E91F00244D5E /* MovieSearchNetwork.swift */; };
+		C2E07CAC1D66E9E300244D5E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07CAB1D66E9E300244D5E /* Network.swift */; };
 		C2E797AC1D62EA13007013CC /* TabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E797AB1D62EA13007013CC /* TabsViewController.swift */; };
 		C2ECC3961D64372F0024A257 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2ECC3951D64372F0024A257 /* Movie.swift */; };
 		C2ECC3991D6438E30024A257 /* MovieSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2ECC3981D6438E30024A257 /* MovieSearchViewController.swift */; };
@@ -53,6 +55,8 @@
 		C2DE13241D5DC88C00698C12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2DE13261D5DC88C00698C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2DE132C1D5DC9BE00698C12 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C2E07CA91D66E91F00244D5E /* MovieSearchNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieSearchNetwork.swift; sourceTree = "<group>"; };
+		C2E07CAB1D66E9E300244D5E /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		C2E797AB1D62EA13007013CC /* TabsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsViewController.swift; sourceTree = "<group>"; };
 		C2ECC3951D64372F0024A257 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		C2ECC3981D6438E30024A257 /* MovieSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieSearchViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				C2ECC39E1D6459D00024A257 /* FirebaseModel.swift */,
 				C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */,
 				C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */,
+				C2E07CAB1D66E9E300244D5E /* Network.swift */,
 			);
 			path = GoodMovies;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 				C2ECC3981D6438E30024A257 /* MovieSearchViewController.swift */,
 				C2ECC39A1D644AC60024A257 /* MovieSearchViewModel.swift */,
 				C2ECC3A01D6479CB0024A257 /* MovieSearchViewCell.swift */,
+				C2E07CA91D66E91F00244D5E /* MovieSearchNetwork.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -296,10 +302,12 @@
 				C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */,
 				C2ECC3991D6438E30024A257 /* MovieSearchViewController.swift in Sources */,
 				C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */,
+				C2E07CAA1D66E91F00244D5E /* MovieSearchNetwork.swift in Sources */,
 				C2C3FB9C1D65A8A6003863FF /* MovieUserViewModel.swift in Sources */,
 				C2ECC39D1D64580C0024A257 /* UserModel.swift in Sources */,
 				C2ECC39F1D6459D00024A257 /* FirebaseModel.swift in Sources */,
 				C2ECC3961D64372F0024A257 /* Movie.swift in Sources */,
+				C2E07CAC1D66E9E300244D5E /* Network.swift in Sources */,
 				C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */,
 				C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */,
 				C2321B1D1D5DCACC00223DBF /* User.swift in Sources */,
