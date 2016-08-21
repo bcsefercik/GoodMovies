@@ -7,6 +7,8 @@ target 'GoodMovies' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Alamofire', '~> 3.1.2'
+
+  pod 'Kingfisher', '~> 2.4'
   # Pods for GoodMovies
 
 end

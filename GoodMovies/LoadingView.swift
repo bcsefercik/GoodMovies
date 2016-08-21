@@ -4,9 +4,8 @@ class LoadingView: UIView {
     @IBOutlet var view: UIView!
     
     @IBOutlet weak var text: UILabel!
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+
+    
     
     func setLabel(label: String){
         text.text = label
@@ -26,5 +25,4 @@ class LoadingView: UIView {
         hide()
     }
 }
-
 

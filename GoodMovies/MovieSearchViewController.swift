@@ -1,20 +1,12 @@
-//
-//  MovieSearchViewController.swift
-//  GoodMovies
-//
-//  Created by Bugra Sefercik on 17/08/2016.
-//  Copyright © 2016 Bugra Sefercik. All rights reserved.
-//
-
 import UIKit
-import Firebase
-
+import Kingfisher
 
 struct MoviesPresentation{
     var movies: [MoviePresentation] = []
     
     mutating func update(withState state: MovieSearchViewModel.State){
         movies = state.movies.map{(movie) -> MoviePresentation in
+            
             return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
             
         }
@@ -24,12 +16,15 @@ struct MoviesPresentation{
 class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     
     private struct Const {
-         static let cellReuseID = "movieSearchCell"
+        static let cellReuseID = "movieSearchCell"
+        static let loadingCellReuseID = "movieLoadingCell"
+        static let allLoadedReuseID = "allLoadedCell"
     }
 
     private let model = MovieSearchViewModel()
     private var presentation = MoviesPresentation()
-    weak var loading: LoadingView!
+    var loading: LoadingOverlay?
+    
     
     var searchText: String?
     
@@ -49,31 +44,23 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         self.navigationItem.titleView = searchBar
         navigationItem.title = nil
         
+        model.search(searchFor: "network")
         
+        loading = LoadingOverlay()
         self.applyState(model.state)
         
-        model.search(searchFor: "sky")
         
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
         }
         
-        //        self.clearsSelectionOnViewWillAppear = false
-        //        self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        
-        
-        loading = addLoading()
-        loading.text.text = "Searching..."
     }
-    
     
     func applyState(state: MovieSearchViewModel.State){
         presentation.update(withState: state)
+        
         self.tableView.reloadData()
     }
-    
-    
     
     func applyStateChange(change: MovieSearchViewModel.State.Change){
         switch change {
@@ -84,7 +71,8 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             switch change {
             case .reload:
                 tableView.reloadData()
-                loading.hide()
+                loading?.hideOverlayView()
+                
             default:
                 break
             }
@@ -95,17 +83,25 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             }
             
         case .none:
-            break
-        }    }
-    
-    
-    
+            let alert = UIAlertController(
+                title: "",
+                message: "No movies found.",
+                preferredStyle: .Alert
+            )
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+            alert.addAction(cancelAction)
+            presentViewController(alert, animated: true, completion: nil)
+            
+            loading?.hideOverlayView()
+        }
+    }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchText = searchBar.text!
         model.search(searchFor: searchText!)
-        loading.showIn(true)
+        tableView.setContentOffset(CGPoint.init(x: 0, y: -(navigationController?.view.frame.height)!) , animated: false)
+        loading!.showOverlay(self.navigationController?.view, text: "Searching...")
         
     }
     
@@ -116,38 +112,60 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
-        loading.hide()
+        loading?.hideOverlayView()
         searchBar.setShowsCancelButton(false, animated: true)
     }
-      // MARK: - Table view data source
-
-
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return presentation.movies.count
+        return presentation.movies.count+1
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var templateCell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID)
+        let lastElement = presentation.movies.count
+        if indexPath.row != lastElement{
+            var templateCell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID)
+            
+            if templateCell == nil {
+                templateCell = UITableViewCell(style: .Subtitle, reuseIdentifier: Const.cellReuseID)
+            }
+            
+            guard let cell = templateCell else {
+                fatalError()
+            }
+            
+            let moviePresentation = presentation.movies[indexPath.row]
+            if let movieCell = cell as? MovieSearchViewCell{
+                movieCell.movieTitle.text = moviePresentation.title
+                movieCell.movieYear.text = moviePresentation.year
+                movieCell.moviePosterView.kf_setImageWithURL(moviePresentation.poster)
+            }
+            
+            return cell
+        }else{
+            
+            var templateCell: UITableViewCell?
+            
+            if(model.fullyLoaded()){
+                templateCell = tableView.dequeueReusableCellWithIdentifier(Const.allLoadedReuseID)
+            } else {
+                templateCell = tableView.dequeueReusableCellWithIdentifier(Const.loadingCellReuseID)
+
+            }
+            
+            guard let cell = templateCell else {
+                fatalError()
+            }
+            
+            if let loadingCell = cell as? MovieLoadingTableViewCell{
+                loadingCell.indicatorSpinner.startAnimating()
+            }
         
-        if templateCell == nil {
-            templateCell = UITableViewCell(style: .Subtitle, reuseIdentifier: Const.cellReuseID)
+            return cell
         }
         
-        guard let cell = templateCell else {
-            fatalError()
-        }
         
-        let moviePresentation = presentation.movies[indexPath.row]
-        if let movieCell = cell as? MovieSearchViewCell{
-            movieCell.moviePresentation = moviePresentation
-        }
-        
-        
-        
-        return cell
     }
     
 
@@ -159,34 +177,28 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     }
  
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let willWatch = UITableViewRowAction(style: .Normal, title: "🤔") { (action, indexPath) in
-            // delete item at indexPath
+        let lastElement = presentation.movies.count
+        if indexPath.row != lastElement{
+            let willWatch = UITableViewRowAction(style: .Normal, title: "🤔") { (action, indexPath) in
+                // delete item at indexPath
+            }
+            willWatch.backgroundColor = Color.wetAsphalt
+            
+            let watched = UITableViewRowAction(style: .Normal, title: "😎") { (action, indexPath) in
+                print("asd")
+            }
+            
+            watched.backgroundColor = Color.clouds
+            
+            return [willWatch, watched]
         }
-        willWatch.backgroundColor = Color.wetAsphalt
-        
-        let watched = UITableViewRowAction(style: .Normal, title: "😎") { (action, indexPath) in
-            // share item at indexPath
-        }
-        
-        watched.backgroundColor = Color.clouds
-        
-        return [willWatch, watched]
+        return []
     }
-    
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            print("delete")
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
-        
-    }
+
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let lastElement = presentation.movies.count-1
-        if indexPath.row >= (lastElement-1) {
+        if indexPath.row == (lastElement-1) {
             model.loadMore()
         }
     }
@@ -217,33 +229,4 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     }
     */
 
-}
-
-extension UITableViewController{
-    override func addLoading() -> LoadingView{
-        let lv = UINib(nibName: "LoadingView", bundle:
-            NSBundle(forClass:self.dynamicType)).instantiateWithOwner(nil,
-                                                                      options: nil)[0] as! LoadingView
-        
-        self.view.addSubview(lv)
-        
-        lv.translatesAutoresizingMaskIntoConstraints = false
-        
-        let horizontalConstraint = NSLayoutConstraint(item: lv, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-        self.view.addConstraint(horizontalConstraint)
-        
-        let verticalConstraint = NSLayoutConstraint(item: lv, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
-        self.view.addConstraint(verticalConstraint)
-        
-        let views = ["lv": lv]
-        
-        let widthConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        self.view.addConstraints(widthConstraints)
-        
-        let heightConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        self.view.addConstraints(heightConstraints)
-        lv.layer.cornerRadius = 13
-        lv.hide()
-        return lv
-    }
 }

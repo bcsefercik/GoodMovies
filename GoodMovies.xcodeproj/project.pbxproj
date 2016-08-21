@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0B214B4C5F5F5F4D6B6BB692 /* Pods_GoodMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCC0A9B922648FC30320C0F /* Pods_GoodMovies.framework */; };
+		4E370AB81D6A2F2200C52A16 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */; };
+		4E370ABA1D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */; };
+		4E370ABC1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */; };
 		C2321B1D1D5DCACC00223DBF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B1C1D5DCACC00223DBF /* User.swift */; };
 		C2321B1F1D5DCB0600223DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B1E1D5DCB0600223DBF /* LoginViewController.swift */; };
 		C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2321B201D5DCB1400223DBF /* LoginViewModel.swift */; };
@@ -37,6 +40,9 @@
 
 /* Begin PBXFileReference section */
 		1FCC0A9B922648FC30320C0F /* Pods_GoodMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoodMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
+		4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieLoadingTableViewCell.swift; sourceTree = "<group>"; };
+		4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieAllLoadedTableViewCell.swift; sourceTree = "<group>"; };
 		C2321B1C1D5DCACC00223DBF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C2321B1E1D5DCB0600223DBF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C2321B201D5DCB1400223DBF /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -97,6 +103,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		4E370ABD1D6A55E300C52A16 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C2ECC3A01D6479CB0024A257 /* MovieSearchViewCell.swift */,
+				4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */,
+				4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		C2619F0D1D63371F002FBF1B /* Log */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +162,7 @@
 				C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */,
 				C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */,
 				C2E07CAB1D66E9E300244D5E /* Network.swift */,
+				4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */,
 			);
 			path = GoodMovies;
 			sourceTree = "<group>";
@@ -166,8 +183,8 @@
 			children = (
 				C2ECC3981D6438E30024A257 /* MovieSearchViewController.swift */,
 				C2ECC39A1D644AC60024A257 /* MovieSearchViewModel.swift */,
-				C2ECC3A01D6479CB0024A257 /* MovieSearchViewCell.swift */,
 				C2E07CA91D66E91F00244D5E /* MovieSearchNetwork.swift */,
+				4E370ABD1D6A55E300C52A16 /* Cells */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -308,12 +325,15 @@
 				C2ECC39F1D6459D00024A257 /* FirebaseModel.swift in Sources */,
 				C2ECC3961D64372F0024A257 /* Movie.swift in Sources */,
 				C2E07CAC1D66E9E300244D5E /* Network.swift in Sources */,
+				4E370AB81D6A2F2200C52A16 /* LoadingOverlay.swift in Sources */,
 				C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */,
 				C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */,
 				C2321B1D1D5DCACC00223DBF /* User.swift in Sources */,
+				4E370ABA1D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift in Sources */,
 				C2E797AC1D62EA13007013CC /* TabsViewController.swift in Sources */,
 				C2DD76691D61EC0200626786 /* LoadingView.swift in Sources */,
 				C2C3FB9A1D65806C003863FF /* Presentations.swift in Sources */,
+				4E370ABC1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift in Sources */,
 				C2ECC3A11D6479CB0024A257 /* MovieSearchViewCell.swift in Sources */,
 				C2ECC39B1D644AC60024A257 /* MovieSearchViewModel.swift in Sources */,
 				C2C3FBA01D65A97A003863FF /* MovieUserTableViewController.swift in Sources */,
