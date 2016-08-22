@@ -23,16 +23,21 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
 
     private let model = MovieSearchViewModel()
     private var presentation = MoviesPresentation()
+    private let router = MovieSearchRouter()
+    
     var loading: LoadingOverlay?
     
-    
     var searchText: String?
-    
     
     lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRectMake(0, 0, self.navigationController!.navigationBar.bounds.width, 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = Color.clouds
+        
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero
+        
         searchBar.placeholder = "Search movie..."
         searchBar.inputView?.tintColor = Color.midnightBlue
         searchBar.showsCancelButton = false
@@ -142,6 +147,8 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
                 movieCell.moviePosterView.kf_setImageWithURL(moviePresentation.poster)
             }
             
+            cell.backgroundColor = Color.clouds
+            
             return cell
         }else{
             
@@ -161,18 +168,17 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             if let loadingCell = cell as? MovieLoadingTableViewCell{
                 loadingCell.indicatorSpinner.startAnimating()
             }
-        
+            
+            cell.backgroundColor = Color.clouds
+            
+            cell.layoutMargins = UIEdgeInsetsZero
             return cell
         }
         
         
     }
     
-
-    
-    // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
  
@@ -185,10 +191,9 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             willWatch.backgroundColor = Color.wetAsphalt
             
             let watched = UITableViewRowAction(style: .Normal, title: "😎") { (action, indexPath) in
-                print("asd")
             }
             
-            watched.backgroundColor = Color.clouds
+            watched.backgroundColor = Color.midnightBlue
             
             return [willWatch, watched]
         }
@@ -203,30 +208,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        router.goToMovie("sad", sender: self.navigationController!)
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

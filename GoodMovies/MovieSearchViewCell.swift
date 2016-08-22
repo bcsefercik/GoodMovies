@@ -14,6 +14,6 @@ class MovieSearchViewCell: UITableViewCell {
     @IBOutlet weak var movieYear: UILabel!
     @IBOutlet weak var moviePosterView: UIImageView!
     
-
+    
 
 }
