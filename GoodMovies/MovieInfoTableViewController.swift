@@ -7,6 +7,16 @@
 //
 
 import UIKit
+import Kingfisher
+
+struct MovieDetailPresentation{
+    var movie: MovieDetail?
+    
+    mutating func update(withState state: MovieInfoViewModel.State){
+        movie = state.movie
+    }
+}
+
 
 class MovieInfoTableViewController: UITableViewController {
     private struct Const {
@@ -17,6 +27,14 @@ class MovieInfoTableViewController: UITableViewController {
     }
     
     var imdbID: String?
+    var rowCount = 0
+    var secCount = 0
+    
+    private let model = MovieInfoViewModel()
+    private var presentation = MovieDetailPresentation()
+    
+    var loading: LoadingOverlay?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +42,78 @@ class MovieInfoTableViewController: UITableViewController {
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.backgroundColor = Color.clouds
+        tableView.allowsSelection = false
+        
+        loading = LoadingOverlay()
+        loading?.showOverlay(self.navigationController?.view, text: "Getting movie...")
+        
+        model.fetchMovie(self.imdbID!)
+        
+        self.applyState(model.state)
+        
+        
+        model.stateChangeHandler = { [weak self] change in
+            self?.applyStateChange(change)
+        }
+        
         
         setupButtons()
         
-        print(imdbID)
     }
+    
+    func applyState(state: MovieInfoViewModel.State){
+        presentation.update(withState: state)
+        
+        
+        
+        self.tableView.reloadData()
+    }
+
+    func applyStateChange(change: MovieInfoViewModel.State.Change){
+        switch change {
+        case .movie(let status):
+            
+            presentation.update(withState: model.state)
+            
+            switch status {
+            case .didWatch:
+                tableView.reloadData()
+                loading?.hideOverlayView()
+            case .willWatch:
+                tableView.reloadData()
+                loading?.hideOverlayView()
+            case .none:
+                tableView.reloadData()
+                loading?.hideOverlayView()
+                break
+            }
+            
+        case .loading(let loadingState):
+            if loadingState.needsUpdate {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
+            }
+            
+        case .none:
+            let alert = UIAlertController(
+                title: "",
+                message: "No movies found.",
+                preferredStyle: .Alert
+            )
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+            alert.addAction(cancelAction)
+            presentViewController(alert, animated: true, completion: nil)
+            
+            loading?.hideOverlayView()
+        case .initialize:
+            presentation.update(withState: model.state)
+            secCount = 1
+            rowCount = 10
+            self.tableView.reloadData()
+            loading?.hideOverlayView()
+        }
+        
+    }
+
     
     func setupButtons(){
         let willButton = UIButton(type: .System)
@@ -61,42 +146,104 @@ class MovieInfoTableViewController: UITableViewController {
     }
     
     func handleDidWatch(){
-        
+        model.addToDidWatch()
+    }
+    
+    func posterTapped(sender: UITapGestureRecognizer) {
+        let newImageView = UIImageView()
+        newImageView.kf_setImageWithURL(presentation.movie?.posterBig)
+        newImageView.frame = self.view.frame
+        let handsfreeTap = UITapGestureRecognizer(target: self, action: #selector(MovieInfoTableViewController.dismissFullscreenImage(_:)))
+        newImageView.addGestureRecognizer(handsfreeTap)
+        newImageView.backgroundColor = .blackColor()
+        newImageView.contentMode = .ScaleAspectFit
+        newImageView.userInteractionEnabled = true
+        //self.navigationController?.view.addSubview(newImageView)
+        self.tabBarController?.view.addSubview(newImageView)
+    }
+
+    func dismissFullscreenImage(sender: UITapGestureRecognizer) {
+        sender.view?.removeFromSuperview()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return secCount
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 4
+        return rowCount
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.titleReuseID) as! MovieInfoTitleCell
-            
-            cell.movieTitle.text = "The Movie Title"
+            cell.movieTitle.text = presentation.movie?.name
+            cell.movieYear.text = "(" + (presentation.movie?.year)! + ")"
+            cell.movieGenre.text = (presentation.movie?.genre)! + " | " + (presentation.movie?.duration)!
+            cell.movieTitle.tintColor = Color.clouds
+            cell.movieYear.tintColor = Color.wetAsphalt
+            cell.movieGenre.tintColor = Color.wetAsphalt
             cell.layoutMargins = UIEdgeInsetsZero
-            cell.backgroundColor = Color.clouds
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.posterReuseID) as! MovieInfoPosterCell
+            cell.moviePoster.kf_setImageWithURL(presentation.movie?.poster)
+            let handsfreeTap = UITapGestureRecognizer(target: self, action: #selector(MovieInfoTableViewController.posterTapped(_:)))
+            cell.moviePoster.userInteractionEnabled = true
+            cell.moviePoster.addGestureRecognizer(handsfreeTap)
+            cell.movieRating.text = presentation.movie?.rating
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = Color.clouds
             return cell
         case 2:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Actors"
+            cell.creditInfo.text = presentation.movie?.actors
             cell.layoutMargins = UIEdgeInsetsZero
-            cell.backgroundColor = Color.clouds
             return cell
         case 3:
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Director"
+            cell.creditInfo.text = presentation.movie?.director
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        case 4:
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Writer"
+            cell.creditInfo.text = presentation.movie?.writer
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        case 5:
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Release Date"
+            cell.creditInfo.text = presentation.movie?.releaseDate
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        case 6:
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Language"
+            cell.creditInfo.text = presentation.movie?.language
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        case 7:
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Country"
+            cell.creditInfo.text = presentation.movie?.country
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        case 8:
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.creditReuseID) as! MovieInfoCreditCell
+            cell.creditType.text = "Awards"
+            cell.creditInfo.text = presentation.movie?.awards
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        case 9:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.plotReuseID) as! MovieInfoPlotCell
+            cell.moviePlot.text = presentation.movie?.plot
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = Color.clouds
             return cell

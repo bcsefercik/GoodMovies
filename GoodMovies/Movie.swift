@@ -25,6 +25,12 @@ struct Movie: Equatable {
     }
 }
 
+enum MovieStatus{
+    case none
+    case willWatch
+    case didWatch
+}
+
 // MARK: Movie Equatable
 
 func ==(lhs: Movie, rhs: Movie) -> Bool {

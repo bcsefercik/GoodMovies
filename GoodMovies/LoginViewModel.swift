@@ -23,8 +23,9 @@ class LoginViewModel{
             self.stateChangeHandler?(LoginState.Change.emptyError)
             return
         }
+        let nemail = email + "@goodmoviesapp.com"
         
-        FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+        FIRAuth.auth()?.signInWithEmail(nemail, password: password, completion: { (user, error) in
             
             if error != nil {
                 self.stateChangeHandler?(LoginState.Change.dbError)

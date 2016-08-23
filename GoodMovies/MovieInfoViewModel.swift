@@ -12,8 +12,38 @@ class MovieInfoViewModel{
     var stateChangeHandler: ((State.Change) -> Void)?
     
     private let network = MovieInfoNetwork()
+    private let user = User()
     
+    private var imdbID: String?
     
+    func fetchMovie(imdbID: String){
+        self.imdbID = imdbID
+        
+        let change = state.addActivity()
+        emit(change)
+        
+        var fetchedMovie: MovieDetail?
+        
+        network.fetchMovie(imdbID){ [weak self] (response, result) in
+            guard let strongSelf = self else {return}
+            
+            switch response {
+            case .success:
+                guard let name = result["Title"], year = result["Year"], poster = result["Poster"], released = result["Released"], duration = result["Runtime"], genre = result["Genre"], director = result["Director"], writer = result["Writer"], actors = result["Actors"], plot = result["Plot"], rating = result["imdbRating"], language = result["Language"], country = result["Country"], awards = result["Awards"] else { return }
+                fetchedMovie = MovieDetail(name: name, year: year, imdbID: imdbID, poster: poster, releaseDate: released, duration: duration, genre: genre, director: director, writer: writer, actors: actors, plot: plot, rating: rating, language: language, country: country, awards: awards, status: .none)
+                
+                strongSelf.emit(strongSelf.state.loadMovie(fetchedMovie!))
+                strongSelf.emit(strongSelf.state.removeActivity())
+            default:
+                break
+            }
+        }
+    }
+    
+    func addToDidWatch(){
+        user.addMovie()
+        print("asd")
+    }
     
     func emit(change: State.Change){
         stateChangeHandler?(change)
@@ -26,8 +56,8 @@ extension MovieInfoViewModel.State {
     
     enum Change {
         case none
-        case willWatch
-        case didWatch
+        case initialize
+        case movie(MovieStatus)
         case loading(LoadingState)
     }
     
@@ -41,5 +71,10 @@ extension MovieInfoViewModel.State {
         
         loadingState.removeActivity()
         return .loading(loadingState)
+    }
+    
+    mutating func loadMovie(fetchedMovie: MovieDetail) -> Change{
+        movie = fetchedMovie
+        return .initialize
     }
 }

@@ -45,11 +45,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             applyStateChange(.emptyError)
             return
         }
+        let email = username + "@goodmoviesapp.com"
         
         registerButton.enabled = false
         loading.showIn(true)
         
-        self.model.signUp(mail, password: password, username: username, name: name)
+        self.model.signUp(email, password: password, username: mail, name: name)
     }
     
     func applyStateChange(change: RegisterViewModel.RegisterState.Change) {
