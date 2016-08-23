@@ -93,7 +93,7 @@ class MovieSearchViewModel{
     }
 
     func fullyLoaded()->Bool{
-        return totalMovies == state.movies.count
+        return totalMovies <= state.movies.count
     }
     
     func emit(change: State.Change){
