@@ -73,13 +73,14 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             
             presentation.update(withState: model.state)
             
-            tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
+            
             switch change {
             case .reload:
                 tableView.reloadData()
                 loading?.hideOverlayView()
                 
             default:
+                tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
                 break
             }
             
@@ -89,6 +90,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             }
             
         case .none:
+            tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             let alert = UIAlertController(
                 title: "",
                 message: "No movies found.",
