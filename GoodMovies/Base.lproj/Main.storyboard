@@ -309,8 +309,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="5DK-oE-67C"/>
                                                     <exclude reference="Mzs-q3-Che"/>
+                                                    <exclude reference="5DK-oE-67C"/>
                                                 </mask>
                                             </variation>
                                         </stackView>

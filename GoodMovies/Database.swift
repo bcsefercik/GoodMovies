@@ -11,9 +11,24 @@ class DatabaseAdapter {
         ref.updateChildValues(values)
     }
     
+    func delete(key: String, path: String){
+        self.delete(key, path: path){ (_) in }
+    }
+    
+    func delete(key: String, path: String, completion: (DBResponse) -> Void){
+        let ref = base.child(path).child(key)
+        ref.removeValueWithCompletionBlock{ (error, _) in
+            if error != nil {
+                completion(.fail("fail"))
+            } else {
+                completion(.success)
+            }
+        }
+    }
+    
     
     func fetch(filter: String, path: String, completion: (DBResponse, [String]) -> Void){
-        let ref = base.child(path).queryOrderedByChild("status").queryEqualToValue("willWatch").queryLimitedToFirst(1)
+        let ref = base.child("\(path)/willWatch").queryOrderedByChild("date")
         ref.observeEventType(.ChildAdded, withBlock: { snapshot in
             
             print(snapshot.value! as! [String : AnyObject])
@@ -21,6 +36,8 @@ class DatabaseAdapter {
         })
 
     }
+    
+    
 }
 
 enum DBResponse{

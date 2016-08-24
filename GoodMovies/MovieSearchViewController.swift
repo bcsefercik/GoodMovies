@@ -73,7 +73,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             
             presentation.update(withState: model.state)
             
-            tableView.setContentOffset(CGPoint.init(x: 0, y: -(navigationController?.view.frame.height)!) , animated: false)
+            tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             switch change {
             case .reload:
                 tableView.reloadData()

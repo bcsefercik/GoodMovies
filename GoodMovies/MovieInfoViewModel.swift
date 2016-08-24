@@ -18,6 +18,7 @@ class MovieInfoViewModel{
     
     func fetchMovie(imdbID: String){
         self.imdbID = imdbID
+        usertransaction.fetch()
         
         let change = state.addActivity()
         emit(change)

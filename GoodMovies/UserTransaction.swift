@@ -11,10 +11,15 @@ class UserTransaction {
         let data = ["title": movie.name,
                     "poster": movie.poster.absoluteString,
                     "year": movie.year,
-                    "status": movieStatus,
-                    "date": NSDate().timeIntervalSince1970]
+                    "date": -NSDate().timeIntervalSince1970]
         
-        database.insert(movie.imdbID, path: "users/\((FIRAuth.auth()?.currentUser?.uid)!)/movies", values: data as! [String : AnyObject])
+        let path = "users/\((FIRAuth.auth()?.currentUser?.uid)!)/movies/"
+        
+        database.delete(movie.imdbID, path: "\(path)/didWatch"){ [](_) in
+            self.database.delete(movie.imdbID, path: "\(path)/willWatch"){ (_) in
+                self.database.insert(movie.imdbID, path: "\(path)\(movieStatus)", values: data as! [String : AnyObject])
+            }
+        }
     }
     
     func fetchUserMovies(userID: String, type: MovieStatus, completion: (DBResponse, movies: [Movie]) -> Void){
