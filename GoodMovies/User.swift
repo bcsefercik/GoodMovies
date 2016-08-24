@@ -1,9 +1,10 @@
 import Foundation
-import Firebase
-
-class UserTransactions {
-    private let database = DatabaseAdapter()
-    func addMovie(){
-        database.insert("tt131352", path: "users/\((FIRAuth.auth()?.currentUser?.uid)!)", values: ["title": "The Social Network"])
-    }
+struct User{
+    let uid: String
+    let username: String
+    let name: String
+    let movieCount: Int
+    let followerCount: Int
+    let followingCount: Int
+    
 }

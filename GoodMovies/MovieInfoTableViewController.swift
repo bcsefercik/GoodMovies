@@ -24,6 +24,8 @@ class MovieInfoTableViewController: UITableViewController {
         static let posterReuseID = "moviePosterCellID"
         static let creditReuseID = "movieCreditCellID"
         static let plotReuseID = "moviePlotCellID"
+        static let willIcon = Constants.willIcon
+        static let didIcon = Constants.didIcon
     }
     
     var imdbID: String?
@@ -120,10 +122,11 @@ class MovieInfoTableViewController: UITableViewController {
         willButton.layer.cornerRadius = 5
         willButton.layer.borderWidth = 1
         willButton.layer.borderColor = Color.clouds.CGColor
-        willButton.setTitle("🤔", forState: .Normal)
+        willButton.setTitle(Const.willIcon, forState: .Normal)
         willButton.frame = CGRectMake(0, 0, 65, 30)
         willButton.translatesAutoresizingMaskIntoConstraints = false
         willButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        willButton.addTarget(self, action: #selector(handleAddToList), forControlEvents: .TouchUpInside)
         let item1 = UIBarButtonItem()
         item1.customView = willButton
         
@@ -132,11 +135,11 @@ class MovieInfoTableViewController: UITableViewController {
         didButton.layer.cornerRadius = 5
         didButton.layer.borderWidth = 1
         didButton.layer.borderColor = Color.clouds.CGColor
-        didButton.setTitle("😎", forState: .Normal)
+        didButton.setTitle(Const.didIcon, forState: .Normal)
         didButton.frame = CGRectMake(0, 0, 65, 30)
         didButton.translatesAutoresizingMaskIntoConstraints = false
         didButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        didButton.addTarget(self, action: #selector(handleDidWatch), forControlEvents: .TouchUpInside)
+        didButton.addTarget(self, action: #selector(handleAddToList), forControlEvents: .TouchUpInside)
         let item2 = UIBarButtonItem()
         item2.customView = didButton
         
@@ -145,8 +148,12 @@ class MovieInfoTableViewController: UITableViewController {
         self.navigationController?.navigationBar.tintColor = Color.clouds
     }
     
-    func handleDidWatch(){
-        model.addToDidWatch()
+    func handleAddToList(sender: UIButton){
+        if sender.currentTitle == Const.didIcon{
+            model.addToList(MovieStatus.didWatch)
+        } else {
+            model.addToList(MovieStatus.willWatch)
+        }
     }
     
     func posterTapped(sender: UITapGestureRecognizer) {
@@ -176,6 +183,10 @@ class MovieInfoTableViewController: UITableViewController {
         return rowCount
     }
 
+    override func viewWillDisappear(animated : Bool) {
+        super.viewWillDisappear(animated)
+        loading?.hideOverlayView()
+    }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.row {

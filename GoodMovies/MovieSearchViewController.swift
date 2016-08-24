@@ -73,6 +73,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             
             presentation.update(withState: model.state)
             
+            tableView.setContentOffset(CGPoint.init(x: 0, y: -(navigationController?.view.frame.height)!) , animated: false)
             switch change {
             case .reload:
                 tableView.reloadData()
@@ -105,7 +106,6 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchText = searchBar.text!
         model.search(searchFor: searchText!)
-        tableView.setContentOffset(CGPoint.init(x: 0, y: -(navigationController?.view.frame.height)!) , animated: false)
         loading!.showOverlay(self.navigationController?.view, text: "Searching...")
         
     }
@@ -180,6 +180,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         
         
     }
+    
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true

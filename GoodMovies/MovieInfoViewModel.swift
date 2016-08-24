@@ -12,7 +12,7 @@ class MovieInfoViewModel{
     var stateChangeHandler: ((State.Change) -> Void)?
     
     private let network = MovieInfoNetwork()
-    private let user = User()
+    private let usertransaction = UserTransaction()
     
     private var imdbID: String?
     
@@ -40,9 +40,11 @@ class MovieInfoViewModel{
         }
     }
     
-    func addToDidWatch(){
-        user.addMovie()
-        print("asd")
+    func addToList(status: MovieStatus){
+        usertransaction.fetch()
+        guard let md = state.movie else { return }
+        let movie = Movie(name: state.movie!.name , year: md.year, imdbID: md.imdbID, poster: md.poster.absoluteString, status: status)
+        usertransaction.addMovie(movie)
     }
     
     func emit(change: State.Change){

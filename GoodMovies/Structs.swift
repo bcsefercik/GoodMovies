@@ -46,3 +46,8 @@ struct LoadingState {
         needsUpdate = (activityCount == 0)
     }
 }
+
+struct Constants {
+    static let willIcon = "🤔"
+    static let didIcon = "😎"
+}
