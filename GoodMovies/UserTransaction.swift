@@ -30,7 +30,7 @@ class UserTransaction {
     
     func fetchUserInfo(userID: String, completion: (User) -> Void){
         let realUserID = userID.stringByReplacingOccurrencesOfString(UserConstants.currentUserID, withString: database.uid!)
-        database.fetch(realUserID, path: "users/"){ (response, values) in
+        database.fetchDict(realUserID, path: "users/"){ (response, values) in
             switch response {
             case .success:
                 print(values)

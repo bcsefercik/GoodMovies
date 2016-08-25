@@ -122,13 +122,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (textField === usernameField) {
-            nameField.becomeFirstResponder()
-        } else if (textField == nameField){
+            passwordField.becomeFirstResponder()
+        } else if (textField == passwordField){
             mailField.becomeFirstResponder()
         } else if (textField == mailField){
-            passwordField.becomeFirstResponder()
-        } else if (textField === passwordField) {
-            passwordField.resignFirstResponder()
+            nameField.becomeFirstResponder()
+        } else if (textField === nameField) {
+            nameField.resignFirstResponder()
             handleRegister()
         }
         

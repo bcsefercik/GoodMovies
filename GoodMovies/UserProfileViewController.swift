@@ -82,7 +82,8 @@ class UserProfileViewController: UITableViewController {
         
         //model.initialize(userID)
         
-        database.fetch((FIRAuth.auth()?.currentUser?.uid)!, path: "users/"){ (_,i) in
+        database.fetchDict((FIRAuth.auth()?.currentUser?.uid)!, path: "users/"){ (_,i) in
+            print(i)
         }
     }
     

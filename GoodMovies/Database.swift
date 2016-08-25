@@ -28,11 +28,18 @@ class DatabaseAdapter {
     }
     
     
-    func fetch(key: String, path: String, completion: (DBResponse, [String]) -> Void){
+    func fetchDict(key: String, path: String, completion: (DBResponse, [String:String]) -> Void){
+        var result: [String:String] = [:]
         let ref = base.child("\(path)/\(key)")
-        ref.observeEventType(.ChildAdded, withBlock: { snapshot in
-            
-            completion(.success, [String]())
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion(.fail("empty"), [String:String]())
+            } else {
+                for snap in snapshot.children.allObjects {
+                    result.updateValue(snap.value!, forKey: snap.key!!)
+                }
+                completion(.success, result)
+            }
             return
         })
         
