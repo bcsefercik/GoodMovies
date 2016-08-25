@@ -8,6 +8,32 @@
 
 import UIKit
 
+struct UserMoviesPresentation{
+    var willWatch: [MoviePresentation] = []
+    var didWatch: [MoviePresentation] = []
+    
+    mutating func update(withState state: UserProfileViewModel.State, type: MovieStatus){
+        switch type {
+        case .didWatch:
+            didWatch = state.didWatch.map{(movie) -> MoviePresentation in
+                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+            }
+        case .willWatch:
+            willWatch = state.willWatch.map{(movie) -> MoviePresentation in
+                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+            }
+        case .none:
+            didWatch = state.didWatch.map{(movie) -> MoviePresentation in
+                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+            }
+            willWatch = state.willWatch.map{(movie) -> MoviePresentation in
+                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+            }
+        }
+        
+    }
+}
+
 class UserProfileViewController: UITableViewController {
     
     struct Const{
@@ -21,13 +47,78 @@ class UserProfileViewController: UITableViewController {
     
     var userID: String?
     
+    private let model = UserProfileViewModel()
+    private var presentation = UserMoviesPresentation()
+    private let router = UserProfileRouter()
+    
+    var loading: LoadingOverlay?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loading = LoadingOverlay()
+        self.applyState(model.state)
+        
+        model.stateChangeHandler = { [weak self] change in
+            self?.applyStateChange(change)
+        }
 
     }
+    
+    
+    func applyState(state: UserProfileViewModel.State){
+        presentation.update(withState: state, type: .willWatch)
+        
+        self.tableView.reloadData()
+    }
+    
+    func applyStateChange(change: UserProfileViewModel.State.Change){
+        switch change {
+        case .movies(let change, let type):
+            
+            presentation.update(withState: model.state, type: type)
+            
+            
+            switch change {
+            case .reload:
+                tableView.reloadData()
+                loading?.hideOverlayView()
+                
+            case .deletion(let index):
+                tableView.deleteRowsAtIndexPaths(
+                    [NSIndexPath(forRow: index+2, inSection: 0)],
+                    withRowAnimation: .Automatic
+                )
+            default:
+                tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
+                break
+            }
+            
+        case .loading(let loadingState):
+            if loadingState.needsUpdate {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
+            }
+            
+        case .none:
+            tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
+            let alert = UIAlertController(
+                title: "",
+                message: "No movies found.",
+                preferredStyle: .Alert
+            )
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+            alert.addAction(cancelAction)
+            presentViewController(alert, animated: true, completion: nil)
+            
+            loading?.hideOverlayView()
+        }
+    }
+
+    
+    
 
     @IBAction func segmentedChanged(sender: UISegmentedControl) {
+        print(sender.selectedSegmentIndex)
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
