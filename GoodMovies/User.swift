@@ -8,3 +8,7 @@ struct User{
     let followingCount: Int
     
 }
+
+struct UserConstants{
+    static let currentUserID = "currentUserID"
+}

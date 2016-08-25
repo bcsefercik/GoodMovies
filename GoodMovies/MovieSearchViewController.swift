@@ -80,7 +80,6 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
                 loading?.hideOverlayView()
                 
             default:
-                tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
                 break
             }
             
@@ -108,6 +107,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchText = searchBar.text!
         model.search(searchFor: searchText!)
+        tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
         loading!.showOverlay(self.navigationController?.view, text: "Searching...")
         
     }

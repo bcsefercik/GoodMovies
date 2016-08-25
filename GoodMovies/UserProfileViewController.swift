@@ -11,6 +11,7 @@ import UIKit
 struct UserMoviesPresentation{
     var willWatch: [MoviePresentation] = []
     var didWatch: [MoviePresentation] = []
+    var currentType = MovieStatus.willWatch
     
     mutating func update(withState state: UserProfileViewModel.State, type: MovieStatus){
         switch type {
@@ -30,7 +31,17 @@ struct UserMoviesPresentation{
                 return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
             }
         }
-        
+        currentType = state.currentType
+    }
+    var movieCount: Int{
+        get{
+            switch currentType {
+            case .didWatch:
+                return didWatch.count
+            default:
+                return willWatch.count
+            }
+        }
     }
 }
 
@@ -42,15 +53,15 @@ class UserProfileViewController: UITableViewController {
         static let movieReuseID = "userProfileMovieCell"
     }
     
-    var rowCount = 3
     var secCount = 1
+    var infoRowCount = 0
     
-    var userID: String?
+    var userID = UserConstants.currentUserID
     
     private let model = UserProfileViewModel()
     private var presentation = UserMoviesPresentation()
     private let router = UserProfileRouter()
-    
+    private var userInfo: User?
     var loading: LoadingOverlay?
     
     override func viewDidLoad() {
@@ -62,6 +73,10 @@ class UserProfileViewController: UITableViewController {
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
         }
+        
+        loading?.showOverlay(navigationController?.view, text: "Loading...")
+        
+        //model.initialize(userID)
 
     }
     
@@ -98,7 +113,13 @@ class UserProfileViewController: UITableViewController {
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
             }
-            
+        case .change(let type):
+            break
+        case .loadUserInfo:
+            userInfo = model.state.userInfo
+            navigationController?.title = userInfo?.username
+            infoRowCount = 1
+            tableView.reloadData()
         case .none:
             tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             let alert = UIAlertController(
@@ -118,13 +139,14 @@ class UserProfileViewController: UITableViewController {
     
 
     @IBAction func segmentedChanged(sender: UISegmentedControl) {
-        print(sender.selectedSegmentIndex)
+        model.switchType()
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.infoReuseID) as! UserProfileInfoViewCell
+            cell.nameLabel.text = userInfo?.name
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor.whiteColor()
             return cell
@@ -150,7 +172,7 @@ class UserProfileViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rowCount
+        return presentation.movieCount+infoRowCount
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

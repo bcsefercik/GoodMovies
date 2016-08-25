@@ -3,6 +3,7 @@ import Foundation
 import Firebase
 
 class DatabaseAdapter {
+    let uid = FIRAuth.auth()?.currentUser?.uid
     
     let base = FIRDatabase.database().referenceFromURL("https://goodmovies-e9b7c.firebaseio.com/")
     
@@ -27,7 +28,7 @@ class DatabaseAdapter {
     }
     
     
-    func fetch(filter: String, path: String, completion: (DBResponse, [String]) -> Void){
+    func fetch(key: String, path: String, completion: (DBResponse, [String]) -> Void){
         let ref = base.child("\(path)/willWatch").queryOrderedByChild("date")
         ref.observeEventType(.ChildAdded, withBlock: { snapshot in
             

@@ -323,6 +323,9 @@
                                         <constraint firstAttribute="topMargin" secondItem="GCZ-cI-0KT" secondAttribute="top" id="t2j-52-PSq"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="fTv-ag-xlI" id="8t3-jm-kCZ"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfilePickerCell" rowHeight="60" id="dLz-Yw-bJj" customClass="UserProfilePickerCell" customModule="GoodMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="196" width="600" height="60"/>

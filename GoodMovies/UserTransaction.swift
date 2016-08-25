@@ -1,5 +1,4 @@
 import Foundation
-import Firebase
 
 class UserTransaction {
     private let database = DatabaseAdapter()
@@ -13,7 +12,7 @@ class UserTransaction {
                     "year": movie.year,
                     "date": -NSDate().timeIntervalSince1970]
         
-        let path = "users/\((FIRAuth.auth()?.currentUser?.uid)!)/movies/"
+        let path = "users/\(database.uid!)/movies/"
         
         database.delete(movie.imdbID, path: "\(path)/didWatch"){ [](_) in
             self.database.delete(movie.imdbID, path: "\(path)/willWatch"){ (_) in
@@ -27,8 +26,22 @@ class UserTransaction {
     }
     
     func fetch(){
-        database.fetch("willwatch", path: "users/\((FIRAuth.auth()?.currentUser?.uid)!)/movies"){ (_,_) in
-            
-        }
     }
+    
+    func fetchUserInfo(userID: String, completion: (User) -> Void){
+        let realUserID = userID.stringByReplacingOccurrencesOfString(UserConstants.currentUserID, withString: database.uid!)
+        database.fetch(realUserID, path: "users/"){ (response, values) in
+            switch response {
+            case .success:
+                print(values)
+            default:
+                return
+            }
+            return
+        }
+        
+    }
+    
+    
+    
 }

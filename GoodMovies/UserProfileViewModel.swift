@@ -7,14 +7,31 @@ class UserProfileViewModel{
         var loadingState = LoadingState()
         var willWatch: [Movie] = []
         var didWatch: [Movie] = []
+        var currentType = MovieStatus.willWatch
+        var userInfo: User?
     }
 
     
     private(set) var state = State()
     var stateChangeHandler: ((State.Change) -> Void)?
     
+    
+    
+    
+    
+    
+    
+    
     func emit(change: State.Change){
         stateChangeHandler?(change)
+    }
+    
+    func switchType(){
+        if state.currentType == .didWatch {
+            state.setCurrentType(.willWatch)
+        } else {
+            state.setCurrentType(.didWatch)
+        }
     }
 }
 
@@ -24,6 +41,11 @@ extension UserProfileViewModel.State {
         case none
         case movies(CollectionChange, MovieStatus)
         case loading(LoadingState)
+        case change(MovieStatus)
+        case loadUserInfo
+    }
+    mutating func setUser(info: User){
+        userInfo = info
     }
     
     mutating func addActivity() -> Change {
@@ -72,6 +94,9 @@ extension UserProfileViewModel.State {
         return .movies(.deletion(index), type)
     }
 
+    mutating func setCurrentType(newType: MovieStatus){
+        currentType = newType
+    }
     
     mutating func appendMovies(movies: [Movie], type: MovieStatus) -> Change {
         switch type {
