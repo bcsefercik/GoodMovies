@@ -32,6 +32,7 @@ class TabsViewController: UITabBarController {
     
     
     func isSignedIn()->Bool{
+        
         return FIRAuth.auth()?.currentUser?.uid != nil
     }
 }

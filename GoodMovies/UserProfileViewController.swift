@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 struct UserMoviesPresentation{
     var willWatch: [MoviePresentation] = []
@@ -64,6 +65,9 @@ class UserProfileViewController: UITableViewController {
     private var userInfo: User?
     var loading: LoadingOverlay?
     
+    
+    let database = DatabaseAdapter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,7 +81,9 @@ class UserProfileViewController: UITableViewController {
         loading?.showOverlay(navigationController?.view, text: "Loading...")
         
         //model.initialize(userID)
-
+        
+        database.fetch((FIRAuth.auth()?.currentUser?.uid)!, path: "users/"){ (_,i) in
+        }
     }
     
     

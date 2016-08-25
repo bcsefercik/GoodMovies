@@ -29,13 +29,13 @@ class DatabaseAdapter {
     
     
     func fetch(key: String, path: String, completion: (DBResponse, [String]) -> Void){
-        let ref = base.child("\(path)/willWatch").queryOrderedByChild("date")
+        let ref = base.child("\(path)/\(key)")
         ref.observeEventType(.ChildAdded, withBlock: { snapshot in
             
-            print(snapshot.value! as! [String : AnyObject])
             completion(.success, [String]())
+            return
         })
-
+        
     }
     
     
