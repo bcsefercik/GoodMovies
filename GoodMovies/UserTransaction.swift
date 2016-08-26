@@ -41,8 +41,6 @@ class UserTransaction {
         var finalResponse = DBResponse.success
         dispatch_group_enter(dispatchGroup)
         
-        print("Group 1")
-        
         database.fetchDict(realUserID, path: "users/"){ [unowned self] (response, val) in
             switch response {
             case .success:
@@ -54,11 +52,27 @@ class UserTransaction {
                     userInfo.updateValue(v.1, forKey: v.0)
                 }
                 
-                self.database.nodeCount("movies/\(realUserID)/willWatch/"){ count, response in
+                self.database.nodeCount("movies/\(realUserID)/willWatch/"){ count,_ in
                     userInfo.updateValue(String(count), forKey: "willWatchCount")
-                    self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count, response in
+                    self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count,_ in
                         userInfo.updateValue(String(count), forKey: "didWatchCount")
-                        print(userInfo)
+                        self.database.nodeCount("users/\(realUserID)/followers/"){ count,_ in
+                            userInfo.updateValue(String(count), forKey: "followerCount")
+                            self.database.nodeCount("users/\(realUserID)/following/"){ count,_ in
+                                userInfo.updateValue(String(count), forKey: "followingCount")
+                                guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"] else {
+                                    finalResponse = .error(.empty)
+                                    completion(nil, finalResponse)
+                                    return
+                                }
+                                
+                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount), didWatchCount: Int(uDidWatchCount), followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount))
+                                
+                                completion(user,finalResponse)
+                                return
+                            }
+                            return
+                        }
                         return
                     }
                     return
