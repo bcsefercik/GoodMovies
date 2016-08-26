@@ -54,7 +54,7 @@ class DatabaseAdapter {
     
     func fetchDict(key: String, path: String, completion: (DBResponse, [String:AnyObject]) -> Void){
         var result: [String:String] = [:]
-        let ref = base.child("\(path)/\(key)")
+        let ref = base.child("\(path)/\(key)/")
         ref.observeEventType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion(.fail("empty"), [String:AnyObject]())
@@ -70,10 +70,51 @@ class DatabaseAdapter {
         
     }
     
-    
+    func nodeCount(path: String, completion: (UInt, DBResponse) -> Void){
+        let ref = base.child("\(path))")
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion(0,.error(.serverError))
+            } else {
+                completion(snapshot.childrenCount,.success)
+            }
+        })
+    }
 }
 
-enum DBResponse{
+enum DBResponse: Equatable{
     case success
     case fail(String)
+    case error(DBResponseError)
+}
+func ==(lhs: DBResponse, rhs: DBResponse)->Bool{
+    switch lhs {
+    case .success:
+        switch rhs {
+        case .success:
+            return true
+        default:
+            return false
+        }
+    case .fail(let lstr):
+        switch rhs {
+        case .fail(let rstr):
+            return lstr == rstr
+        default:
+            return false
+        }
+    case .error(let le):
+        switch rhs {
+        case .error(let re):
+            return le == re
+        default:
+            return false
+        }
+    }
+}
+
+enum DBResponseError: Equatable{
+    case incomplete
+    case empty
+    case serverError
 }

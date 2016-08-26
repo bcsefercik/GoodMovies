@@ -20,8 +20,9 @@ class UserProfileViewModel{
     func initialize(userID: String){
         usertransaction.fetchUserInfo(userID){ [weak self] (user,_) in
             guard let strongSelf = self, profileUser = user else { return }
-
             strongSelf.emit(strongSelf.state.loadUserInfo(profileUser))
+            
+            
         }
     }
     

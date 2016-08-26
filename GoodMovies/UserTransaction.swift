@@ -34,23 +34,41 @@ class UserTransaction {
     func fetch(){
     }
     
-    func fetchUserInfo(userID: String, completion: (User?, NetworkResult) -> Void){
+    func fetchUserInfo(userID: String, completion: (User?, DBResponse) -> Void){
         let realUserID = userID.stringByReplacingOccurrencesOfString(UserConstants.currentUserID, withString: database.uid!)
-        database.fetchDict(realUserID, path: "users/"){ (response, val) in
+        let dispatchGroup = dispatch_group_create()
+        var userInfo: [String:String] = [:]
+        var finalResponse = DBResponse.success
+        dispatch_group_enter(dispatchGroup)
+        
+        print("Group 1")
+        
+        database.fetchDict(realUserID, path: "users/"){ [unowned self] (response, val) in
             switch response {
             case .success:
                 guard let values = val as? [String:String] else {
-                    completion(nil,.error)
+                    finalResponse = .error(.incomplete)
                     return
                 }
+                for v in values {
+                    userInfo.updateValue(v.1, forKey: v.0)
+                }
                 
-                let user = User(uid: realUserID, username: values["username"], name: values["name"], movieCount: Int(values["movieCount"]!), followerCount: Int(values["followerCount"]!), followingCount: Int(values["followingCount"]!))
-                completion(user, NetworkResult.success)
+                self.database.nodeCount("movies/\(realUserID)/willWatch/"){ count, response in
+                    userInfo.updateValue(String(count), forKey: "willWatchCount")
+                    self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count, response in
+                        userInfo.updateValue(String(count), forKey: "didWatchCount")
+                        print(userInfo)
+                        return
+                    }
+                    return
+                }
             default:
-                completion(nil,.error)
+                finalResponse = .error(.serverError)
             }
             return
         }
+        
         
     }
     
