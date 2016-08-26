@@ -7,12 +7,12 @@
 //
 
 import UIKit
-import Firebase
 
-struct UserMoviesPresentation{
+struct UserProfilePresentation{
     var willWatch: [MoviePresentation] = []
     var didWatch: [MoviePresentation] = []
     var currentType = MovieStatus.willWatch
+    var profileUser: User?
     
     mutating func update(withState state: UserProfileViewModel.State, type: MovieStatus){
         switch type {
@@ -44,6 +44,10 @@ struct UserMoviesPresentation{
             }
         }
     }
+    
+    mutating func setUser(u: User){
+        profileUser = u
+    }
 }
 
 class UserProfileViewController: UITableViewController {
@@ -60,13 +64,9 @@ class UserProfileViewController: UITableViewController {
     var userID = UserConstants.currentUserID
     
     private let model = UserProfileViewModel()
-    private var presentation = UserMoviesPresentation()
+    private var presentation = UserProfilePresentation()
     private let router = UserProfileRouter()
-    private var userInfo: User?
     var loading: LoadingOverlay?
-    
-    
-    let database = DatabaseAdapter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,11 +80,8 @@ class UserProfileViewController: UITableViewController {
         
         loading?.showOverlay(navigationController?.view, text: "Loading...")
         
-        //model.initialize(userID)
+        model.initialize(userID)
         
-        database.fetchDict((FIRAuth.auth()?.currentUser?.uid)!, path: "users/"){ (_,i) in
-            print(i)
-        }
     }
     
     
@@ -122,9 +119,9 @@ class UserProfileViewController: UITableViewController {
             }
         case .change(let type):
             break
-        case .loadUserInfo:
-            userInfo = model.state.userInfo
-            navigationController?.title = userInfo?.username
+        case .loadUserInfo(let u):
+            presentation.setUser(u)
+            navigationItem.title = presentation.profileUser?.username
             infoRowCount = 1
             tableView.reloadData()
         case .none:
@@ -153,7 +150,10 @@ class UserProfileViewController: UITableViewController {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.infoReuseID) as! UserProfileInfoViewCell
-            cell.nameLabel.text = userInfo?.name
+            cell.nameLabel.text = presentation.profileUser?.name
+            cell.moviesLabel.text = "\(presentation.profileUser!.movieCount!)"
+            cell.followersLabel.text = "\(presentation.profileUser!.followerCount!)"
+            cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor.whiteColor()
             return cell

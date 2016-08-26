@@ -324,6 +324,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="followersLabel" destination="pus-XO-Aqv" id="oLM-CK-ogT"/>
+                                    <outlet property="followingLabel" destination="P1w-wt-Nu5" id="bBW-M0-AcP"/>
+                                    <outlet property="moviesLabel" destination="eg2-14-sMR" id="qGb-RL-Xw3"/>
                                     <outlet property="nameLabel" destination="fTv-ag-xlI" id="8t3-jm-kCZ"/>
                                 </connections>
                             </tableViewCell>

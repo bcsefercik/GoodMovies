@@ -15,7 +15,15 @@ class UserProfileViewModel{
     private(set) var state = State()
     var stateChangeHandler: ((State.Change) -> Void)?
     
+    private let usertransaction = UserTransaction()
     
+    func initialize(userID: String){
+        usertransaction.fetchUserInfo(userID){ [weak self] (user,_) in
+            guard let strongSelf = self, profileUser = user else { return }
+
+            strongSelf.emit(strongSelf.state.loadUserInfo(profileUser))
+        }
+    }
     
     
     
@@ -42,7 +50,7 @@ extension UserProfileViewModel.State {
         case movies(CollectionChange, MovieStatus)
         case loading(LoadingState)
         case change(MovieStatus)
-        case loadUserInfo
+        case loadUserInfo(User)
     }
     mutating func setUser(info: User){
         userInfo = info
@@ -52,6 +60,11 @@ extension UserProfileViewModel.State {
         
         loadingState.addActivity()
         return .loading(loadingState)
+    }
+    
+    mutating func loadUserInfo(user: User) -> Change {
+        setUser(user)
+        return .loadUserInfo(user)
     }
     
     mutating func removeActivity() -> Change {

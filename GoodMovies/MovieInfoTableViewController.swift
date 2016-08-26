@@ -165,8 +165,7 @@ class MovieInfoTableViewController: UITableViewController {
         newImageView.backgroundColor = .blackColor()
         newImageView.contentMode = .ScaleAspectFit
         newImageView.userInteractionEnabled = true
-        //self.navigationController?.view.addSubview(newImageView)
-        self.tabBarController?.view.addSubview(newImageView)
+        view.addSubview(newImageView)
     }
 
     func dismissFullscreenImage(sender: UITapGestureRecognizer) {
