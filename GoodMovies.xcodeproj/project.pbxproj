@@ -11,6 +11,7 @@
 		4E370AB81D6A2F2200C52A16 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */; };
 		4E370ABA1D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */; };
 		4E370ABC1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */; };
+		4E88491F1D72EB2F002214FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4E88491E1D72EB2F002214FA /* GoogleService-Info.plist */; };
 		C22624381D6D88D000DEE400 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22624371D6D88D000DEE400 /* UserProfileViewController.swift */; };
 		C226243B1D6D8C3F00DEE400 /* UserProfileInfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C226243A1D6D8C3F00DEE400 /* UserProfileInfoViewCell.swift */; };
 		C226243E1D6D926400DEE400 /* UserProfilePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C226243D1D6D926400DEE400 /* UserProfilePickerCell.swift */; };
@@ -33,7 +34,6 @@
 		C2BF469E1D6AE4C1006B86D7 /* MovieInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF469D1D6AE4C1006B86D7 /* MovieInfoViewModel.swift */; };
 		C2BF46A01D6AE4DB006B86D7 /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF469F1D6AE4DB006B86D7 /* MovieDetail.swift */; };
 		C2C3FB9A1D65806C003863FF /* Presentations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB991D65806C003863FF /* Presentations.swift */; };
-		C2C3FB9C1D65A8A6003863FF /* MovieUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */; };
 		C2C3FBA01D65A97A003863FF /* MovieUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */; };
 		C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76621D61DB8000626786 /* RegisterViewController.swift */; };
 		C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76641D61DBA300626786 /* RegisterViewModel.swift */; };
@@ -42,7 +42,6 @@
 		C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DE131A1D5DC88C00698C12 /* AppDelegate.swift */; };
 		C2DE13221D5DC88C00698C12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2DE13211D5DC88C00698C12 /* Assets.xcassets */; };
 		C2DE13251D5DC88C00698C12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2DE13231D5DC88C00698C12 /* LaunchScreen.storyboard */; };
-		C2DE132D1D5DC9BE00698C12 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2DE132C1D5DC9BE00698C12 /* GoogleService-Info.plist */; };
 		C2E07CAA1D66E91F00244D5E /* MovieSearchNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07CA91D66E91F00244D5E /* MovieSearchNetwork.swift */; };
 		C2E07CAC1D66E9E300244D5E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07CAB1D66E9E300244D5E /* Network.swift */; };
 		C2E797AC1D62EA13007013CC /* TabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E797AB1D62EA13007013CC /* TabsViewController.swift */; };
@@ -59,6 +58,7 @@
 		4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieLoadingTableViewCell.swift; sourceTree = "<group>"; };
 		4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieAllLoadedTableViewCell.swift; sourceTree = "<group>"; };
+		4E88491E1D72EB2F002214FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C22624371D6D88D000DEE400 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		C226243A1D6D8C3F00DEE400 /* UserProfileInfoViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileInfoViewCell.swift; sourceTree = "<group>"; };
 		C226243D1D6D926400DEE400 /* UserProfilePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfilePickerCell.swift; sourceTree = "<group>"; };
@@ -81,7 +81,6 @@
 		C2BF469D1D6AE4C1006B86D7 /* MovieInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieInfoViewModel.swift; sourceTree = "<group>"; };
 		C2BF469F1D6AE4DB006B86D7 /* MovieDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
 		C2C3FB991D65806C003863FF /* Presentations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentations.swift; sourceTree = "<group>"; };
-		C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieUserViewModel.swift; path = ../MovieUserViewModel.swift; sourceTree = "<group>"; };
 		C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieUserTableViewController.swift; sourceTree = "<group>"; };
 		C2DD76621D61DB8000626786 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C2DD76641D61DBA300626786 /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -92,7 +91,6 @@
 		C2DE13211D5DC88C00698C12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2DE13241D5DC88C00698C12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2DE13261D5DC88C00698C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2DE132C1D5DC9BE00698C12 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C2E07CA91D66E91F00244D5E /* MovieSearchNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieSearchNetwork.swift; sourceTree = "<group>"; };
 		C2E07CAB1D66E9E300244D5E /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		C2E797AB1D62EA13007013CC /* TabsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsViewController.swift; sourceTree = "<group>"; };
@@ -234,7 +232,7 @@
 				C2DE13211D5DC88C00698C12 /* Assets.xcassets */,
 				C2DE13231D5DC88C00698C12 /* LaunchScreen.storyboard */,
 				C2DE13261D5DC88C00698C12 /* Info.plist */,
-				C2DE132C1D5DC9BE00698C12 /* GoogleService-Info.plist */,
+				4E88491E1D72EB2F002214FA /* GoogleService-Info.plist */,
 				C2ECC39C1D64580C0024A257 /* UserTransaction.swift */,
 				C2ECC39E1D6459D00024A257 /* Database.swift */,
 				C2BF469C1D6AD745006B86D7 /* Protocols */,
@@ -244,7 +242,6 @@
 				C2DD76661D61EBF100626786 /* LoadingView.xib */,
 				C2E797AB1D62EA13007013CC /* TabsViewController.swift */,
 				C2ECC3A21D6479DF0024A257 /* Search */,
-				C2C3FB9B1D65A8A6003863FF /* MovieUserViewModel.swift */,
 				C2C3FB9F1D65A97A003863FF /* MovieUserTableViewController.swift */,
 				C284D2EB1D6B182500F7B2A3 /* MovieInfo */,
 				C22624391D6D88DE00DEE400 /* UserProfile */,
@@ -341,9 +338,9 @@
 			files = (
 				C2DE13251D5DC88C00698C12 /* LaunchScreen.storyboard in Resources */,
 				C26B14C71D6B207D000C1BD9 /* Main.storyboard in Resources */,
-				C2DE132D1D5DC9BE00698C12 /* GoogleService-Info.plist in Resources */,
 				C2DE13221D5DC88C00698C12 /* Assets.xcassets in Resources */,
 				C2DD76671D61EBF100626786 /* LoadingView.xib in Resources */,
+				4E88491F1D72EB2F002214FA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,7 +407,6 @@
 				C2B9CBAD1D6C159C00AF64D1 /* MovieInfoPosterCell.swift in Sources */,
 				C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */,
 				C2E07CAA1D66E91F00244D5E /* MovieSearchNetwork.swift in Sources */,
-				C2C3FB9C1D65A8A6003863FF /* MovieUserViewModel.swift in Sources */,
 				C2ECC39D1D64580C0024A257 /* UserTransaction.swift in Sources */,
 				C2ECC39F1D6459D00024A257 /* Database.swift in Sources */,
 				C2ECC3961D64372F0024A257 /* Movie.swift in Sources */,
@@ -557,7 +553,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.monitise.GoodMovies;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -570,7 +566,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.monitise.GoodMovies;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

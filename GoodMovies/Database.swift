@@ -5,7 +5,7 @@ import Firebase
 class DatabaseAdapter {
     let uid = FIRAuth.auth()?.currentUser?.uid
     
-    let base = FIRDatabase.database().referenceFromURL("https://goodmovies-e9b7c.firebaseio.com/")
+    let base = FIRDatabase.database().referenceFromURL("https://mymovies-e0a6f.firebaseio.com/")
     
     func insert(key: String, path: String, values: [String: AnyObject], completion: (DBResponse) -> Void){
         let ref = base.child(path).child(key)
