@@ -179,9 +179,10 @@ class UserProfileViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        router.goToMovie(presentation.movies[indexPath.row-infoRowCount].imdbID, sender: self.navigationController!)
-
+        if indexPath.row > 1 {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            router.goToMovie(presentation.movies[indexPath.row-infoRowCount].imdbID, sender: self.navigationController!)
+        }
     }
     
     override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {

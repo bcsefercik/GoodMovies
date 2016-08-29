@@ -60,7 +60,7 @@ class MovieInfoTableViewController: UITableViewController {
         
         
         setupButtons()
-        
+        self.navigationController?.hidesBarsOnSwipe = false
     }
     
     func applyState(state: MovieInfoViewModel.State){

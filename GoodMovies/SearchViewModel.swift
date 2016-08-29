@@ -1,9 +1,7 @@
 
 import Foundation
-import Firebase
-import Alamofire
 
-class MovieSearchViewModel{
+class SearchViewModel{
     struct State {
         
         var loadingState = LoadingState()
@@ -13,7 +11,7 @@ class MovieSearchViewModel{
     private(set) var state = State()
     var stateChangeHandler: ((State.Change) -> Void)?
     
-    private let network = MovieSearchNetwork()
+    private let network = SearchNetwork()
     
     private var slug: String?
     private var searchPage: Int = 0
@@ -103,7 +101,7 @@ class MovieSearchViewModel{
 
 
 
-extension MovieSearchViewModel.State {
+extension SearchViewModel.State {
     
     enum Change {
         case none

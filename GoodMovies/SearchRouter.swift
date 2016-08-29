@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class MovieSearchRouter : Router{
+class SearchRouter : Router{
     var storyboard = UIStoryboard(name: "Main", bundle: nil)
 
     func goToMovie(imdbID: String, sender: UINavigationController){

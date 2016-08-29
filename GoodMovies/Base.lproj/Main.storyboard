@@ -90,14 +90,38 @@
         <!--Search-->
         <scene sceneID="PRe-wp-Q4Z">
             <objects>
-                <tableViewController id="Gws-aR-nla" customClass="MovieSearchViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Gws-aR-nla" customClass="SearchViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="72" sectionHeaderHeight="28" sectionFooterHeight="28" id="iDT-64-Bqy">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="UWf-6y-nCY">
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6nW-oy-REU">
+                                    <rect key="frame" x="8" y="8" width="584" height="29"/>
+                                    <segments>
+                                        <segment title="Movies"/>
+                                        <segment title="People"/>
+                                    </segments>
+                                    <color key="tintColor" red="0.17254902420000001" green="0.24313725529999999" blue="0.31372550129999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <action selector="typeChanged:" destination="Gws-aR-nla" eventType="valueChanged" id="V3t-iX-6vK"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.17254902420000001" green="0.24313725529999999" blue="0.31372550129999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="6nW-oy-REU" firstAttribute="leading" secondItem="UWf-6y-nCY" secondAttribute="leading" constant="8" id="C5m-sl-ubK"/>
+                                <constraint firstAttribute="trailing" secondItem="6nW-oy-REU" secondAttribute="trailing" constant="8" id="KBp-P7-AzV"/>
+                                <constraint firstItem="6nW-oy-REU" firstAttribute="centerY" secondItem="UWf-6y-nCY" secondAttribute="centerY" id="xUA-JJ-Fxn"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="movieSearchCell" rowHeight="72" id="SGa-i7-x8G" customClass="MovieSearchViewCell" customModule="GoodMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="72"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SGa-i7-x8G" id="TIf-2q-RJz">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="71"/>
@@ -148,7 +172,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="movieLoadingCell" rowHeight="72" id="Nfi-xa-wTd" customClass="MovieLoadingTableViewCell" customModule="GoodMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="164" width="600" height="72"/>
+                                <rect key="frame" x="0.0" y="208" width="600" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nfi-xa-wTd" id="4T7-Rr-vQC">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="71"/>
@@ -184,7 +208,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="allLoadedCell" rowHeight="40" id="0Ny-9n-n0h" customClass="MovieAllLoadedTableViewCell" customModule="GoodMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="236" width="600" height="40"/>
+                                <rect key="frame" x="0.0" y="280" width="600" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Ny-9n-n0h" id="hG5-3Q-fjZ">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="39"/>
@@ -215,6 +239,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Search" id="Sem-mP-4FY"/>
+                    <connections>
+                        <outlet property="segmentView" destination="UWf-6y-nCY" id="myg-pU-QJA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bbQ-Sf-j2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -224,13 +251,13 @@
         <scene sceneID="QwG-V2-sbA">
             <objects>
                 <tableViewController storyboardIdentifier="userProile" id="ZoX-dY-aLl" customClass="UserProfileViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="104" sectionHeaderHeight="28" sectionFooterHeight="28" id="LX5-1s-mrF">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="104" sectionHeaderHeight="28" sectionFooterHeight="28" id="LX5-1s-mrF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfileInfoCell" rowHeight="104" id="U2O-nN-qaY" customClass="UserProfileInfoViewCell" customModule="GoodMovies" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfileInfoCell" rowHeight="104" id="U2O-nN-qaY" customClass="UserProfileInfoViewCell" customModule="GoodMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U2O-nN-qaY" id="x4B-xX-5In">
@@ -330,17 +357,17 @@
                                     <outlet property="nameLabel" destination="fTv-ag-xlI" id="8t3-jm-kCZ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfilePickerCell" rowHeight="60" id="dLz-Yw-bJj" customClass="UserProfilePickerCell" customModule="GoodMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="196" width="600" height="60"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfilePickerCell" rowHeight="63" id="dLz-Yw-bJj" customClass="UserProfilePickerCell" customModule="GoodMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="196" width="600" height="63"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dLz-Yw-bJj" id="Wk1-73-Azw">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9iC-JU-8TB">
-                                            <rect key="frame" x="8" y="15" width="584" height="31"/>
+                                            <rect key="frame" x="8" y="8" width="584" height="31"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="Lbr-nQ-TBN"/>
+                                                <constraint firstAttribute="height" constant="30" id="JvS-zo-erx"/>
                                             </constraints>
                                             <segments>
                                                 <segment title="First"/>
@@ -355,8 +382,9 @@
                                     <color key="backgroundColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="9iC-JU-8TB" secondAttribute="trailing" id="4JE-mH-xZm"/>
-                                        <constraint firstItem="9iC-JU-8TB" firstAttribute="top" secondItem="Wk1-73-Azw" secondAttribute="topMargin" constant="7" id="Joj-dN-OYE"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="9iC-JU-8TB" secondAttribute="bottom" constant="6" id="T6H-Hc-ooh"/>
+                                        <constraint firstItem="9iC-JU-8TB" firstAttribute="centerY" secondItem="Wk1-73-Azw" secondAttribute="centerY" id="Jnl-wx-ivy"/>
+                                        <constraint firstItem="9iC-JU-8TB" firstAttribute="top" secondItem="Wk1-73-Azw" secondAttribute="topMargin" id="Joj-dN-OYE"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="9iC-JU-8TB" secondAttribute="bottom" id="T6H-Hc-ooh"/>
                                         <constraint firstItem="9iC-JU-8TB" firstAttribute="leading" secondItem="Wk1-73-Azw" secondAttribute="leadingMargin" id="qNF-Tf-wa4"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -366,7 +394,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="userProfileMovieCell" id="Mav-Pl-oyP" customClass="UserProfileMovieCell" customModule="GoodMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="256" width="600" height="104"/>
+                                <rect key="frame" x="0.0" y="259" width="600" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mav-Pl-oyP" id="s08-Za-niM">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="103"/>

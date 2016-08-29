@@ -1,7 +1,7 @@
 import Foundation
 import Alamofire
 
-class MovieSearchNetwork: Network{
+class SearchNetwork: Network{
     var requestMethod: RequestMethod = RequestMethod.GET
 
 

@@ -4,7 +4,7 @@ import Kingfisher
 struct MoviesPresentation{
     var movies: [MoviePresentation] = []
     
-    mutating func update(withState state: MovieSearchViewModel.State){
+    mutating func update(withState state: SearchViewModel.State){
         movies = state.movies.map{(movie) -> MoviePresentation in
             
             return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
@@ -13,21 +13,24 @@ struct MoviesPresentation{
     }
 }
 
-class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
+class SearchViewController: UITableViewController, UISearchBarDelegate {
     
     private struct Const {
         static let cellReuseID = "movieSearchCell"
         static let loadingCellReuseID = "movieLoadingCell"
         static let allLoadedReuseID = "allLoadedCell"
     }
+    
+    
 
-    private let model = MovieSearchViewModel()
+    private let model = SearchViewModel()
     private var presentation = MoviesPresentation()
-    private let router = MovieSearchRouter()
+    private let router = SearchRouter()
     
     var loading: LoadingOverlay?
     
     var searchText: String?
+    @IBOutlet weak var segmentView: UIView!
     
     lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRectMake(0, 0, self.navigationController!.navigationBar.bounds.width, 20))
     
@@ -38,7 +41,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.separatorInset = UIEdgeInsetsZero
         
-        searchBar.placeholder = "Search movie..."
+        searchBar.placeholder = "Search..."
         searchBar.inputView?.tintColor = Color.midnightBlue
         searchBar.showsCancelButton = false
         searchBar.translucent = true
@@ -59,15 +62,23 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
             self?.applyStateChange(change)
         }
         
+        
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRectMake(0, segmentView.bounds.size.height-0.5, segmentView.bounds.size.width, 0.5)
+        bottomBorder.backgroundColor = UIColor.lightGrayColor().CGColor
+        segmentView.layer.addSublayer(bottomBorder)
+        
+    }
+    @IBAction func typeChanged(sender: UISegmentedControl) {
     }
     
-    func applyState(state: MovieSearchViewModel.State){
+    func applyState(state: SearchViewModel.State){
         presentation.update(withState: state)
         
         self.tableView.reloadData()
     }
     
-    func applyStateChange(change: MovieSearchViewModel.State.Change){
+    func applyStateChange(change: SearchViewModel.State.Change){
         switch change {
         case .movies(let change):
             
@@ -182,7 +193,6 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
         
         
     }
-    
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
