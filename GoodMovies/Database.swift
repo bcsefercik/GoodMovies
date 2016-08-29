@@ -116,6 +116,23 @@ class DatabaseAdapter {
         
     }
     
+    func serachDict(text: String, key: String, path: String, completion: (DBResponse, [String:AnyObject]) -> Void){
+        var result: [String:String] = [:]
+        let ref = base.child("\(path)").queryOrderedByChild(key).queryStartingAtValue(text)
+        print(ref)
+        
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion(.error(.empty), [String:AnyObject]())
+            } else {
+                print(snapshot)
+                completion(.success, result)
+            }
+            return
+        })
+        
+    }
+    
     func nodeCount(path: String, completion: (UInt, DBResponse) -> Void){
         let ref = base.child("\(path)")
         ref.observeEventType(.Value, withBlock: { snapshot in

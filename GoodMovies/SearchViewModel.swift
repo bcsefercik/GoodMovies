@@ -12,6 +12,7 @@ class SearchViewModel{
     var stateChangeHandler: ((State.Change) -> Void)?
     
     private let network = SearchNetwork()
+    private let usertransaction = UserTransaction()
     
     private var slug: String?
     private var searchPage: Int = 0
@@ -51,6 +52,8 @@ class SearchViewModel{
                 strongSelf.searchPage = 0
             }
         }
+        
+        usertransaction.searchUser()
     }
 
     func loadMore(){

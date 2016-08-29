@@ -106,6 +106,12 @@ class UserTransaction {
         
     }
     
+    func searchUser(){
+        database.serachDict("harold", key: "name", path: "users/"){ _,_ in
+            
+        }
+    }
+    
     
     
 }
