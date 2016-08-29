@@ -230,7 +230,7 @@
                         <color key="backgroundColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfileInfoCell" rowHeight="104" id="U2O-nN-qaY" customClass="UserProfileInfoViewCell" customModule="GoodMovies" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="userProfileInfoCell" rowHeight="104" id="U2O-nN-qaY" customClass="UserProfileInfoViewCell" customModule="GoodMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U2O-nN-qaY" id="x4B-xX-5In">
@@ -338,7 +338,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9iC-JU-8TB">
-                                            <rect key="frame" x="8" y="16" width="584" height="29"/>
+                                            <rect key="frame" x="8" y="15" width="584" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="Lbr-nQ-TBN"/>
+                                            </constraints>
                                             <segments>
                                                 <segment title="First"/>
                                                 <segment title="Second"/>
@@ -352,7 +355,8 @@
                                     <color key="backgroundColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="9iC-JU-8TB" secondAttribute="trailing" id="4JE-mH-xZm"/>
-                                        <constraint firstItem="9iC-JU-8TB" firstAttribute="centerY" secondItem="Wk1-73-Azw" secondAttribute="centerY" id="9td-jc-8Wd"/>
+                                        <constraint firstItem="9iC-JU-8TB" firstAttribute="top" secondItem="Wk1-73-Azw" secondAttribute="topMargin" constant="7" id="Joj-dN-OYE"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="9iC-JU-8TB" secondAttribute="bottom" constant="6" id="T6H-Hc-ooh"/>
                                         <constraint firstItem="9iC-JU-8TB" firstAttribute="leading" secondItem="Wk1-73-Azw" secondAttribute="leadingMargin" id="qNF-Tf-wa4"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -361,7 +365,7 @@
                                     <outlet property="movieTypePicker" destination="9iC-JU-8TB" id="2Ir-L9-i2I"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="userProfileMovieCell" rowHeight="104" id="Mav-Pl-oyP" customClass="UserProfileMovieCell" customModule="GoodMovies" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="userProfileMovieCell" id="Mav-Pl-oyP" customClass="UserProfileMovieCell" customModule="GoodMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="256" width="600" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mav-Pl-oyP" id="s08-Za-niM">
@@ -407,6 +411,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="profileMoviePoster" destination="hk8-2M-7sz" id="lcE-8J-Mbo"/>
+                                    <outlet property="profileMovieTitle" destination="01P-Nl-hzb" id="uGX-si-K0j"/>
+                                    <outlet property="profileMovieYear" destination="Nry-d1-h3N" id="hBi-3b-gt6"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

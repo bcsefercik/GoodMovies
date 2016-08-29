@@ -1,6 +1,4 @@
 import Foundation
-import Firebase
-import Alamofire
 
 class MovieInfoViewModel{
     struct State {
@@ -18,7 +16,6 @@ class MovieInfoViewModel{
     
     func fetchMovie(imdbID: String){
         self.imdbID = imdbID
-        usertransaction.fetch()
         
         let change = state.addActivity()
         emit(change)
@@ -42,7 +39,6 @@ class MovieInfoViewModel{
     }
     
     func addToList(status: MovieStatus){
-        usertransaction.fetch()
         guard let md = state.movie else { return }
         let movie = Movie(name: state.movie!.name , year: md.year, imdbID: md.imdbID, poster: md.poster.absoluteString, status: status)
         usertransaction.addMovie(movie)

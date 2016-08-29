@@ -215,6 +215,7 @@ class MovieSearchViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
         router.goToMovie(presentation.movies[indexPath.row].imdbID, sender: self.navigationController!)
     }
 }

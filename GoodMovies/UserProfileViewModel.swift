@@ -17,16 +17,34 @@ class UserProfileViewModel{
     
     private let usertransaction = UserTransaction()
     
-    func initialize(userID: String){
-        usertransaction.fetchUserInfo(userID){ [weak self] (user,_) in
+    func loadUserMovies(userID: String){
+        usertransaction.fetchUserInfo(userID){ [weak self] (user,response) in
+            //TODO: error
+            
             guard let strongSelf = self, profileUser = user else { return }
+            
+            strongSelf.emit(strongSelf.state.addActivity())
             strongSelf.emit(strongSelf.state.loadUserInfo(profileUser))
             
+            strongSelf.loadUserMovies(profileUser)
             
+            strongSelf.emit(strongSelf.state.removeActivity())
         }
     }
     
-    
+    func loadUserMovies(user: User){
+        self.emit(self.state.addActivity())
+        
+        self.usertransaction.fetchUserMovies(user.uid!, type: self.state.currentType){ response,movies in
+            
+            if response == .success {
+                self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
+            } else {
+            //TODO: error
+            }
+        }
+        self.emit(self.state.removeActivity())
+    }
     
     
     
@@ -41,6 +59,8 @@ class UserProfileViewModel{
         } else {
             state.setCurrentType(.didWatch)
         }
+        
+        self.loadUserMovies(state.userInfo!)
     }
 }
 
@@ -50,7 +70,6 @@ extension UserProfileViewModel.State {
         case none
         case movies(CollectionChange, MovieStatus)
         case loading(LoadingState)
-        case change(MovieStatus)
         case loadUserInfo(User)
     }
     mutating func setUser(info: User){
@@ -91,6 +110,7 @@ extension UserProfileViewModel.State {
             return .movies(.reload, .willWatch)
         }
     }
+    
     
     mutating func removeMovieAtIndex(index: Int, type: MovieStatus) -> Change {
         switch type {

@@ -45,7 +45,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             applyStateChange(.emptyError)
             return
         }
-        let email = username + "@goodmoviesapp.com"
+        let email = username + "@mymoviesapp.com"
         
         registerButton.enabled = false
         loading.showIn(true)

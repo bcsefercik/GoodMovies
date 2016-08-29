@@ -28,18 +28,39 @@ class UserTransaction {
     }
     
     func fetchUserMovies(userID: String, type: MovieStatus, completion: (DBResponse, movies: [Movie]) -> Void){
+        let realUserID = userID.stringByReplacingOccurrencesOfString(UserConstants.currentUserID, withString: database.uid!)
+        var key: String
         
+        switch type {
+        case .didWatch:
+            key = "didWatch"
+        default:
+            key = "willWatch"
+        }
+        
+        database.fetch(key, orderBy: "date", path: "movies/\(realUserID)/"){ (response, values) in
+            switch response {
+            case .success:
+                let movies = values.map{ (r) -> Movie in
+                    let name = r["title"]!
+                    let year = r["year"]!
+                    let imdbID = r["mainKey"]!
+                    let poster = r["poster"]!
+                    let date: Double = -Double(r["date"]!)!
+                    return Movie(name: name, year: year, imdbID: imdbID, poster: poster, status: type, date: date)
+                }
+                completion(.success, movies: movies)
+            default:
+                completion(.error(.empty), movies: [Movie]())
+            }
+        }
     }
     
-    func fetch(){
-    }
     
     func fetchUserInfo(userID: String, completion: (User?, DBResponse) -> Void){
         let realUserID = userID.stringByReplacingOccurrencesOfString(UserConstants.currentUserID, withString: database.uid!)
-        let dispatchGroup = dispatch_group_create()
         var userInfo: [String:String] = [:]
         var finalResponse = DBResponse.success
-        dispatch_group_enter(dispatchGroup)
         
         database.fetchDict(realUserID, path: "users/"){ [unowned self] (response, val) in
             switch response {
@@ -51,7 +72,6 @@ class UserTransaction {
                 for v in values {
                     userInfo.updateValue(v.1, forKey: v.0)
                 }
-                
                 self.database.nodeCount("movies/\(realUserID)/willWatch/"){ count,_ in
                     userInfo.updateValue(String(count), forKey: "willWatchCount")
                     self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count,_ in

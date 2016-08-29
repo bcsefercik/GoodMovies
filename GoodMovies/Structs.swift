@@ -16,7 +16,7 @@ struct Color{
 }
 
 enum CollectionChange {
-    
+    case initialize
     case insertion(Int)
     case deletion(Int)
     case reload

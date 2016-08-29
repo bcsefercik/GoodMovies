@@ -9,40 +9,22 @@
 import UIKit
 
 struct UserProfilePresentation{
-    var willWatch: [MoviePresentation] = []
-    var didWatch: [MoviePresentation] = []
+    var movies: [ProfileMoviePresentation] = []
     var currentType = MovieStatus.willWatch
     var profileUser: User?
     
     mutating func update(withState state: UserProfileViewModel.State, type: MovieStatus){
         switch type {
         case .didWatch:
-            didWatch = state.didWatch.map{(movie) -> MoviePresentation in
-                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+            movies = state.didWatch.map{(movie) -> ProfileMoviePresentation in
+                return ProfileMoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster, userDate: movie.date)
             }
-        case .willWatch:
-            willWatch = state.willWatch.map{(movie) -> MoviePresentation in
-                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
-            }
-        case .none:
-            didWatch = state.didWatch.map{(movie) -> MoviePresentation in
-                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
-            }
-            willWatch = state.willWatch.map{(movie) -> MoviePresentation in
-                return MoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster)
+        default:
+            movies = state.willWatch.map{(movie) -> ProfileMoviePresentation in
+                return ProfileMoviePresentation(imdbID: movie.imdbID, title: movie.name, year: "\(movie.year)", poster: movie.poster, userDate: movie.date)
             }
         }
         currentType = state.currentType
-    }
-    var movieCount: Int{
-        get{
-            switch currentType {
-            case .didWatch:
-                return didWatch.count
-            default:
-                return willWatch.count
-            }
-        }
     }
     
     mutating func setUser(u: User){
@@ -80,7 +62,7 @@ class UserProfileViewController: UITableViewController {
         
         loading?.showOverlay(navigationController?.view, text: "Loading...")
         
-        model.initialize(userID)
+        model.loadUserMovies(userID)
         
     }
     
@@ -100,6 +82,8 @@ class UserProfileViewController: UITableViewController {
             
             switch change {
             case .reload:
+                infoRowCount = 2
+                presentation.update(withState: model.state, type: type)
                 tableView.reloadData()
                 loading?.hideOverlayView()
                 
@@ -117,8 +101,6 @@ class UserProfileViewController: UITableViewController {
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
             }
-        case .change(let type):
-            break
         case .loadUserInfo(let u):
             presentation.setUser(u)
             navigationItem.title = presentation.profileUser?.username
@@ -144,6 +126,8 @@ class UserProfileViewController: UITableViewController {
 
     @IBAction func segmentedChanged(sender: UISegmentedControl) {
         model.switchType()
+        
+        loading?.showOverlay(navigationController?.view, text: "Fetching movies...")
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -164,9 +148,13 @@ class UserProfileViewController: UITableViewController {
             cell.layoutMargins = UIEdgeInsetsZero
             return cell
         default:
-            let templateCell = tableView.dequeueReusableCellWithIdentifier(Const.movieReuseID) as? UserProfileMovieCell
-            templateCell!.layoutMargins = UIEdgeInsetsZero
-            return templateCell!
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.movieReuseID) as! UserProfileMovieCell
+            cell.layoutMargins = UIEdgeInsetsZero
+            let mp = presentation.movies[indexPath.row-infoRowCount]
+            cell.profileMoviePoster.kf_setImageWithURL(mp.poster)
+            cell.profileMovieTitle.text = mp.title
+            cell.profileMovieYear.text = mp.year
+            return cell
             
         }
         
@@ -179,7 +167,7 @@ class UserProfileViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentation.movieCount+infoRowCount
+        return presentation.movies.count+infoRowCount
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -189,5 +177,24 @@ class UserProfileViewController: UITableViewController {
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        router.goToMovie(presentation.movies[indexPath.row-infoRowCount].imdbID, sender: self.navigationController!)
+
+    }
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        if indexPath.row>1 {
+            return .Delete
+        } else {
+            return .None
+        }
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        //model.removeMovieAtIndex(indexPath.row)
+    }
+    
 
 }
