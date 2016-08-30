@@ -35,7 +35,7 @@ class UserProfileViewModel{
     func loadUserMovies(user: User){
         self.emit(self.state.addActivity())
         
-        self.usertransaction.fetchUserMovies(user.uid!, type: self.state.currentType){ response,movies in
+        self.usertransaction.fetchUserMovies(user.uid, type: self.state.currentType){ response,movies in
             
             if response == .success {
                 self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
