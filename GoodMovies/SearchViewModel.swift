@@ -53,7 +53,9 @@ class SearchViewModel{
             }
         }
         
-        usertransaction.searchUser()
+        usertransaction.searchUser("harold"){ _,result in
+            print(result)
+        }
     }
 
     func loadMore(){

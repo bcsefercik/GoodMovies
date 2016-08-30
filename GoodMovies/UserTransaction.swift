@@ -106,8 +106,20 @@ class UserTransaction {
         
     }
     
-    func searchUser(){
-        database.serachDict("harold", key: "name", path: "users/"){ _,_ in
+    func searchUser(text: String, completion: (DBResponse, [String:[String:String]]?) -> Void){
+        database.searchDict(text, key: "name", path: "users/"){ response1,result1 in
+            if response1 == .success{
+                guard let add1 = result1 as? [String : [String:String]] else {
+                    completion(.error(.serverError), nil)
+                    return
+                }
+                
+                completion(.success, add1)
+                return
+            } else {
+                completion(.error(.serverError), nil)
+                return
+            }
             
         }
     }

@@ -134,7 +134,7 @@ class UserProfileViewController: UITableViewController {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.infoReuseID) as! UserProfileInfoViewCell
-            cell.nameLabel.text = presentation.profileUser?.name
+            cell.nameLabel.text = presentation.profileUser?.name?.capitalizedString
             cell.moviesLabel.text = "\(presentation.profileUser!.didWatchCount! + presentation.profileUser!.willWatchCount!)"
             cell.followersLabel.text = "\(presentation.profileUser!.followerCount!)"
             cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"

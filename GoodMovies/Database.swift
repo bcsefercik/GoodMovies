@@ -116,21 +116,29 @@ class DatabaseAdapter {
         
     }
     
-    func serachDict(text: String, key: String, path: String, completion: (DBResponse, [String:AnyObject]) -> Void){
-        var result: [String:String] = [:]
+    func searchDict(text: String, key: String, path: String, completion: (DBResponse, [String:AnyObject]) -> Void){
+        var result: [String:AnyObject] = [:]
         let ref = base.child("\(path)").queryOrderedByChild(key).queryStartingAtValue(text)
-        print(ref)
         
         ref.observeEventType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
-                completion(.error(.empty), [String:AnyObject]())
+                completion(.error(.serverError), [String:AnyObject]())
             } else {
-                print(snapshot)
+                for snap in snapshot.children.allObjects {
+                    let mainKey = snap.key!!
+                    var val: [String:String] = [:]
+                    for s in snap.children.allObjects {
+                        let k = s.key!!
+                        let v = s.value!!
+                        val.updateValue(v, forKey: k)
+                    }
+                    result.updateValue(val, forKey: mainKey)
+                }
+                
                 completion(.success, result)
             }
             return
         })
-        
     }
     
     func nodeCount(path: String, completion: (UInt, DBResponse) -> Void){
