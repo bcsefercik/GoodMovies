@@ -73,17 +73,13 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
         }
-        
+        let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 18.0)!, forKey: NSFontAttributeName)
         self.segments.layer.cornerRadius = 0;
-        self.segments.layer.borderColor = Color.midnightBlue.CGColor
+        self.segments.tintColor = Color.wetAsphalt
+        self.segments.layer.borderColor = self.segments.tintColor.CGColor
         self.segments.layer.borderWidth = 1.5;
         self.segments.layer.masksToBounds = true
-        segments.
-//        let bottomBorder = CALayer()
-//        bottomBorder.frame = CGRectMake(0, segmentView.bounds.size.height-0.5, segmentView.bounds.size.width, 0.5)
-//        bottomBorder.backgroundColor = UIColor.lightGrayColor().CGColor
-//        segmentView.layer.addSublayer(bottomBorder)
-        
+        self.segments.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
     }
     @IBAction func typeChanged(sender: UISegmentedControl) {
         model.switchType()
@@ -168,9 +164,13 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             if presentation.userSearch {
                 let cell = tableView.dequeueReusableCellWithIdentifier(Const.userReuseID) as! SearchUserViewCell
                 let userPresentation = presentation.users[indexPath.row]
-                
+                cell.profilePicture.kf_setImageWithURL(userPresentation.picture)
+                cell.profilePicture.layer.cornerRadius = 31
+                cell.profilePicture.layer.masksToBounds = true
+                cell.userNameLabel.text = userPresentation.name.capitalizedString
+                cell.userUsernameLabel.text = userPresentation.username
                 cell.backgroundColor = Color.clouds
-                cell.layoutMargins = UIEdgeInsetsZero
+                cell.layoutMargins = UIEdgeInsets(top: 0, left: 78, bottom: 0, right: 0)
                 return cell
             } else {
                 var templateCell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID)
@@ -224,7 +224,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let lastElement = presentation.movies.count
-        if indexPath.row != lastElement{
+        if indexPath.row != lastElement && !presentation.userSearch{
             let willWatch = UITableViewRowAction(style: .Normal, title: "🤔") { (action, indexPath) in
                 // delete item at indexPath
             }
@@ -250,7 +250,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
-        router.goToMovie(presentation.movies[indexPath.row].imdbID, sender: self.navigationController!)
+        if presentation.userSearch {
+            router.goToProfile(presentation.users[indexPath.row].uid, sender: self.navigationController!)
+        } else {
+            router.goToMovie(presentation.movies[indexPath.row].imdbID, sender: self.navigationController!)
+        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

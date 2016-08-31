@@ -64,6 +64,8 @@ class UserProfileViewController: UITableViewController {
         
         model.loadUserMovies(userID)
         
+        navigationItem.backBarButtonItem?.tintColor = Color.clouds
+        navigationController?.navigationBar.tintColor = Color.clouds
     }
     
     
@@ -119,6 +121,9 @@ class UserProfileViewController: UITableViewController {
             
             loading?.hideOverlayView()
         }
+        
+        
+        loading?.hideOverlayView()
     }
 
     
@@ -145,6 +150,7 @@ class UserProfileViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.pickerReuseID) as! UserProfilePickerCell
             cell.movieTypePicker.setTitle("\(Constants.willIcon) Will Watch", forSegmentAtIndex: 0)
             cell.movieTypePicker.setTitle("\(Constants.didIcon) Watched", forSegmentAtIndex: 1)
+            cell.movieTypePicker.setTitleTextAttributes([NSForegroundColorAttributeName:Color.clouds], forState: .Selected)
             cell.layoutMargins = UIEdgeInsetsZero
             return cell
         default:
