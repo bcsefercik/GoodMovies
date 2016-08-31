@@ -47,7 +47,7 @@ class SearchViewModel{
                     var fetchedUsers: [UserSimple] = []
                     
                     for user in result! {
-                        fetchedUsers.append(UserSimple(name: user.1["name"]!, username: user.1["username"]!, uid: user.0, picture: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/048/24d/228b7e9.jpg"))
+                        fetchedUsers.append(UserSimple(name: user.1["name"]!, username: user.1["username"]!, uid: user.0.stringByReplacingOccurrencesOfString(strongSelf.usertransaction.cUserID, withString: UserConstants.currentUserID), picture: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/048/24d/228b7e9.jpg"))
                     }
                     strongSelf.emit(strongSelf.state.reloadUsers(fetchedUsers))
                     strongSelf.emit(strongSelf.state.removeActivity())

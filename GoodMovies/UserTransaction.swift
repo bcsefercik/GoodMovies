@@ -2,6 +2,11 @@ import Foundation
 
 class UserTransaction {
     private let database = DatabaseAdapter()
+    var cUserID: String {
+        get {
+            return database.uid!
+        }
+    }
     func addMovie(movie: Movie, completion: ((DBResponse) ->  Void)?){
         var movieStatus = "willWatch"
         if movie.status == MovieStatus.didWatch {

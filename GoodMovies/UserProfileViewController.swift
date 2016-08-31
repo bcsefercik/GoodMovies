@@ -53,6 +53,8 @@ class UserProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(userID)
+        
         loading = LoadingOverlay()
         self.applyState(model.state)
         
