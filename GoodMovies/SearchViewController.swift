@@ -42,7 +42,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     var loading: LoadingOverlay?
     
     var searchText: String?
-    @IBOutlet weak var segmentView: UIView!
+    @IBOutlet weak var segments: UISegmentedControl!
     
     lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRectMake(0, 0, self.navigationController!.navigationBar.bounds.width, 20))
     
@@ -74,11 +74,15 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             self?.applyStateChange(change)
         }
         
-        
-        let bottomBorder = CALayer()
-        bottomBorder.frame = CGRectMake(0, segmentView.bounds.size.height-0.5, segmentView.bounds.size.width, 0.5)
-        bottomBorder.backgroundColor = UIColor.lightGrayColor().CGColor
-        segmentView.layer.addSublayer(bottomBorder)
+        self.segments.layer.cornerRadius = 0;
+        self.segments.layer.borderColor = Color.midnightBlue.CGColor
+        self.segments.layer.borderWidth = 1.5;
+        self.segments.layer.masksToBounds = true
+        segments.
+//        let bottomBorder = CALayer()
+//        bottomBorder.frame = CGRectMake(0, segmentView.bounds.size.height-0.5, segmentView.bounds.size.width, 0.5)
+//        bottomBorder.backgroundColor = UIColor.lightGrayColor().CGColor
+//        segmentView.layer.addSublayer(bottomBorder)
         
     }
     @IBAction func typeChanged(sender: UISegmentedControl) {
