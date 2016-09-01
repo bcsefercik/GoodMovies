@@ -15,6 +15,25 @@ struct Color{
     static let clouds = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
 }
 
+extension UIColor{
+    convenience init(red: CGFloat, green: CGFloat, blue: CGFloat){
+        self.init (red: red/255, green: green/255, blue: blue/255, alpha:1)
+    }
+    
+    convenience init(rgb: Int, alpha: CGFloat) {
+        let r = CGFloat((rgb & 0xFF0000) >> 16)/255
+        let g = CGFloat((rgb & 0xFF00) >> 8)/255
+        let b = CGFloat(rgb & 0xFF)/255
+        self.init(red: r, green: g, blue: b, alpha: alpha)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(rgb:rgb, alpha:1.0)
+    }
+}
+
+
+
 enum CollectionChange {
     case initialize
     case insertion(Int)

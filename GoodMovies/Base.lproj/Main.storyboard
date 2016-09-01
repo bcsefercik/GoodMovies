@@ -850,6 +850,38 @@
             </objects>
             <point key="canvasLocation" x="2489" y="1110"/>
         </scene>
+        <!--Second View Controller-->
+        <scene sceneID="NxC-5J-AW7">
+            <objects>
+                <viewController id="FnR-vS-tcH" customClass="SecondViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DvI-dS-uru"/>
+                        <viewControllerLayoutGuide type="bottom" id="s5o-Vr-9DE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EJ1-vH-NT8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAe-Mr-foG">
+                                <rect key="frame" x="277" y="286" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="showColorPickerProgrammatically:" destination="FnR-vS-tcH" eventType="touchUpInside" id="UgW-ds-1OI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mAe-Mr-foG" firstAttribute="centerY" secondItem="EJ1-vH-NT8" secondAttribute="centerY" id="CC7-fo-kRf"/>
+                            <constraint firstItem="mAe-Mr-foG" firstAttribute="centerX" secondItem="EJ1-vH-NT8" secondAttribute="centerX" id="kSc-Cs-qlx"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" systemItem="featured" id="35n-OI-jsh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V0M-qa-2Dt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1812" y="53"/>
+        </scene>
         <!--Tabs View Controller-->
         <scene sceneID="eC5-be-7rr">
             <objects>

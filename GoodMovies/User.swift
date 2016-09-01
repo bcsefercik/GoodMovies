@@ -8,8 +8,10 @@ struct User{
     let followerCount: Int?
     let followingCount: Int?
     let picture: NSURL?
+    let fgColor: String
+    let bgColor: String
     
-    init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String){
+    init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String, foregroundColor: String, backgroundColor: String){
         self.uid = uid
         self.username = username
         self.name = name
@@ -18,6 +20,12 @@ struct User{
         self.followerCount = followerCount
         self.followingCount = followingCount
         self.picture = NSURL(string: picture)!
+        self.fgColor = foregroundColor
+        self.bgColor = backgroundColor
+    }
+    
+    init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String){
+        self.init(uid: uid, username: username, name: name, willWatchCount: willWatchCount, didWatchCount: didWatchCount, followerCount: followerCount, followingCount: followingCount, picture: picture, foregroundColor: "", backgroundColor: "")
     }
 }
 

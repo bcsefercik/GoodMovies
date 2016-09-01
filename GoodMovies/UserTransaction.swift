@@ -2,6 +2,7 @@ import Foundation
 
 class UserTransaction {
     private let database = DatabaseAdapter()
+    private let defaultPicture = "http://staffprofiles.bournemouth.ac.uk/library/images/nopicture-male.jpg"
     var cUserID: String {
         get {
             return database.uid!
@@ -85,13 +86,23 @@ class UserTransaction {
                             userInfo.updateValue(String(count), forKey: "followerCount")
                             self.database.nodeCount("users/\(realUserID)/following/"){ count,_ in
                                 userInfo.updateValue(String(count), forKey: "followingCount")
-                                guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"] else {
+                                guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
                                     finalResponse = .error(.empty)
                                     completion(nil, finalResponse)
                                     return
                                 }
                                 
-                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount), didWatchCount: Int(uDidWatchCount), followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: uPicture)
+                                var uFgColor, uBgColor: String
+                                
+                                if (userInfo["fgColor"] == nil || userInfo["bgColor"] == nil){
+                                    uFgColor = ""
+                                    uBgColor = ""
+                                } else {
+                                    uFgColor = userInfo["fgColor"]!
+                                    uBgColor = userInfo["bgColor"]!
+                                }
+                                
+                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount), didWatchCount: Int(uDidWatchCount), followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
                                 
                                 completion(user,finalResponse)
                                 return

@@ -69,6 +69,10 @@ class UserProfileViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = Color.clouds
     }
     
+    func isCurrentUser() -> Bool{
+        return UserConstants.currentUserID == userID
+    }
+    
     
     func applyState(state: UserProfileViewModel.State){
         presentation.update(withState: state, type: .willWatch)
@@ -147,9 +151,6 @@ class UserProfileViewController: UITableViewController {
             cell.profilePicture.kf_setImageWithURL(presentation.profileUser!.picture!)
             cell.profilePicture.layer.masksToBounds = true
             cell.profilePicture.layer.cornerRadius = 75
-            cell.profilePicture.layer.shadowOffset = CGSize(width: 40, height: 40)
-            cell.profilePicture.layer.shadowOpacity = 0.7
-            cell.profilePicture.layer.shadowRadius = 2
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor.whiteColor()
             return cell
