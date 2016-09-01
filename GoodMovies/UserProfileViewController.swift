@@ -54,14 +54,13 @@ class UserProfileViewController: UITableViewController {
         super.viewDidLoad()
         
         
-        loading = LoadingOverlay()
         self.applyState(model.state)
         
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
         }
         
-        loading?.showOverlay(navigationController?.view, text: "Loading...")
+        LoadingOverlay.shared.showOverlay(navigationController?.view, text: "Loading...")
         
         model.loadUserMovies(userID)
         
@@ -92,7 +91,7 @@ class UserProfileViewController: UITableViewController {
                 infoRowCount = 2
                 presentation.update(withState: model.state, type: type)
                 tableView.reloadData()
-                loading?.hideOverlayView()
+                LoadingOverlay.shared.hideOverlayView()
                 
             case .deletion(let index):
                 tableView.deleteRowsAtIndexPaths(
@@ -124,11 +123,9 @@ class UserProfileViewController: UITableViewController {
             alert.addAction(cancelAction)
             presentViewController(alert, animated: true, completion: nil)
             
-            loading?.hideOverlayView()
+            LoadingOverlay.shared.hideOverlayView()
         }
-        
-        
-        loading?.hideOverlayView()
+        LoadingOverlay.shared.hideOverlayView()
     }
 
     
@@ -136,8 +133,7 @@ class UserProfileViewController: UITableViewController {
 
     @IBAction func segmentedChanged(sender: UISegmentedControl) {
         model.switchType()
-        
-        loading?.showOverlay(navigationController?.view, text: "Fetching movies...")
+        LoadingOverlay.shared.showOverlay(navigationController?.view, text: "Fetching movies...")
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

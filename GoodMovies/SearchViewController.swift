@@ -66,7 +66,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         
         model.search(searchFor: "bcs")
         
-        loading = LoadingOverlay()
         self.applyState(model.state)
         
         
@@ -83,7 +82,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     }
     @IBAction func typeChanged(sender: UISegmentedControl) {
         model.switchType()
-        loading?.showOverlay(self.navigationController?.view, text: "Loading...")
+        LoadingOverlay.shared.showOverlay(self.navigationController?.view, text: "Loading...")
     }
     
     func applyState(state: SearchViewModel.State){
@@ -102,7 +101,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             switch change {
             case .reload:
                 tableView.reloadData()
-                loading?.hideOverlayView()
+                LoadingOverlay.shared.hideOverlayView()
                 
             default:
                 break
@@ -124,7 +123,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             alert.addAction(cancelAction)
             presentViewController(alert, animated: true, completion: nil)
             
-            loading?.hideOverlayView()
+            LoadingOverlay.shared.hideOverlayView()
         }
     }
     
@@ -133,7 +132,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         searchText = searchBar.text!
         model.search(searchFor: searchText!)
         tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
-        loading!.showOverlay(self.navigationController?.view, text: "Searching...")
+        LoadingOverlay.shared.showOverlay(self.navigationController?.view, text: "Searching...")
         
     }
     
@@ -147,7 +146,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
-        loading?.hideOverlayView()
+        LoadingOverlay.shared.hideOverlayView()
         searchBar.setShowsCancelButton(false, animated: true)
     }
 

@@ -46,8 +46,7 @@ class MovieInfoTableViewController: UITableViewController {
         tableView.backgroundColor = Color.clouds
         tableView.allowsSelection = false
         
-        loading = LoadingOverlay()
-        loading?.showOverlay(self.navigationController?.view, text: "Getting movie...")
+        LoadingOverlay.shared.showOverlay(self.navigationController?.view, text: "Getting movie...")
         
         model.fetchMovie(self.imdbID!)
         
@@ -80,16 +79,13 @@ class MovieInfoTableViewController: UITableViewController {
             switch status {
             case .didWatch:
                 tableView.reloadData()
-                loading?.hideOverlayView()
             case .willWatch:
                 tableView.reloadData()
-                loading?.hideOverlayView()
             case .none:
                 tableView.reloadData()
-                loading?.hideOverlayView()
-                break
             }
             
+            LoadingOverlay.shared.hideOverlayView()
         case .loading(let loadingState):
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
@@ -105,13 +101,13 @@ class MovieInfoTableViewController: UITableViewController {
             alert.addAction(cancelAction)
             presentViewController(alert, animated: true, completion: nil)
             
-            loading?.hideOverlayView()
+            LoadingOverlay.shared.hideOverlayView()
         case .initialize:
             presentation.update(withState: model.state)
             secCount = 1
             rowCount = 10
             self.tableView.reloadData()
-            loading?.hideOverlayView()
+            LoadingOverlay.shared.hideOverlayView()
         }
         
     }
@@ -165,10 +161,12 @@ class MovieInfoTableViewController: UITableViewController {
         newImageView.backgroundColor = .blackColor()
         newImageView.contentMode = .ScaleAspectFit
         newImageView.userInteractionEnabled = true
-        view.addSubview(newImageView)
+        LoadingOverlay.shared.showOverlay(self.navigationController!.view, text: "Loading image...")
+        self.navigationController?.view.addSubview(newImageView)
     }
 
     func dismissFullscreenImage(sender: UITapGestureRecognizer) {
+        LoadingOverlay.shared.hideOverlayView()
         sender.view?.removeFromSuperview()
     }
     
@@ -184,7 +182,7 @@ class MovieInfoTableViewController: UITableViewController {
 
     override func viewWillDisappear(animated : Bool) {
         super.viewWillDisappear(animated)
-        loading?.hideOverlayView()
+        LoadingOverlay.shared.hideOverlayView()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

@@ -22,7 +22,6 @@ public class LoadingOverlay{
         
         textLabel = UILabel(frame: CGRect(x: 15, y: 72, width: 100, height: 50))
         textLabel.textAlignment = .Center
-        textLabel.text = "Signing up..."
         textLabel.textColor = UIColor.whiteColor()
         textLabel.font = UIFont(name: "HelveticaNeue-Light", size: 26)
         textLabel.adjustsFontSizeToFitWidth = true

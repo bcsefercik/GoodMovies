@@ -36,6 +36,9 @@
 		C2BF469E1D6AE4C1006B86D7 /* MovieInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF469D1D6AE4C1006B86D7 /* MovieInfoViewModel.swift */; };
 		C2BF46A01D6AE4DB006B86D7 /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF469F1D6AE4DB006B86D7 /* MovieDetail.swift */; };
 		C2C3FB9A1D65806C003863FF /* Presentations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3FB991D65806C003863FF /* Presentations.swift */; };
+		C2CB29B61D782E30001023E5 /* BCSColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB29B51D782E30001023E5 /* BCSColorPicker.swift */; };
+		C2CB29B91D782E6F001023E5 /* BCSColorPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB29B81D782E6F001023E5 /* BCSColorPickerCell.swift */; };
+		C2CB29BB1D783BCC001023E5 /* HaydarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB29BA1D783BCC001023E5 /* HaydarViewController.swift */; };
 		C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76621D61DB8000626786 /* RegisterViewController.swift */; };
 		C2DD76651D61DBA300626786 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DD76641D61DBA300626786 /* RegisterViewModel.swift */; };
 		C2DD76671D61EBF100626786 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2DD76661D61EBF100626786 /* LoadingView.xib */; };
@@ -84,6 +87,9 @@
 		C2BF469D1D6AE4C1006B86D7 /* MovieInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieInfoViewModel.swift; sourceTree = "<group>"; };
 		C2BF469F1D6AE4DB006B86D7 /* MovieDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
 		C2C3FB991D65806C003863FF /* Presentations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentations.swift; sourceTree = "<group>"; };
+		C2CB29B51D782E30001023E5 /* BCSColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCSColorPicker.swift; sourceTree = "<group>"; };
+		C2CB29B81D782E6F001023E5 /* BCSColorPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCSColorPickerCell.swift; sourceTree = "<group>"; };
+		C2CB29BA1D783BCC001023E5 /* HaydarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HaydarViewController.swift; sourceTree = "<group>"; };
 		C2DD76621D61DB8000626786 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C2DD76641D61DBA300626786 /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		C2DD76661D61EBF100626786 /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
@@ -209,6 +215,16 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		C2CB29B71D782E43001023E5 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				C2CB29B51D782E30001023E5 /* BCSColorPicker.swift */,
+				C2CB29B81D782E6F001023E5 /* BCSColorPickerCell.swift */,
+				C2CB29BA1D783BCC001023E5 /* HaydarViewController.swift */,
+			);
+			name = Collection;
+			sourceTree = "<group>";
+		};
 		C2DE130E1D5DC88B00698C12 = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +263,7 @@
 				C2ECC3A21D6479DF0024A257 /* Search */,
 				C284D2EB1D6B182500F7B2A3 /* MovieInfo */,
 				C22624391D6D88DE00DEE400 /* UserProfile */,
+				C2CB29B71D782E43001023E5 /* Collection */,
 			);
 			path = GoodMovies;
 			sourceTree = "<group>";
@@ -406,10 +423,12 @@
 				C2321B1F1D5DCB0600223DBF /* LoginViewController.swift in Sources */,
 				C2DD76631D61DB8000626786 /* RegisterViewController.swift in Sources */,
 				C2ECC3991D6438E30024A257 /* SearchViewController.swift in Sources */,
+				C2CB29B61D782E30001023E5 /* BCSColorPicker.swift in Sources */,
 				C284D2EA1D6B17E000F7B2A3 /* MovieInfoTitleCell.swift in Sources */,
 				C2B9CBAD1D6C159C00AF64D1 /* MovieInfoPosterCell.swift in Sources */,
 				C2DE131B1D5DC88C00698C12 /* AppDelegate.swift in Sources */,
 				4EAA62A71D75B705006C3CFC /* Extensions.swift in Sources */,
+				C2CB29BB1D783BCC001023E5 /* HaydarViewController.swift in Sources */,
 				C2E07CAA1D66E91F00244D5E /* SearchNetwork.swift in Sources */,
 				C2ECC39D1D64580C0024A257 /* UserTransaction.swift in Sources */,
 				C2ECC39F1D6459D00024A257 /* Database.swift in Sources */,
@@ -419,6 +438,7 @@
 				C2E07CAC1D66E9E300244D5E /* Network.swift in Sources */,
 				C2BF469B1D6AD6CF006B86D7 /* Router.swift in Sources */,
 				C226243E1D6D926400DEE400 /* UserProfilePickerCell.swift in Sources */,
+				C2CB29B91D782E6F001023E5 /* BCSColorPickerCell.swift in Sources */,
 				4E370AB81D6A2F2200C52A16 /* LoadingOverlay.swift in Sources */,
 				C2321B211D5DCB1400223DBF /* LoginViewModel.swift in Sources */,
 				C2BF46A01D6AE4DB006B86D7 /* MovieDetail.swift in Sources */,
