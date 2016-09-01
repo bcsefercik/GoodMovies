@@ -83,6 +83,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     }
     @IBAction func typeChanged(sender: UISegmentedControl) {
         model.switchType()
+        loading?.showOverlay(self.navigationController?.view, text: "Loading...")
     }
     
     func applyState(state: SearchViewModel.State){
@@ -100,8 +101,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             
             switch change {
             case .reload:
-                print(presentation.userSearch)
-                print(presentation.users)
                 tableView.reloadData()
                 loading?.hideOverlayView()
                 

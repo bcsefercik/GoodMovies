@@ -8,6 +8,17 @@ struct User{
     let followerCount: Int?
     let followingCount: Int?
     let picture: NSURL?
+    
+    init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String){
+        self.uid = uid
+        self.username = username
+        self.name = name
+        self.willWatchCount = willWatchCount
+        self.didWatchCount = didWatchCount
+        self.followerCount = followerCount
+        self.followingCount = followingCount
+        self.picture = NSURL(string: picture)!
+    }
 }
 
 

@@ -85,13 +85,13 @@ class UserTransaction {
                             userInfo.updateValue(String(count), forKey: "followerCount")
                             self.database.nodeCount("users/\(realUserID)/following/"){ count,_ in
                                 userInfo.updateValue(String(count), forKey: "followingCount")
-                                guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"] else {
+                                guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"] else {
                                     finalResponse = .error(.empty)
                                     completion(nil, finalResponse)
                                     return
                                 }
                                 
-                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount), didWatchCount: Int(uDidWatchCount), followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: nil)
+                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount), didWatchCount: Int(uDidWatchCount), followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: uPicture)
                                 
                                 completion(user,finalResponse)
                                 return

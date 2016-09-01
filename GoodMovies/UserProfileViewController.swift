@@ -53,7 +53,6 @@ class UserProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(userID)
         
         loading = LoadingOverlay()
         self.applyState(model.state)
@@ -145,6 +144,12 @@ class UserProfileViewController: UITableViewController {
             cell.moviesLabel.text = "\(presentation.profileUser!.didWatchCount! + presentation.profileUser!.willWatchCount!)"
             cell.followersLabel.text = "\(presentation.profileUser!.followerCount!)"
             cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"
+            cell.profilePicture.kf_setImageWithURL(presentation.profileUser!.picture!)
+            cell.profilePicture.layer.masksToBounds = true
+            cell.profilePicture.layer.cornerRadius = 75
+            cell.profilePicture.layer.shadowOffset = CGSize(width: 40, height: 40)
+            cell.profilePicture.layer.shadowOpacity = 0.7
+            cell.profilePicture.layer.shadowRadius = 2
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor.whiteColor()
             return cell

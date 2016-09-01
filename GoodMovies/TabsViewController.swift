@@ -21,7 +21,7 @@ class TabsViewController: UITabBarController {
 //        } catch let logoutError {
 //            print(logoutError)
 //        }
-        
+//        
         
         tabBar.barTintColor = Color.midnightBlue
         tabBar.tintColor = UIColor.whiteColor()
@@ -30,3 +30,4 @@ class TabsViewController: UITabBarController {
         // Do any additional setup after loading the view.
     }    
 }
+ 

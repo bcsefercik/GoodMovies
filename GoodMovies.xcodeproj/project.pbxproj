@@ -557,7 +557,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymoviess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -570,7 +570,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymoviess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
