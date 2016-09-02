@@ -28,11 +28,6 @@ class HaydarViewController: UIViewController {
             self?.selectionAction(color,index: index)
         }
 
-        colorPickerVC.modalPresentationStyle = .Popover
-        let popVC = colorPickerVC.popoverPresentationController!;
-        popVC.sourceRect = sender.frame
-        popVC.sourceView = self.view
-        popVC.permittedArrowDirections = .Any
         
         self.presentViewController(colorPickerVC, animated: true, completion: nil)
         //self.presentViewController(nextViewController, animated: true, completion: nil)
