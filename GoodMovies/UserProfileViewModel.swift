@@ -9,6 +9,7 @@ class UserProfileViewModel{
         var didWatch: [Movie] = []
         var currentType = MovieStatus.willWatch
         var userInfo: User?
+        var profileStatus = UserProfileViewModel.Status.none
     }
 
     
@@ -18,6 +19,10 @@ class UserProfileViewModel{
     private let usertransaction = UserTransaction()
     
     func loadUserMovies(userID: String){
+        if userID == UserConstants.currentUserID {
+            state.profileStatus = .currentUser
+        }
+        
         usertransaction.fetchUserInfo(userID){ [weak self] (user,response) in
             //TODO: error
             
@@ -37,9 +42,17 @@ class UserProfileViewModel{
         
         self.usertransaction.fetchUserMovies(user.uid, type: self.state.currentType){ response,movies in
             
-            if response == .success {
-                self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
+            if response == .success || response == .error(.empty){
+                switch self.state.profileStatus {
+                case .currentUser:
+                    self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
+                default:
+                    self.usertransaction.isFollowing((self.state.userInfo?.uid)!, followerID: self.usertransaction.cUserID, completion: <#T##((DBResponse, Bool) -> Void)?##((DBResponse, Bool) -> Void)?##(DBResponse, Bool) -> Void#>)
+                }
+                
+                
             } else {
+            
             //TODO: error
             }
         }
@@ -61,6 +74,12 @@ class UserProfileViewModel{
         }
         
         self.loadUserMovies(state.userInfo!)
+    }
+    
+    enum Status {
+        case currentUser
+        case following
+        case none
     }
 }
 

@@ -140,6 +140,15 @@ class UserTransaction {
         }
     }
     
-    
+    func isFollowing(userID: String, followerID: String, completion: ((DBResponse, Bool) -> Void)?){
+        database.fetchDict(followerID, path: "users/\(userID)/followers/"){ response,_ in
+            if response == .success {
+                completion?(response,true)
+            } else {
+                completion?(response,false)
+            }
+            return
+        }
+    }
     
 }

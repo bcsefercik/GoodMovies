@@ -128,12 +128,13 @@ class UserProfileViewController: UITableViewController {
         LoadingOverlay.shared.hideOverlayView()
     }
 
-    
-    
-
     @IBAction func segmentedChanged(sender: UISegmentedControl) {
         model.switchType()
         LoadingOverlay.shared.showOverlay(navigationController?.view, text: "Fetching movies...")
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        LoadingOverlay.shared.hideOverlayView()
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

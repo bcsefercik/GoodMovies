@@ -262,4 +262,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        LoadingOverlay.shared.hideOverlayView()
+    }
 }
