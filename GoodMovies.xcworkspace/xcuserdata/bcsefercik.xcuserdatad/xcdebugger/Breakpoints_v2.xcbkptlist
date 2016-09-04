@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/UserProfileViewModel.swift"
-            timestampString = "494704311.493985"
+            timestampString = "494715940.294284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "loadUserMovies(_:)"
             landmarkType = "5">
          </BreakpointContent>

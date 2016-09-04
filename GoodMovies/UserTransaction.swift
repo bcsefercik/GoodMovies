@@ -82,9 +82,9 @@ class UserTransaction {
                     userInfo.updateValue(String(count), forKey: "willWatchCount")
                     self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count,_ in
                         userInfo.updateValue(String(count), forKey: "didWatchCount")
-                        self.database.nodeCount("users/\(realUserID)/followers/"){ count,_ in
+                        self.database.nodeCount("followers/\(realUserID)/"){ count,_ in
                             userInfo.updateValue(String(count), forKey: "followerCount")
-                            self.database.nodeCount("users/\(realUserID)/following/"){ count,_ in
+                            self.database.nodeCount("following/\(realUserID)/"){ count,_ in
                                 userInfo.updateValue(String(count), forKey: "followingCount")
                                 guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
                                     finalResponse = .error(.empty)
@@ -141,7 +141,7 @@ class UserTransaction {
     }
     
     func isFollowing(userID: String, followerID: String, completion: ((DBResponse, Bool) -> Void)?){
-        database.fetchDict(followerID, path: "users/\(userID)/followers/"){ response,_ in
+        database.fetchDict(followerID, path: "followers/\(userID)/"){ response,_ in
             if response == .success {
                 completion?(response,true)
             } else {

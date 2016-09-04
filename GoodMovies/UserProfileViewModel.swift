@@ -47,7 +47,14 @@ class UserProfileViewModel{
                 case .currentUser:
                     self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
                 default:
-                    self.usertransaction.isFollowing((self.state.userInfo?.uid)!, followerID: self.usertransaction.cUserID, completion: <#T##((DBResponse, Bool) -> Void)?##((DBResponse, Bool) -> Void)?##(DBResponse, Bool) -> Void#>)
+                    self.usertransaction.isFollowing((self.state.userInfo?.uid)!, followerID: self.usertransaction.cUserID){ _,f in
+                        if f {
+                            self.state.profileStatus = .following
+                        } else {
+                            self.state.profileStatus = .none
+                        }
+                        self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
+                    }
                 }
                 
                 
