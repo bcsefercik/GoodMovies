@@ -57,6 +57,7 @@ class MovieInfoTableViewController: UITableViewController {
             self?.applyStateChange(change)
         }
         
+        tableView.tableFooterView = UIView()
         
         setupButtons()
         self.navigationController?.hidesBarsOnSwipe = false

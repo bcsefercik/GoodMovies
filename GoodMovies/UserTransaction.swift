@@ -23,6 +23,27 @@ class UserTransaction {
         database.delete(movie.imdbID, path: "\(path)/didWatch"){ (_) in
             self.database.delete(movie.imdbID, path: "\(path)/willWatch"){ (_) in
                 self.database.insert(movie.imdbID, path: "\(path)\(movieStatus)", values: data as! [String : AnyObject]){ _ in
+                    self.fetchUserInfo(self.database.uid!){ userInfo,response in
+                        if response == .success{
+                            guard let user = userInfo else {
+                                //TODO: error
+                                return
+                            }
+                            self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
+                                for r in result{
+                                    self.database.insert("\(self.database.uid!)_\(movie.imdbID)", path: "timelines/\(r)/", values: ["userID": user.uid, "username": user.username, "profilePicture": (user.picture?.absoluteString)!, "imdbID": movie.imdbID, "moviePoster": movie.poster.absoluteString, "movieName": movie.name, "movieYear": movie.year, "date": -movie.date, "status": "willWatch"]){ response in
+                                        if response == .success {
+                                            completion?(response)
+                                        } else {
+                                            //TODO: error
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            //TODO: error
+                        }
+                    }
                     
                 }
             }
@@ -121,6 +142,116 @@ class UserTransaction {
         
         
     }
+    
+    func followUser(toFollow: User, completion: ((DBResponse) -> Void)?){
+        self.fetchUserInfo(self.cUserID){ [weak self] currentUser,response in
+            guard let strongSelf = self else {
+                return
+            }
+            switch response {
+            case .success:
+                strongSelf.database.insert(strongSelf.cUserID, path: "followers/\(toFollow.uid)/", values: ["name": currentUser!.name, "username": currentUser!.username, "profilePicture": currentUser!.picture!.absoluteString]){ response in
+                    switch response{
+                    case .success:
+                        strongSelf.database.insert(toFollow.uid, path: "following/\(strongSelf.cUserID)/", values: ["name": toFollow.name, "username": toFollow.username, "profilePicture": toFollow.picture!.absoluteString]){ response in
+                            switch response{
+                            case .success:
+                                strongSelf.fetchUserMovies(toFollow.uid, type: .willWatch){ response,movies in
+                                    switch response {
+                                    case .success, .error(.empty):
+                                        for m in movies {
+                                            strongSelf.database.insert("\(toFollow.uid)_\(m.imdbID)", path: "timelines/\(strongSelf.cUserID)/", values: ["userID": toFollow.uid, "username": toFollow.username, "profilePicture": (toFollow.picture?.absoluteString)!, "imdbID": m.imdbID, "moviePoster": m.poster.absoluteString, "movieName": m.name, "movieYear": m.year, "date": -m.date, "status": "willWatch"]){ response in
+                                                if response == .success {
+                                                    strongSelf.fetchUserMovies(toFollow.uid, type: .didWatch){ response,movies in
+                                                        switch response {
+                                                        case .success, .error(.empty):
+                                                            completion?(response)
+                                                            for m in movies {
+                                                                strongSelf.database.insert("\(toFollow.uid)_\(m.imdbID)", path: "timelines/\(strongSelf.cUserID)/", values: ["userID": toFollow.uid, "username": toFollow.username, "profilePicture": (toFollow.picture?.absoluteString)!, "imdbID": m.imdbID, "moviePoster": m.poster.absoluteString, "movieName": m.name, "movieYear": m.year, "date": -m.date, "status": "willWatch"]){ response in
+                                                                    
+                                                                }
+                                                            }
+                                                        default:
+                                                            //TODO: error
+                                                            print("error6")
+                                                            break
+                                                        }
+                                                    }
+
+                                                } else {
+                                                    //TODO: error
+                                                    print("error5")
+                                                }
+                                            }
+                                        }
+                                    default:
+                                        //TODO: error
+                                        print("error4")
+                                    break
+                                    }
+                                }
+                            default:
+                                //TODO: error
+                                print("error3")
+                                break
+                            }
+                        }
+                    default:
+                        //TODO: error
+                        print("error2")
+                        break
+                    }
+                    
+                }
+            default:
+                //TODO: error
+                print("error1")
+                break
+            }
+        }
+    }
+    
+    func unfollowUser(toUnfollow: User, completion: ((DBResponse) -> Void)?){
+        self.fetchUserInfo(self.cUserID){ [weak self] currentUser,response in
+            guard let strongSelf = self else {
+                return
+            }
+            switch response {
+            case .success:
+                strongSelf.database.delete(strongSelf.cUserID, path: "followers/\(toUnfollow.uid)/"){ response in
+                    switch response{
+                    case .success:
+                        strongSelf.database.delete(toUnfollow.uid, path: "following/\(strongSelf.cUserID)/"){ response in
+                            switch response{
+                            case .success:
+                                strongSelf.database.searchKeyStartings("\(toUnfollow.uid)_", path: "timelines/\(strongSelf.cUserID)/"){ response,result in
+                                    if response == .success {
+                                        for r in result {
+                                            strongSelf.database.delete(r, path: "timelines/\(strongSelf.cUserID)/")
+                                        }
+                                        completion?(response)
+                                    } else {
+                                        //TODO: error
+                                    }
+                                }
+                            default:
+                                //TODO: error
+                                break
+                            }
+                        }
+                    default:
+                        //TODO: error
+                        break
+                    }
+                    
+                }
+            default:
+                //TODO: error
+                break
+            }
+        }
+    }
+
     
     func searchUser(text: String, completion: (DBResponse, [String:[String:String]]?) -> Void){
         database.searchDict(text, key: "name", path: "users/"){ response1,result1 in

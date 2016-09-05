@@ -57,6 +57,19 @@
 		C2ECC3A11D6479CB0024A257 /* MovieSearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2ECC3A01D6479CB0024A257 /* MovieSearchViewCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C2B596541D7D991400646DD4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1FCC0A9B922648FC30320C0F /* Pods_GoodMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoodMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
@@ -255,7 +268,7 @@
 				C2ECC39C1D64580C0024A257 /* UserTransaction.swift */,
 				C2ECC39E1D6459D00024A257 /* Database.swift */,
 				C2BF469C1D6AD745006B86D7 /* Protocols */,
-				C2ECC3971D6437570024A257 /* Models */,
+				C2ECC3971D6437570024A257 /* DataModels */,
 				C2619F0D1D63371F002FBF1B /* LoginRegister */,
 				C2DD76681D61EC0200626786 /* LoadingView.swift */,
 				C2DD76661D61EBF100626786 /* LoadingView.xib */,
@@ -268,7 +281,7 @@
 			path = GoodMovies;
 			sourceTree = "<group>";
 		};
-		C2ECC3971D6437570024A257 /* Models */ = {
+		C2ECC3971D6437570024A257 /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
 				C2321B241D5DE0C200223DBF /* Structs.swift */,
@@ -279,7 +292,7 @@
 				4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */,
 				4EAA62A61D75B705006C3CFC /* Extensions.swift */,
 			);
-			name = Models;
+			name = DataModels;
 			sourceTree = "<group>";
 		};
 		C2ECC3A21D6479DF0024A257 /* Search */ = {
@@ -307,6 +320,7 @@
 				C2DE13151D5DC88B00698C12 /* Resources */,
 				546DB8D9E9271057332C0947 /* [CP] Embed Pods Frameworks */,
 				0C1D1D3F50E4D8A5D09E394A /* [CP] Copy Pods Resources */,
+				C2B596541D7D991400646DD4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

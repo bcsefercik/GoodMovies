@@ -13,6 +13,7 @@ struct Color{
     static let midnightBlue = UIColor(red: 44/255, green: 62/255, blue: 80/255, alpha: 1)
     static let wetAsphalt = UIColor(red: 52/255, green: 73/255, blue: 94/255, alpha: 1)
     static let clouds = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
+    static let flatGreen = UIColor(red: 22/255, green: 160/255, blue: 133/255, alpha: 1)
 }
 
 extension UIColor{

@@ -68,6 +68,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         
         self.applyState(model.state)
         
+        tableView.tableFooterView = UIView()
         
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
@@ -82,7 +83,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     }
     @IBAction func typeChanged(sender: UISegmentedControl) {
         model.switchType()
-        LoadingOverlay.shared.showOverlay(self.navigationController?.view, text: "Loading...")
+        
     }
     
     func applyState(state: SearchViewModel.State){
@@ -101,7 +102,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             switch change {
             case .reload:
                 tableView.reloadData()
-                LoadingOverlay.shared.hideOverlayView()
                 
             default:
                 break
@@ -111,7 +111,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
             }
-            
+            if loadingState.isActive {
+                LoadingOverlay.shared.showOverlay(self.navigationController?.view, text: "Loading...")
+            } else {
+                LoadingOverlay.shared.hideOverlayView()
+            }
         case .none:
             tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             let alert = UIAlertController(
@@ -123,7 +127,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             alert.addAction(cancelAction)
             presentViewController(alert, animated: true, completion: nil)
             
-            LoadingOverlay.shared.hideOverlayView()
         }
     }
     
@@ -132,7 +135,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         searchText = searchBar.text!
         model.search(searchFor: searchText!)
         tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
-        LoadingOverlay.shared.showOverlay(self.navigationController?.view, text: "Searching...")
         
     }
     
@@ -146,7 +148,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
-        LoadingOverlay.shared.hideOverlayView()
         searchBar.setShowsCancelButton(false, animated: true)
     }
 

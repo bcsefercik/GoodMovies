@@ -9,4 +9,8 @@ class UserProfileRouter : Router{
         nextViewController.imdbID = imdbID
         sender.pushViewController(nextViewController, animated: true)
     }
+    func goToSettings(sender: UINavigationController){
+        let nextViewController = storyboard.instantiateViewControllerWithIdentifier("userSettings")
+        sender.pushViewController(nextViewController, animated: true)
+    }
 }

@@ -7,10 +7,10 @@ class DatabaseAdapter {
     
     let base = FIRDatabase.database().referenceFromURL("https://mymovies-e0a6f.firebaseio.com/")
     
-    func insert(key: String, path: String, values: [String: AnyObject], completion: (DBResponse) -> Void){
+    func insert(key: String, path: String, values: [String: AnyObject], completion: ((DBResponse) -> Void)?){
         let ref = base.child(path).child(key)
         ref.updateChildValues(values){ _,_ in 
-            completion(DBResponse.success)
+            completion?(DBResponse.success)
         }
     }
     
@@ -116,6 +116,42 @@ class DatabaseAdapter {
         
     }
     
+    func fetchKeys(path: String, completion: ((DBResponse,[String]) -> Void)?){
+        var result: [String] = []
+        let ref = base.child(path)
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion?(.error(.serverError), [String]())
+            } else {
+                for snap in snapshot.children.allObjects {
+                    let mainKey = snap.key!!
+                    result.append(mainKey)
+                }
+                completion?(.success, result)
+            }
+            return
+            
+        })
+    }
+    
+    func searchKeyStartings(key:String, path: String, completion: ((DBResponse,[String]) -> Void)?){
+        var result: [String] = []
+        let ref = base.child(path).queryOrderedByKey().queryStartingAtValue(key)
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion?(.error(.serverError), [String]())
+            } else {
+                for snap in snapshot.children.allObjects {
+                    let mainKey = snap.key!!
+                    result.append(mainKey)
+                }
+                completion?(.success, result)
+            }
+            return
+            
+        })
+    }
+    
     func searchDict(text: String, key: String, path: String, completion: (DBResponse, [String:AnyObject]) -> Void){
         var result: [String:AnyObject] = [:]
         let ref = base.child("\(path)").queryOrderedByChild(key).queryStartingAtValue(text)
@@ -143,9 +179,10 @@ class DatabaseAdapter {
     
     func nodeCount(path: String, completion: (UInt, DBResponse) -> Void){
         let ref = base.child("\(path)")
-        ref.observeEventType(.Value, withBlock: { snapshot in
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
-                completion(0,.error(.serverError))
+                completion(0,.success)
+                print("halidziya")
             } else {
                 completion(snapshot.childrenCount,.success)
             }

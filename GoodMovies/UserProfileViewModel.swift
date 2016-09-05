@@ -45,6 +45,7 @@ class UserProfileViewModel{
             if response == .success || response == .error(.empty){
                 switch self.state.profileStatus {
                 case .currentUser:
+                    self.emit(.loadButtons)
                     self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
                 default:
                     self.usertransaction.isFollowing((self.state.userInfo?.uid)!, followerID: self.usertransaction.cUserID){ _,f in
@@ -53,10 +54,10 @@ class UserProfileViewModel{
                         } else {
                             self.state.profileStatus = .none
                         }
+                        self.emit(.loadButtons)
                         self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
                     }
                 }
-                
                 
             } else {
             
@@ -66,7 +67,31 @@ class UserProfileViewModel{
         self.emit(self.state.removeActivity())
     }
     
+    func unfollow(){
+        usertransaction.unfollowUser(state.userInfo!){ response in
+            switch response{
+            case .success, .error(.empty):
+                self.state.profileStatus = .none
+                self.loadUserMovies(self.state.userInfo!.uid)
+            default:
+                //TODO: error
+                break
+            }
+        }
+    }
     
+    func follow(){
+        usertransaction.followUser(state.userInfo!){ response in
+            switch response{
+            case .success, .error(.empty):
+                self.state.profileStatus = .following
+                self.loadUserMovies(self.state.userInfo!.uid)
+            default:
+                //TODO: error
+                break
+            }
+        }
+    }
     
     
     func emit(change: State.Change){
@@ -97,6 +122,7 @@ extension UserProfileViewModel.State {
         case movies(CollectionChange, MovieStatus)
         case loading(LoadingState)
         case loadUserInfo(User)
+        case loadButtons
     }
     mutating func setUser(info: User){
         userInfo = info

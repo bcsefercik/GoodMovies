@@ -12,6 +12,7 @@ struct UserProfilePresentation{
     var movies: [ProfileMoviePresentation] = []
     var currentType = MovieStatus.willWatch
     var profileUser: User?
+    var profileStatus = UserProfileViewModel.Status.none
     
     mutating func update(withState state: UserProfileViewModel.State, type: MovieStatus){
         switch type {
@@ -25,10 +26,15 @@ struct UserProfilePresentation{
             }
         }
         currentType = state.currentType
+        profileStatus = state.profileStatus
     }
     
     mutating func setUser(u: User){
         profileUser = u
+    }
+    
+    mutating func updateProfileStatus(withState state: UserProfileViewModel.State){
+        profileStatus = state.profileStatus
     }
 }
 
@@ -50,6 +56,8 @@ class UserProfileViewController: UITableViewController {
     private let router = UserProfileRouter()
     var loading: LoadingOverlay?
     
+    private lazy var rightBarButton = UIButton(type: .System)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +74,11 @@ class UserProfileViewController: UITableViewController {
         
         navigationItem.backBarButtonItem?.tintColor = Color.clouds
         navigationController?.navigationBar.tintColor = Color.clouds
+        tableView.tableFooterView = UIView()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        model.loadUserMovies(userID)
     }
     
     func isCurrentUser() -> Bool{
@@ -100,12 +113,20 @@ class UserProfileViewController: UITableViewController {
                 )
             default:
                 tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
-                break
             }
-            
+        
+        case .loadButtons:
+            presentation.updateProfileStatus(withState: model.state)
+            setupButtons()
+            tableView.reloadData()
         case .loading(let loadingState):
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
+            }
+            if loadingState.isActive {
+                
+            } else {
+                LoadingOverlay.shared.hideOverlayView()
             }
         case .loadUserInfo(let u):
             presentation.setUser(u)
@@ -137,6 +158,64 @@ class UserProfileViewController: UITableViewController {
         LoadingOverlay.shared.hideOverlayView()
     }
 
+    func setupButtons(){
+        let item = UIBarButtonItem()
+        switch presentation.profileStatus {
+        case .currentUser:
+            rightBarButton  = {
+                let button = UIButton(type: .System)
+                button.setTitle("Settings", forState: .Normal)
+                button.sizeToFit()
+                button.translatesAutoresizingMaskIntoConstraints = false
+                button.setTitleColor(Color.clouds, forState: .Normal)
+                button.addTarget(self, action: #selector(handleTopButton), forControlEvents: .TouchUpInside)
+                return button
+            }()
+        case .following:
+            rightBarButton  = {
+                let button = UIButton(type: .System)
+                button.layer.cornerRadius = 5
+                button.layer.borderWidth = 1
+                button.layer.borderColor = Color.clouds.CGColor
+                button.layer.backgroundColor = Color.flatGreen.CGColor
+                button.setTitle("Following", forState: .Normal)
+                button.frame = CGRectMake(0, 0, 91, 30)
+                button.translatesAutoresizingMaskIntoConstraints = false
+                button.setTitleColor(Color.clouds, forState: .Normal)
+                button.addTarget(self, action: #selector(handleTopButton), forControlEvents: .TouchUpInside)
+                return button
+            }()
+        case .none:
+            rightBarButton  = {
+                let button = UIButton(type: .System)
+                button.layer.cornerRadius = 5
+                button.layer.borderWidth = 1
+                button.layer.borderColor = Color.clouds.CGColor
+                button.setTitle("Follow", forState: .Normal)
+                button.frame = CGRectMake(0, 0, 65, 30)
+                button.translatesAutoresizingMaskIntoConstraints = false
+                button.setTitleColor(Color.clouds, forState: .Normal)
+                button.addTarget(self, action: #selector(handleTopButton), forControlEvents: .TouchUpInside)
+                return button
+            }()
+        }
+        item.customView = rightBarButton
+        self.navigationItem.setRightBarButtonItem(item, animated: true)
+    }
+    
+    @objc private func handleTopButton(){
+        switch presentation.profileStatus {
+        case .currentUser:
+            router.goToSettings(self.navigationController!)
+        case .following:
+            LoadingOverlay.shared.showOverlay(self.navigationController!.view, text: "Unfollowing...")
+            model.unfollow()
+        case .none:
+            LoadingOverlay.shared.showOverlay(self.navigationController!.view, text: "Following...")
+            model.follow()
+        }
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
@@ -172,7 +251,6 @@ class UserProfileViewController: UITableViewController {
         
     }
 
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return secCount
     }
@@ -197,7 +275,7 @@ class UserProfileViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        if indexPath.row>1 {
+        if indexPath.row>1 && userID == UserConstants.currentUserID {
             return .Delete
         } else {
             return .None
@@ -207,6 +285,12 @@ class UserProfileViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         //model.removeMovieAtIndex(indexPath.row)
     }
+    
+    
+    // MARK: Buttons
+    
+
+
     
 
 }
