@@ -5,7 +5,7 @@ struct User{
     let name: String
     let willWatchCount: Int?
     let didWatchCount: Int?
-    let followerCount: Int?
+    var followerCount: Int
     let followingCount: Int?
     let picture: NSURL?
     let fgColor: String
@@ -17,7 +17,11 @@ struct User{
         self.name = name
         self.willWatchCount = willWatchCount
         self.didWatchCount = didWatchCount
-        self.followerCount = followerCount
+        if followerCount == nil {
+            self.followerCount = 0
+        } else {
+            self.followerCount = followerCount!
+        }
         self.followingCount = followingCount
         self.picture = NSURL(string: picture)!
         self.fgColor = foregroundColor
@@ -26,6 +30,10 @@ struct User{
     
     init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String){
         self.init(uid: uid, username: username, name: name, willWatchCount: willWatchCount, didWatchCount: didWatchCount, followerCount: followerCount, followingCount: followingCount, picture: picture, foregroundColor: "", backgroundColor: "")
+    }
+    
+    mutating func changeFollowerCount(by: Int){
+        followerCount += by
     }
 }
 

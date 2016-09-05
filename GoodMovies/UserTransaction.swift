@@ -154,6 +154,8 @@ class UserTransaction {
                     switch response{
                     case .success:
                         strongSelf.database.insert(toFollow.uid, path: "following/\(strongSelf.cUserID)/", values: ["name": toFollow.name, "username": toFollow.username, "profilePicture": toFollow.picture!.absoluteString]){ response in
+                            
+                            completion!(.success)
                             switch response{
                             case .success:
                                 strongSelf.fetchUserMovies(toFollow.uid, type: .willWatch){ response,movies in
@@ -163,9 +165,9 @@ class UserTransaction {
                                             strongSelf.database.insert("\(toFollow.uid)_\(m.imdbID)", path: "timelines/\(strongSelf.cUserID)/", values: ["userID": toFollow.uid, "username": toFollow.username, "profilePicture": (toFollow.picture?.absoluteString)!, "imdbID": m.imdbID, "moviePoster": m.poster.absoluteString, "movieName": m.name, "movieYear": m.year, "date": -m.date, "status": "willWatch"]){ response in
                                                 if response == .success {
                                                     strongSelf.fetchUserMovies(toFollow.uid, type: .didWatch){ response,movies in
+                                                        
                                                         switch response {
                                                         case .success, .error(.empty):
-                                                            completion?(response)
                                                             for m in movies {
                                                                 strongSelf.database.insert("\(toFollow.uid)_\(m.imdbID)", path: "timelines/\(strongSelf.cUserID)/", values: ["userID": toFollow.uid, "username": toFollow.username, "profilePicture": (toFollow.picture?.absoluteString)!, "imdbID": m.imdbID, "moviePoster": m.poster.absoluteString, "movieName": m.name, "movieYear": m.year, "date": -m.date, "status": "willWatch"]){ response in
                                                                     
@@ -222,6 +224,7 @@ class UserTransaction {
                     switch response{
                     case .success:
                         strongSelf.database.delete(toUnfollow.uid, path: "following/\(strongSelf.cUserID)/"){ response in
+                            completion?(.success)
                             switch response{
                             case .success:
                                 strongSelf.database.searchKeyStartings("\(toUnfollow.uid)_", path: "timelines/\(strongSelf.cUserID)/"){ response,result in
@@ -229,7 +232,6 @@ class UserTransaction {
                                         for r in result {
                                             strongSelf.database.delete(r, path: "timelines/\(strongSelf.cUserID)/")
                                         }
-                                        completion?(response)
                                     } else {
                                         //TODO: error
                                     }

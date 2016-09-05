@@ -35,6 +35,7 @@ struct UserProfilePresentation{
     
     mutating func updateProfileStatus(withState state: UserProfileViewModel.State){
         profileStatus = state.profileStatus
+        profileUser = state.userInfo
     }
 }
 
@@ -103,6 +104,7 @@ class UserProfileViewController: UITableViewController {
             case .reload:
                 infoRowCount = 2
                 presentation.update(withState: model.state, type: type)
+                presentation.updateProfileStatus(withState: model.state)
                 tableView.reloadData()
                 LoadingOverlay.shared.hideOverlayView()
                 
@@ -222,7 +224,7 @@ class UserProfileViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.infoReuseID) as! UserProfileInfoViewCell
             cell.nameLabel.text = presentation.profileUser?.name.capitalizedString
             cell.moviesLabel.text = "\(presentation.profileUser!.didWatchCount! + presentation.profileUser!.willWatchCount!)"
-            cell.followersLabel.text = "\(presentation.profileUser!.followerCount!)"
+            cell.followersLabel.text = "\(presentation.profileUser!.followerCount)"
             cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"
             cell.profilePicture.kf_setImageWithURL(presentation.profileUser!.picture!)
             cell.profilePicture.layer.masksToBounds = true

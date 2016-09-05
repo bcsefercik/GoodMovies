@@ -72,7 +72,8 @@ class UserProfileViewModel{
             switch response{
             case .success, .error(.empty):
                 self.state.profileStatus = .none
-                self.loadUserMovies(self.state.userInfo!.uid)
+                self.state.userInfo?.changeFollowerCount(-1)
+                self.emit(.loadButtons)
             default:
                 //TODO: error
                 break
@@ -85,7 +86,8 @@ class UserProfileViewModel{
             switch response{
             case .success, .error(.empty):
                 self.state.profileStatus = .following
-                self.loadUserMovies(self.state.userInfo!.uid)
+                self.state.userInfo?.changeFollowerCount(1)
+                self.emit(.loadButtons)
             default:
                 //TODO: error
                 break

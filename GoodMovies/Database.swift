@@ -182,7 +182,6 @@ class DatabaseAdapter {
         ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion(0,.success)
-                print("halidziya")
             } else {
                 completion(snapshot.childrenCount,.success)
             }
