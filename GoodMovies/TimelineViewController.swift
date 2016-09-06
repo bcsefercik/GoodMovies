@@ -42,6 +42,14 @@ class TimelineViewController: UITableViewController {
         model.initialLoad()
         
         tableView.tableFooterView = UIView()
+        
+        self.refreshControl?.addTarget(self, action: #selector(handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    @objc func handleRefresh(refreshControl: UIRefreshControl) {
+        model.loadEntries(){
+            refreshControl.endRefreshing()
+        }
     }
     
     func applyState(state: TimelineViewModel.State){

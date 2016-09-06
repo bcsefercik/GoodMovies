@@ -1050,6 +1050,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="rUB-Ow-GyK"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Ram-FZ-my7">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
+                    <connections>
+                        <outlet property="userField" destination="1hb-94-5MT" id="lGI-pH-d0h"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xEE-Bi-Pef" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
