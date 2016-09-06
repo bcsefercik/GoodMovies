@@ -338,7 +338,6 @@ class UserTransaction {
                     let userID = r["userID"]!
                     return TimelineEntry(movieName: movieName, movieYear: movieYear, imdbID: imdbID, moviePoster: moviePoster, type: type, date: date, username: username, userPicture: userPicture, userID: userID)
                 }
-                print(values)
                 completion(.success, entries)
             default:
                 completion(.error(.empty),[TimelineEntry]())

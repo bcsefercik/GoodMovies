@@ -23,9 +23,17 @@ class TimelineViewModel{
         stateChangeHandler?(change)
     }
     
-    func loadEntries(){
+    func initialLoad(){
+        self.emit(self.state.addActivity())
+        loadEntries(){
+            self.emit(self.state.removeActivity())
+        }
+    }
+    
+    func loadEntries(completion: () -> Void){
         usertransaction.loadTimeline(){ response,entries in
             self.emit(self.state.reloadEntries(entries))
+            completion()
         }
     }
 }
@@ -35,6 +43,16 @@ extension TimelineViewModel.State{
     enum Change {
         case entries(CollectionChange)
         case loading(LoadingState)
+    }
+    
+    mutating func addActivity() -> Change {
+        loadingState.addActivity()
+        return .loading(loadingState)
+    }
+    
+    mutating func removeActivity() -> Change {
+        loadingState.removeActivity()
+        return .loading(loadingState)
     }
     
     mutating func reloadEntries(entries: [TimelineEntry]) -> Change {

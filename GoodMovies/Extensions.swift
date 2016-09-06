@@ -43,7 +43,7 @@ extension NSDate {
                 "\(interval)" + " " + "minutes"
         }
         
-        return "a moment ago"
+        return "a moment"
     }
 }
 

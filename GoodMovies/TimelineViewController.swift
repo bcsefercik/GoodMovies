@@ -39,7 +39,7 @@ class TimelineViewController: UITableViewController {
             self?.applyStateChange(change)
         }
         
-        model.loadEntries()
+        model.initialLoad()
         
         tableView.tableFooterView = UIView()
     }
@@ -86,10 +86,20 @@ class TimelineViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID, forIndexPath: indexPath) as! TimelineCell
+        
+        cell.layoutMargins = UIEdgeInsetsZero
+        
         let entry = presentation.entries[indexPath.row]
         cell.movieTitle.text = entry.movieName
         cell.movieYear.text = entry.movieYear
-        cell.movieDate.text = NSDate(timeIntervalSince1970: entry.date).getElapsedInterval()
+        cell.movieDate.text = "\(NSDate(timeIntervalSince1970: entry.date).getElapsedInterval()) ago"
+        cell.moviePoster.kf_setImageWithURL(entry.moviePoster)
+        cell.username.text = entry.username
+        
+        cell.profileImage.kf_setImageWithURL(entry.userPicture)
+        cell.profileImage.layer.masksToBounds = true
+        cell.profileImage.layer.cornerRadius = 10
+        
         return cell
     }
     
