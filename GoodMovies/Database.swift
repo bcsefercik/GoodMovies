@@ -37,7 +37,7 @@ class DatabaseAdapter {
             if value == nil {
                 value = 0
             }
-            currentData.value = value! + 1
+            currentData.value = value! + by
             return FIRTransactionResult.successWithValue(currentData)
         }){_,_,_ in
             if completion != nil {
@@ -73,6 +73,8 @@ class DatabaseAdapter {
                         let key = s.key!!
                         if key == "date" {
                             value = String(format: "%f", s.value.doubleValue)
+                        } else if key == "followerCount" || key == "followingCount" {
+                            value = String(format: "%d", s.value!!.integerValue)
                         } else {
                             value = s.value!!
                         }
@@ -106,8 +108,17 @@ class DatabaseAdapter {
                 completion(.fail("empty"), [String:AnyObject]())
             } else {
                 for snap in snapshot.children.allObjects {
-                    let val = snap.value!!
-                    result.updateValue(val, forKey: snap.key!!)
+                    var val = ""
+                    let key = snap.key!!
+                    if key == "date" {
+                        val = String(format: "%f", snap.value.doubleValue)
+                    } else if key == "followerCount" || key == "followingCount" {
+                        val = String(format: "%d", snap.value!!.integerValue)
+                    } else {
+                        val = snap.value!!
+                    }
+
+                    result.updateValue(val, forKey: key)
                 }
                 completion(.success, result)
             }
@@ -181,7 +192,15 @@ class DatabaseAdapter {
                     var val: [String:String] = [:]
                     for s in snap.children.allObjects {
                         let k = s.key!!
-                        let v = s.value!!
+                        var v = ""
+                        if k == "date" {
+                            v = String(format: "%f", s.value.doubleValue)
+                        } else if k == "followerCount" || k == "followingCount" {
+                            v = String(format: "%d", s.value!!.integerValue)
+                        } else {
+                            v = s.value!!
+                        }
+
                         val.updateValue(v, forKey: k)
                     }
                     result.updateValue(val, forKey: mainKey)

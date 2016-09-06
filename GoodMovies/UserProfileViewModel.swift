@@ -109,6 +109,11 @@ class UserProfileViewModel{
                 if response == .success {
                     self.emit(self.state.removeMovieAtIndex(index, type: self.state.currentType))
                     self.emit(self.state.loadUserInfo(self.state.userInfo!))
+                    if self.state.currentType == .willWatch {
+                        self.emit(self.state.reloadMovies(self.state.willWatch, type: self.state.currentType))
+                    } else {
+                        self.emit(self.state.reloadMovies(self.state.didWatch, type: self.state.currentType))
+                    }
                 } else {
                     //TODO: error
                 }

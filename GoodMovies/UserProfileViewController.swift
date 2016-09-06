@@ -41,7 +41,7 @@ struct UserProfilePresentation{
 
 class UserProfileViewController: UITableViewController {
     
-    struct Const{
+    private struct Const{
         static let infoReuseID = "userProfileInfoCell"
         static let pickerReuseID = "userProfilePickerCell"
         static let movieReuseID = "userProfileMovieCell"
@@ -114,7 +114,6 @@ class UserProfileViewController: UITableViewController {
                     withRowAnimation: .Automatic
                 )
                 presentation.update(withState: model.state, type: type)
-                tableView.reloadData()
             default:
                 tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             }

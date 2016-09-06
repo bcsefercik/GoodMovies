@@ -130,33 +130,25 @@ class UserTransaction {
                     userInfo.updateValue(String(count), forKey: "willWatchCount")
                     self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count,_ in
                         userInfo.updateValue(String(count), forKey: "didWatchCount")
-                        self.database.nodeCount("followers/\(realUserID)/"){ count,_ in
-                            userInfo.updateValue(String(count), forKey: "followerCount")
-                            self.database.nodeCount("following/\(realUserID)/"){ count,_ in
-                                userInfo.updateValue(String(count), forKey: "followingCount")
-                                guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
-                                    finalResponse = .error(.empty)
-                                    completion(nil, finalResponse)
-                                    return
-                                }
-                                
-                                var uFgColor, uBgColor: String
-                                
-                                if (userInfo["fgColor"] == nil || userInfo["bgColor"] == nil){
-                                    uFgColor = ""
-                                    uBgColor = ""
-                                } else {
-                                    uFgColor = userInfo["fgColor"]!
-                                    uBgColor = userInfo["bgColor"]!
-                                }
-                                
-                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
-                                
-                                completion(user,finalResponse)
-                                return
-                            }
+                        guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
+                            print("asd")
+                            finalResponse = .error(.empty)
+                            completion(nil, finalResponse)
                             return
                         }
+                        
+                        var uFgColor, uBgColor: String
+                        
+                        if (userInfo["fgColor"] == nil || userInfo["bgColor"] == nil){
+                            uFgColor = ""
+                            uBgColor = ""
+                        } else {
+                            uFgColor = userInfo["fgColor"]!
+                            uBgColor = userInfo["bgColor"]!
+                        }
+                        let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount)!, followingCount: Int(uFollowingCount)!, picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
+                        
+                        completion(user,finalResponse)
                         return
                     }
                     return
@@ -181,7 +173,8 @@ class UserTransaction {
                     switch response{
                     case .success:
                         strongSelf.database.insert(toFollow.uid, path: "following/\(strongSelf.cUserID)/", values: ["name": toFollow.name, "username": toFollow.username, "profilePicture": toFollow.picture!.absoluteString]){ response in
-                            
+                            strongSelf.database.increment(1, path: "users/\(strongSelf.database.uid!)/followingCount")
+                            strongSelf.database.increment(1, path: "users/\(toFollow.uid)/followerCount")
                             completion!(.success)
                             switch response{
                             case .success:
@@ -251,6 +244,8 @@ class UserTransaction {
                     switch response{
                     case .success:
                         strongSelf.database.delete(toUnfollow.uid, path: "following/\(strongSelf.cUserID)/"){ response in
+                            strongSelf.database.increment(-1, path: "users/\(strongSelf.database.uid!)/followingCount")
+                            strongSelf.database.increment(-1, path: "users/\(toUnfollow.uid)/followerCount")
                             completion?(.success)
                             switch response{
                             case .success:
@@ -325,5 +320,30 @@ class UserTransaction {
                 }
             }
         }
+    }
+    
+    func loadTimeline(completion: (DBResponse,[TimelineEntry]) -> Void){
+        database.fetch(database.uid!, orderBy: "date", path: "timelines/"){ (response, values) in
+            switch response {
+            case .success:
+                let entries = values.map{ (r) -> TimelineEntry in
+                    let movieName = r["movieName"]!
+                    let movieYear = r["movieYear"]!
+                    let imdbID = r["imdbID"]!
+                    let moviePoster = r["moviePoster"]!
+                    let type = r["status"]!
+                    let date: Double = -Double(r["date"]!)!
+                    let username = r["username"]!
+                    let userPicture = r["profilePicture"]!
+                    let userID = r["userID"]!
+                    return TimelineEntry(movieName: movieName, movieYear: movieYear, imdbID: imdbID, moviePoster: moviePoster, type: type, date: date, username: username, userPicture: userPicture, userID: userID)
+                }
+                print(values)
+                completion(.success, entries)
+            default:
+                completion(.error(.empty),[TimelineEntry]())
+            }
+        }
+
     }
 }

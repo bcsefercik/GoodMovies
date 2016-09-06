@@ -40,8 +40,8 @@ class RegisterViewModel{
             
             let ref = FIRDatabase.database().referenceFromURL("https://mymovies-e0a6f.firebaseio.com/")
             let usersReference = ref.child("users").child(uid)
-            let values = ["name": name.lowercaseString, "email": username, "username": email.stringByReplacingOccurrencesOfString("@mymoviesapp.com", withString: ""), "profilePicture": "empty"]
-            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+            let values = ["name": name.lowercaseString, "email": username, "username": email.stringByReplacingOccurrencesOfString("@mymoviesapp.com", withString: ""), "profilePicture": "empty", "followerCount": 0, "followingCount": 0]
+            usersReference.updateChildValues(values as [NSObject : AnyObject], withCompletionBlock: { (err, ref) in
                 
                 if err != nil {
                     self.stateChangeHandler?(RegisterState.Change.dbError)
