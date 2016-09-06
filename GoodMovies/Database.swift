@@ -89,6 +89,44 @@ class DatabaseAdapter {
         })
     }
     
+    func fetchContinuously(key: String, orderBy: String?, path: String, completion: (DBResponse, [[String:String]]) -> Void){
+        var result: [[String:String]] = []
+        var ref: FIRDatabaseQuery
+        if orderBy != nil {
+            ref = base.child("\(path)\(key)/").queryOrderedByChild(orderBy!)
+        } else {
+            ref = base.child("\(path)\(key)/")
+        }
+        
+        
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion(.fail("empty"), [[String:String]]())
+            } else {
+                for snap in snapshot.children.allObjects {
+                    var r: [String:String] = [:]
+                    var value: String?
+                    for s in snap.children.allObjects{
+                        let key = s.key!!
+                        if key == "date" {
+                            value = String(format: "%f", s.value.doubleValue)
+                        } else if key == "followerCount" || key == "followingCount" {
+                            value = String(format: "%d", s.value!!.integerValue)
+                        } else {
+                            value = s.value!!
+                        }
+                        r.updateValue(value!, forKey: key)
+                    }
+                    r.updateValue(snap.key!!, forKey: "mainKey")
+                    result.append(r)
+                }
+                completion(.success, result)
+            }
+            return
+        })
+
+    }
+    
     func fetchDict(key: String, path: String, completion: (DBResponse, [String:AnyObject]) -> Void){
         self.fetchDict(key, orderBy: nil, path: path, completion: completion)
     }

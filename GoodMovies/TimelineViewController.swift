@@ -50,6 +50,8 @@ class TimelineViewController: UITableViewController {
     }
 
     func applyStateChange(change: TimelineViewModel.State.Change){
+        
+        presentation.update(withState: model.state)
         switch change {
         case .entries(let type):
             switch type {
