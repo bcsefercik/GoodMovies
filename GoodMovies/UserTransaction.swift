@@ -21,30 +21,36 @@ class UserTransaction {
         let path = "movies/\(database.uid!)/"
 
         database.delete(movie.imdbID, path: "\(path)/didWatch"){ (_) in
-            self.database.delete(movie.imdbID, path: "\(path)/willWatch"){ (_) in
-                self.database.insert(movie.imdbID, path: "\(path)\(movieStatus)", values: data as! [String : AnyObject]){ _ in
-                    self.fetchUserInfo(self.database.uid!){ userInfo,response in
-                        if response == .success{
-                            guard let user = userInfo else {
-                                //TODO: error
-                                return
-                            }
-                            self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
-                                for r in result{
-                                    self.database.insert("\(self.database.uid!)_\(movie.imdbID)", path: "timelines/\(r)/", values: ["userID": user.uid, "username": user.username, "profilePicture": (user.picture?.absoluteString)!, "imdbID": movie.imdbID, "moviePoster": movie.poster.absoluteString, "movieName": movie.name, "movieYear": movie.year, "date": -movie.date, "status": "willWatch"]){ response in
-                                        if response == .success {
-                                            completion?(response)
-                                        } else {
-                                            //TODO: error
+            self.database.delete(movie.imdbID, path: "\(path)/willWatch"){ response in
+                
+                if movie.status != .none {
+                    self.database.insert(movie.imdbID, path: "\(path)\(movieStatus)", values: data as! [String : AnyObject]){ response in
+                        
+                        completion?(response)
+                        self.fetchUserInfo(self.database.uid!){ userInfo,response in
+                            if response == .success{
+                                guard let user = userInfo else {
+                                    //TODO: error
+                                    return
+                                }
+                                self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
+                                    for r in result{
+                                        self.database.insert("\(self.database.uid!)_\(movie.imdbID)", path: "timelines/\(r)/", values: ["userID": user.uid, "username": user.username, "profilePicture": (user.picture?.absoluteString)!, "imdbID": movie.imdbID, "moviePoster": movie.poster.absoluteString, "movieName": movie.name, "movieYear": movie.year, "date": -movie.date, "status": "willWatch"]){ response in
+                                            if response == .success {
+                                            } else {
+                                                //TODO: error
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                //TODO: error
                             }
-                        } else {
-                            //TODO: error
                         }
                     }
-                    
+
+                } else {
+                    completion?(response)
                 }
             }
         }
@@ -52,6 +58,27 @@ class UserTransaction {
     
     func addMovie(movie: Movie){
         addMovie(movie, completion: nil)
+    }
+    
+    func deleteMovie(imdbID: String, completion: ((DBResponse) ->  Void)?){
+        self.database.delete(imdbID, path: "movies/\(self.database.uid!)/didWatch"){ (_) in
+            self.database.delete(imdbID, path: "movies/\(self.database.uid!)/willWatch"){ response in
+                completion?(response)
+                self.fetchUserInfo(self.database.uid!){ userInfo,response in
+                    if response == .success{
+                        self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
+                            for r in result{
+                                self.database.delete("\(self.database.uid!)_\(imdbID)", path: "timelines/\(r)/")
+                            }
+                        }
+                    } else {
+                        //TODO: error
+                    }
+                }
+
+            }
+        }
+
     }
     
     func fetchUserMovies(userID: String, type: MovieStatus, completion: (DBResponse, movies: [Movie]) -> Void){
@@ -284,4 +311,19 @@ class UserTransaction {
         }
     }
     
+    func isInMyList(imdbID: String, completion: (MovieStatus)->Void){
+        database.doesExist("movies/\(database.uid!)/didWatch/\(imdbID)/"){ result in
+            if result {
+                completion(.didWatch)
+            } else {
+                self.database.doesExist("movies/\(self.database.uid!)/willWatch/\(imdbID)/"){ result in
+                    if result {
+                        completion(.willWatch)
+                    } else {
+                        completion(.none)
+                    }
+                }
+            }
+        }
+    }
 }

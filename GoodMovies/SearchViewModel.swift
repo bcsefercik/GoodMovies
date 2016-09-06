@@ -112,8 +112,6 @@ class SearchViewModel{
 
     func loadMore(){
         if(self.searchPage>0){
-            let change = state.addActivity()
-            emit(change)
             
             var fetchedMovies: [Movie] = []
             
@@ -134,12 +132,8 @@ class SearchViewModel{
                         let poster = r["Poster"]!
                         return Movie(name: name, year: year, imdbID: imdbID, poster: poster)
                     }
-                    
-                    
                     strongSelf.emit(strongSelf.state.appendMovies(fetchedMovies))
-                    strongSelf.emit(strongSelf.state.removeActivity())
                 default:
-                    strongSelf.emit(strongSelf.state.removeActivity())
                     strongSelf.searchPage = 0
                 }
 
@@ -209,14 +203,6 @@ extension SearchViewModel.State {
         return .movies(.insertion(movies.count - 1))
     }
     
-    mutating func removeMovieAtIndex(index: Int) -> Change {
-        
-        guard index >= 0 && index < movies.count else {
-            return .none
-        }
-        movies.removeAtIndex(index)
-        return .movies(.deletion(index))
-    }
     
     mutating func switchType(){
         userSearch = !userSearch

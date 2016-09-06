@@ -11,9 +11,11 @@ import Kingfisher
 
 struct MovieDetailPresentation{
     var movie: MovieDetail?
+    var movieStatus: MovieStatus?
     
     mutating func update(withState state: MovieInfoViewModel.State){
         movie = state.movie
+        movieStatus = state.movieStatus
     }
 }
 
@@ -109,6 +111,10 @@ class MovieInfoTableViewController: UITableViewController {
             rowCount = 10
             self.tableView.reloadData()
             LoadingOverlay.shared.hideOverlayView()
+        case .reloadButtons:
+            presentation.update(withState: model.state)
+            self.setupButtons()
+            LoadingOverlay.shared.hideOverlayView()
         }
         
     }
@@ -124,8 +130,6 @@ class MovieInfoTableViewController: UITableViewController {
         willButton.translatesAutoresizingMaskIntoConstraints = false
         willButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         willButton.addTarget(self, action: #selector(handleAddToList), forControlEvents: .TouchUpInside)
-        let item1 = UIBarButtonItem()
-        item1.customView = willButton
         
         
         let didButton = UIButton(type: .System)
@@ -137,10 +141,22 @@ class MovieInfoTableViewController: UITableViewController {
         didButton.translatesAutoresizingMaskIntoConstraints = false
         didButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         didButton.addTarget(self, action: #selector(handleAddToList), forControlEvents: .TouchUpInside)
+        
+        switch presentation.movieStatus! {
+        case .willWatch:
+            willButton.backgroundColor = Color.flatGreen
+        case .didWatch:
+            didButton.backgroundColor = Color.flatGreen
+        default:
+            break
+        }
+        
+        let item1 = UIBarButtonItem()
+        item1.customView = willButton
         let item2 = UIBarButtonItem()
         item2.customView = didButton
         
-        self.navigationItem.setRightBarButtonItems([item1,item2], animated: true)
+        self.navigationItem.setRightBarButtonItems([item2,item1], animated: true)
         
         self.navigationController?.navigationBar.tintColor = Color.clouds
     }

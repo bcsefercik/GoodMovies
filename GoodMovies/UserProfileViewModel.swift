@@ -95,6 +95,23 @@ class UserProfileViewModel{
         }
     }
     
+    func deleteMovie(index: Int){
+        self.emit(self.state.addActivity())
+        var movies = state.willWatch
+        if state.currentType == .didWatch {
+            movies = self.state.didWatch
+        }
+        if index>=0 && index < movies.count {
+            self.usertransaction.deleteMovie(movies[index].imdbID){ response in
+                if response == .success {
+                    self.emit(self.state.removeMovieAtIndex(index, type: self.state.currentType))
+                } else {
+                    //TODO: error
+                }
+                self.emit(self.state.removeActivity())
+            }
+        }
+    }
     
     func emit(change: State.Change){
         stateChangeHandler?(change)

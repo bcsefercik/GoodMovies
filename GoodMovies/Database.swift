@@ -130,8 +130,24 @@ class DatabaseAdapter {
                 completion?(.success, result)
             }
             return
-            
         })
+    }
+    
+    func doesExist(path: String, completion: ((Bool) -> Void)){
+        let ref = base.child(path)
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            if !snapshot.exists(){
+                completion(false)
+            } else {
+                if snapshot.childrenCount == 0 {
+                    completion(false)
+                } else {
+                    completion(true)
+                }
+            }
+            return
+        })
+
     }
     
     func searchKeyStartings(key:String, path: String, completion: ((DBResponse,[String]) -> Void)?){
