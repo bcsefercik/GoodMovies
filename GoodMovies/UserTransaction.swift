@@ -62,8 +62,8 @@ class UserTransaction {
     
     func deleteMovie(imdbID: String, completion: ((DBResponse) ->  Void)?){
         self.database.delete(imdbID, path: "movies/\(self.database.uid!)/didWatch"){ (_) in
-            self.database.delete(imdbID, path: "movies/\(self.database.uid!)/willWatch"){ response in
-                completion?(response)
+            self.database.delete(imdbID, path: "movies/\(self.database.uid!)/willWatch"){ _ in
+                completion?(.success)
                 self.fetchUserInfo(self.database.uid!){ userInfo,response in
                     if response == .success{
                         self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
@@ -150,7 +150,7 @@ class UserTransaction {
                                     uBgColor = userInfo["bgColor"]!
                                 }
                                 
-                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount), didWatchCount: Int(uDidWatchCount), followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
+                                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount), followingCount: Int(uFollowingCount), picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
                                 
                                 completion(user,finalResponse)
                                 return

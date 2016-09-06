@@ -3,15 +3,15 @@ struct User{
     let uid: String
     let username: String
     let name: String
-    let willWatchCount: Int?
-    let didWatchCount: Int?
+    var willWatchCount: Int
+    var didWatchCount: Int
     var followerCount: Int
     let followingCount: Int?
     let picture: NSURL?
     let fgColor: String
     let bgColor: String
     
-    init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String, foregroundColor: String, backgroundColor: String){
+    init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String, foregroundColor: String, backgroundColor: String){
         self.uid = uid
         self.username = username
         self.name = name
@@ -28,12 +28,21 @@ struct User{
         self.bgColor = backgroundColor
     }
     
-    init(uid: String, username: String, name: String, willWatchCount: Int?, didWatchCount: Int?, followerCount: Int?, followingCount: Int?, picture: String){
+    init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String){
         self.init(uid: uid, username: username, name: name, willWatchCount: willWatchCount, didWatchCount: didWatchCount, followerCount: followerCount, followingCount: followingCount, picture: picture, foregroundColor: "", backgroundColor: "")
     }
     
     mutating func changeFollowerCount(by: Int){
         followerCount += by
+    }
+    
+    mutating func changeMovieCount(by: Int, type: MovieStatus){
+        switch type {
+        case .willWatch:
+            willWatchCount += by
+        default:
+            didWatchCount += by
+        }
     }
 }
 

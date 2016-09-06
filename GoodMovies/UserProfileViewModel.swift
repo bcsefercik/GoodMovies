@@ -101,10 +101,14 @@ class UserProfileViewModel{
         if state.currentType == .didWatch {
             movies = self.state.didWatch
         }
+        
+        self.state.userInfo?.changeMovieCount(-1, type: state.currentType)
+        
         if index>=0 && index < movies.count {
             self.usertransaction.deleteMovie(movies[index].imdbID){ response in
                 if response == .success {
                     self.emit(self.state.removeMovieAtIndex(index, type: self.state.currentType))
+                    self.emit(self.state.loadUserInfo(self.state.userInfo!))
                 } else {
                     //TODO: error
                 }

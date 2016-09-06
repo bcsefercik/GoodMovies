@@ -62,7 +62,7 @@ class DatabaseAdapter {
         }
         
         
-        ref.observeEventType(.Value, withBlock: { snapshot in
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion(.fail("empty"), [[String:String]]())
             } else {
@@ -101,7 +101,7 @@ class DatabaseAdapter {
             ref = base.child("\(path)/\(key)/")
         }
         
-        ref.observeEventType(.Value, withBlock: { snapshot in
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion(.fail("empty"), [String:AnyObject]())
             } else {
@@ -153,7 +153,7 @@ class DatabaseAdapter {
     func searchKeyStartings(key:String, path: String, completion: ((DBResponse,[String]) -> Void)?){
         var result: [String] = []
         let ref = base.child(path).queryOrderedByKey().queryStartingAtValue(key)
-        ref.observeEventType(.Value, withBlock: { snapshot in
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion?(.error(.serverError), [String]())
             } else {
@@ -172,7 +172,7 @@ class DatabaseAdapter {
         var result: [String:AnyObject] = [:]
         let ref = base.child("\(path)").queryOrderedByChild(key).queryStartingAtValue(text)
         
-        ref.observeEventType(.Value, withBlock: { snapshot in
+        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion(.error(.serverError), [String:AnyObject]())
             } else {

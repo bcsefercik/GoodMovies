@@ -113,6 +113,8 @@ class UserProfileViewController: UITableViewController {
                     [NSIndexPath(forRow: index+2, inSection: 0)],
                     withRowAnimation: .Automatic
                 )
+                presentation.update(withState: model.state, type: type)
+                tableView.reloadData()
             default:
                 tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             }
@@ -223,7 +225,7 @@ class UserProfileViewController: UITableViewController {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.infoReuseID) as! UserProfileInfoViewCell
             cell.nameLabel.text = presentation.profileUser?.name.capitalizedString
-            cell.moviesLabel.text = "\(presentation.profileUser!.didWatchCount! + presentation.profileUser!.willWatchCount!)"
+            cell.moviesLabel.text = "\(presentation.profileUser!.didWatchCount + presentation.profileUser!.willWatchCount)"
             cell.followersLabel.text = "\(presentation.profileUser!.followerCount)"
             cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"
             cell.profilePicture.kf_setImageWithURL(presentation.profileUser!.picture!)
@@ -285,7 +287,7 @@ class UserProfileViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        //model.removeMovieAtIndex(indexPath.row)
+        model.deleteMovie(indexPath.row-2)
     }
     
     
