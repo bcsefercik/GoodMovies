@@ -1,7 +1,11 @@
 import Foundation
+import UIKit
+import FirebaseAuth
 
 class UserTransaction {
     private let database = DatabaseAdapter()
+    private let storage = StorageAdapter()
+    
     private let defaultPicture = "http://staffprofiles.bournemouth.ac.uk/library/images/nopicture-male.jpg"
     var cUserID: String {
         get {
@@ -347,5 +351,49 @@ class UserTransaction {
             }
         }
 
+    }
+    
+    func uploadProfilePicture(imageView: UIImageView, completion: ((DBResponse,String) -> Void)?){
+        if let profileImage = imageView.image, uploadData = UIImageJPEGRepresentation(profileImage, 0.78) {
+            storage.upload("profile_pictures/", fileName: "\(self.cUserID).jpg", data: uploadData){ response,url in
+                if response == .success {
+                    self.database.insert(self.cUserID, path: "users/", values: ["profilePicture": url]){ response in
+                        if response == .success {
+                            self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
+                                for r in result{
+                                    self.database.searchKeyStartings("\(self.cUserID)_", path: "timelines/\(r)/"){ response,result in
+                                        if response == .success {
+                                            for rr in result {
+                                                self.database.insert(rr, path: "timelines/\(r)/", values: ["profilePicture": url], completion: nil)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            completion?(.success,url)
+                        } else {
+                            completion?(.fail("failed"),"")
+                        }
+                    }
+                } else {
+                    completion?(.fail("failed"),"")
+                }
+            }
+            
+        } else {
+            completion?(.fail("failed"),"")
+            return
+        }
+    }
+    
+    func logout(completion: ((DBResponse) -> Void)?){
+        do {
+            try FIRAuth.auth()?.signOut()
+            completion?(.success)
+        } catch {
+            completion?(.fail("error"))
+        }
+        
+        
     }
 }

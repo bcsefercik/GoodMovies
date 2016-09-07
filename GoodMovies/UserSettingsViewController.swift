@@ -20,11 +20,11 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     
     private struct Const{
         static let standardReuseIdentifier = "userSettingsCell"
-        static let standardGoReuseIdentifier = "userSettingsGoCell"
         static let headerReuseIdentifier = "userSettingsHeaderCell"
     }
     
     private var model = UserSettingsViewModel()
+    private var presentation = UserSettingsPresentation()
     private let router = UserSettingsRouter()
     
     let sections = ["Profile",
@@ -39,10 +39,46 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        model.stateChangeHandler = { [weak self] change in
+            self?.applyStateChange(change)
+        }
+        
+        model.initialize()
+        
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = Color.clouds
+        
+        navigationItem.title = "Settings"
     }
+    
+    func applyState(state: UserSettingsViewModel.State){
+        presentation.update(withState: state)
+        self.tableView.reloadData()
+    }
+    
+    func applyStateChange(change: UserSettingsViewModel.State.Change){
+        
+        switch change {
+        case .user:
+            presentation.update(withState: model.state)
+            tableView.reloadData()
+        case .message(let msg, let type):
+            break
+        case .loading(let loadingState):
+            if loadingState.needsUpdate {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
+            }
+            if loadingState.isActive {
+                LoadingOverlay.shared.showOverlay(self.view, text: "Loading...")
+            } else {
+                LoadingOverlay.shared.hideOverlayView()
+            }
+            
+        }
+    }
+
     
     func handleSelectProfileImageView() {
         let picker = UIImagePickerController()
@@ -69,7 +105,7 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
         }
         
         dismissViewControllerAnimated(true, completion: nil)
-        
+        model.uploadProfilePicture(profileImageView, completion: nil)
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -98,9 +134,15 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(Const.standardGoReuseIdentifier, forIndexPath: indexPath) as! SettingsStandardViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier(Const.standardReuseIdentifier, forIndexPath: indexPath) as! SettingsStandardViewCell
         cell.titleLabel.text = self.rows[indexPath.section][indexPath.row]
         
+        switch indexPath.section {
+        case 0:
+            cell.accessoryType = .None
+        default:
+            break
+        }
 
         return cell
     }
@@ -112,6 +154,15 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
             switch indexPath.row {
             case 0:
                 handleSelectProfileImageView()
+            default:
+                break
+            }
+        case 2:
+            switch indexPath.row {
+            case 0:
+                model.logout(){
+                    self.router.goToLogin()
+                }
             default:
                 break
             }

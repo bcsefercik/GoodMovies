@@ -8,7 +8,7 @@ struct User{
     var didWatchCount: Int
     var followerCount: Int
     let followingCount: Int?
-    let picture: NSURL?
+    var picture: NSURL?
     let fgColor: String
     let bgColor: String
     
@@ -44,6 +44,10 @@ struct User{
         default:
             didWatchCount += by
         }
+    }
+    
+    mutating func changePicture(picture: String){
+        self.picture = NSURL(string: picture)!
     }
 }
 

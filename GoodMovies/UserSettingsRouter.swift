@@ -10,4 +10,14 @@ class UserSettingsRouter : Router{
         sender.pushViewController(nextViewController, animated: true)
     }
     
+    func goToLogin(){
+        let loginVC = storyboard.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        UIView.transitionWithView(appDelegate.window!, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+            let oldState: Bool = UIView.areAnimationsEnabled()
+            UIView.setAnimationsEnabled(false)
+            appDelegate.window?.rootViewController = loginVC
+            UIView.setAnimationsEnabled(oldState)
+            }, completion: nil)
     }
+}
