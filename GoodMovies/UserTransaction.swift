@@ -19,11 +19,11 @@ class UserTransaction {
                     "date": -NSDate().timeIntervalSince1970]
         
         let path = "movies/\(database.uid!)/"
-
+        
+        if movie.status != .none {
         database.delete(movie.imdbID, path: "\(path)/didWatch"){ (_) in
             self.database.delete(movie.imdbID, path: "\(path)/willWatch"){ response in
                 
-                if movie.status != .none {
                     self.database.insert(movie.imdbID, path: "\(path)\(movieStatus)", values: data as! [String : AnyObject]){ response in
                         
                         completion?(response)
@@ -35,7 +35,7 @@ class UserTransaction {
                                 }
                                 self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
                                     for r in result{
-                                        self.database.insert("\(self.database.uid!)_\(movie.imdbID)", path: "timelines/\(r)/", values: ["userID": user.uid, "username": user.username, "profilePicture": (user.picture?.absoluteString)!, "imdbID": movie.imdbID, "moviePoster": movie.poster.absoluteString, "movieName": movie.name, "movieYear": movie.year, "date": -movie.date, "status": "willWatch"]){ response in
+                                        self.database.insert("\(self.database.uid!)_\(movie.imdbID)", path: "timelines/\(r)/", values: ["userID": user.uid, "username": user.username, "profilePicture": (user.picture?.absoluteString)!, "imdbID": movie.imdbID, "moviePoster": movie.poster.absoluteString, "movieName": movie.name, "movieYear": movie.year, "date": -movie.date, "status": (movie.status == .willWatch ? "willWatch" : "didWatch")]){ response in
                                             if response == .success {
                                             } else {
                                                 //TODO: error
@@ -49,9 +49,11 @@ class UserTransaction {
                         }
                     }
 
-                } else {
-                    completion?(response)
                 }
+            }
+        } else {
+            self.deleteMovie(movie.imdbID){ response in
+                completion?(response)
             }
         }
     }
@@ -324,9 +326,10 @@ class UserTransaction {
     
     func loadTimeline(completion: (DBResponse,[TimelineEntry]) -> Void){
         database.fetch(database.uid!, orderBy: "date", path: "timelines/"){ (response, values) in
+            var entries: [TimelineEntry] = []
             switch response {
             case .success:
-                let entries = values.map{ (r) -> TimelineEntry in
+                entries = values.map{ (r) -> TimelineEntry in
                     let movieName = r["movieName"]!
                     let movieYear = r["movieYear"]!
                     let imdbID = r["imdbID"]!
@@ -340,7 +343,7 @@ class UserTransaction {
                 }
                 completion(.success, entries)
             default:
-                completion(.error(.empty),[TimelineEntry]())
+                completion(.error(.empty),entries)
             }
         }
 

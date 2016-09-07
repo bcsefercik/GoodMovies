@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 struct User{
     let uid: String
     let username: String
@@ -45,7 +46,6 @@ struct User{
         }
     }
 }
-
 
 struct UserSimple{
     let name, username, uid: String

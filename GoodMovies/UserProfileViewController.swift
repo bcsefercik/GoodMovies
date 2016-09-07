@@ -229,7 +229,7 @@ class UserProfileViewController: UITableViewController {
             cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"
             cell.profilePicture.kf_setImageWithURL(presentation.profileUser!.picture!)
             cell.profilePicture.layer.masksToBounds = true
-            cell.profilePicture.layer.cornerRadius = 75
+            cell.profilePicture.layer.cornerRadius = 60
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor.whiteColor()
             return cell

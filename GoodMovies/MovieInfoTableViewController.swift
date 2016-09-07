@@ -287,5 +287,4 @@ class MovieInfoTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
 }

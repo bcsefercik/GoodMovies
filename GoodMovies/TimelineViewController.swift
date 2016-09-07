@@ -20,6 +20,7 @@ struct TimelinePresentation{
 class TimelineViewController: UITableViewController {
     private struct Const{
         static let cellReuseID = "timelineCell"
+        static let emptyCellReuseID = "timelineEmptyCell"
     }
     
     var secCount = 1
@@ -29,6 +30,7 @@ class TimelineViewController: UITableViewController {
     
     private var model = TimelineViewModel()
     private var presentation = TimelinePresentation()
+    private let router = TimelineRouter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,13 @@ class TimelineViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         
         self.refreshControl?.addTarget(self, action: #selector(handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
+        imageView.image = UIImage(named: "whitelogo")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .ScaleAspectFit
+        self.navigationItem.titleView = imageView
+        
     }
     
     @objc func handleRefresh(refreshControl: UIRefreshControl) {
@@ -84,33 +93,40 @@ class TimelineViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return presentation.entries.count
+        return presentation.entries.count > 0 ? presentation.entries.count : (model.state.loadingState.isActive ? 0 : 1)
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID, forIndexPath: indexPath) as! TimelineCell
         
-        cell.layoutMargins = UIEdgeInsetsZero
-        
-        let entry = presentation.entries[indexPath.row]
-        cell.movieTitle.text = entry.movieName
-        cell.movieYear.text = entry.movieYear
-        cell.movieDate.text = "\(NSDate(timeIntervalSince1970: entry.date).getElapsedInterval()) ago"
-        cell.moviePoster.kf_setImageWithURL(entry.moviePoster)
-        cell.username.text = entry.username
-        
-        cell.profileImage.kf_setImageWithURL(entry.userPicture)
-        cell.profileImage.layer.masksToBounds = true
-        cell.profileImage.layer.cornerRadius = 10
-        
-        return cell
+        if presentation.entries.count > 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.cellReuseID, forIndexPath: indexPath) as! TimelineCell
+            
+            let entry = presentation.entries[indexPath.row]
+            cell.movieTitle.text = entry.movieName
+            cell.movieYear.text = entry.movieYear
+            cell.movieDate.text = "\(NSDate(timeIntervalSince1970: entry.date).getElapsedInterval()) ago"
+            cell.moviePoster.kf_setImageWithURL(entry.moviePoster)
+            cell.username.text = entry.username
+            cell.movieType.text = (entry.type == .willWatch ? "will watch" : "watched")
+            
+            cell.profileImage.kf_setImageWithURL(entry.userPicture)
+            cell.profileImage.layer.masksToBounds = true
+            cell.profileImage.layer.cornerRadius = 10
+            
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.layoutMargins = UIEdgeInsetsZero
+            
+            cell.backgroundColor = (indexPath.row % 2 == 0) ? Color.clouds : UIColor.whiteColor()
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(Const.emptyCellReuseID, forIndexPath: indexPath)
+            return cell
+        }
     }
     
 
@@ -122,42 +138,15 @@ class TimelineViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
 
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func viewWillDisappear(animated: Bool) {
+        LoadingOverlay.shared.hideOverlayView()
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        router.goToMovie(presentation.entries[indexPath.row].imdbID, sender: self.navigationController!)
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }

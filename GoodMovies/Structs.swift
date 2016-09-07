@@ -31,6 +31,12 @@ extension UIColor{
     convenience init(rgb: Int) {
         self.init(rgb:rgb, alpha:1.0)
     }
+    
+    convenience init(rgbString: String){
+        let colors = rgbString.characters.split{$0 == ","}.map(String.init).map{CGFloat(Int($0)!)}
+        print(colors)
+        self.init(red: colors[0], green: colors[1], blue: colors[2])
+    }
 }
 
 
