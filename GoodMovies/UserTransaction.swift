@@ -137,7 +137,6 @@ class UserTransaction {
                     self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count,_ in
                         userInfo.updateValue(String(count), forKey: "didWatchCount")
                         guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
-                            print("asd")
                             finalResponse = .error(.empty)
                             completion(nil, finalResponse)
                             return
@@ -167,6 +166,52 @@ class UserTransaction {
         
         
     }
+    
+    func fetchUserInfoSimple(userID: String, completion: (User?, DBResponse) -> Void){
+        let realUserID = userID.stringByReplacingOccurrencesOfString(UserConstants.currentUserID, withString: database.uid!)
+        var userInfo: [String:String] = [:]
+        var finalResponse = DBResponse.success
+        
+        database.fetchDict(realUserID, path: "users/"){ [unowned self] (response, val) in
+            switch response {
+            case .success:
+                guard let values = val as? [String:String] else {
+                    finalResponse = .error(.incomplete)
+                    return
+                }
+                for v in values {
+                    userInfo.updateValue(v.1, forKey: v.0)
+                }
+                        guard let uUsername = userInfo["username"], uName = userInfo["name"],  uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
+                            finalResponse = .error(.empty)
+                            completion(nil, finalResponse)
+                            return
+                        }
+                
+                        let uWillWatchCount = "0", uDidWatchCount = "0"
+                        
+                        var uFgColor, uBgColor: String
+                        
+                        if (userInfo["fgColor"] == nil || userInfo["bgColor"] == nil){
+                            uFgColor = ""
+                            uBgColor = ""
+                        } else {
+                            uFgColor = userInfo["fgColor"]!
+                            uBgColor = userInfo["bgColor"]!
+                        }
+                        let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount)!, followingCount: Int(uFollowingCount)!, picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
+                        
+                        completion(user,finalResponse)
+         
+            default:
+                finalResponse = .error(.serverError)
+            }
+            return
+        }
+        
+        
+    }
+
     
     func followUser(toFollow: User, completion: ((DBResponse) -> Void)?){
         self.fetchUserInfo(self.cUserID){ [weak self] currentUser,response in

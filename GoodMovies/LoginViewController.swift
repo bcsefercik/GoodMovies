@@ -17,6 +17,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loading: LoadingView!
     
     private let model = LoginViewModel()
+    private let router = LoginRegisterRouter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +91,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.model.signIn(mail, password: password)
     }
     
+    @IBAction func goToRegister(sender: UIButton) {
+        router.goToRegister()
+    }
     @IBAction func signInTapped(sender: UIButton) {
         handleLogin()
     }

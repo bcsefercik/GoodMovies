@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KWu-0f-ty5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KWu-0f-ty5">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -25,7 +25,7 @@
                                     <color key="titleColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="wKX-eU-WPa" kind="show" id="ufx-Gk-qzb"/>
+                                    <action selector="goToRegister:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dUz-jf-V2T"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="kBn-rZ-qcn">
@@ -812,7 +812,7 @@
         <!--registerScreen-->
         <scene sceneID="ZGU-2k-6oE">
             <objects>
-                <viewController title="registerScreen" id="wKX-eU-WPa" customClass="RegisterViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterVC" title="registerScreen" id="wKX-eU-WPa" customClass="RegisterViewController" customModule="GoodMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oC0-Ph-Xa5"/>
                         <viewControllerLayoutGuide type="bottom" id="pnm-q3-T7h"/>
@@ -828,7 +828,7 @@
                                     <color key="titleColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="6tC-qC-h4B"/>
+                                    <action selector="goToLogin:" destination="wKX-eU-WPa" eventType="touchUpInside" id="D0S-Xp-7q8"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="DT7-EG-qe6">

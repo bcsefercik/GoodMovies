@@ -19,6 +19,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     
     private let model = RegisterViewModel()
+    private let router = LoginRegisterRouter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         self.model.signUp(email, password: password, username: mail, name: name)
     }
+    
+    @IBAction func goToLogin(sender: UIButton) {
+        router.goToLogin()
+    }
+    
     
     func applyStateChange(change: RegisterViewModel.RegisterState.Change) {
         switch change{

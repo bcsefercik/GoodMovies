@@ -252,11 +252,15 @@ class DatabaseAdapter {
     
     func nodeCount(path: String, completion: (UInt, DBResponse) -> Void){
         let ref = base.child("\(path)")
-        ref.observeSingleEventOfType(.Value, withBlock: { snapshot in
+        ref.observeEventType(.Value, withBlock: { snapshot in
             if !snapshot.exists(){
                 completion(0,.success)
             } else {
-                completion(snapshot.childrenCount,.success)
+                if snapshot.childrenCount == 0 {
+                    completion(0,.success)
+                } else {
+                    completion(snapshot.childrenCount,.success)
+                }
             }
         })
     }

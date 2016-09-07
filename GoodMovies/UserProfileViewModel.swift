@@ -23,7 +23,7 @@ class UserProfileViewModel{
             state.profileStatus = .currentUser
         }
         
-        usertransaction.fetchUserInfo(userID){ [weak self] (user,response) in
+        usertransaction.fetchUserInfoSimple(userID){ [weak self] (user,response) in
             //TODO: error
             
             guard let strongSelf = self, profileUser = user else { return }

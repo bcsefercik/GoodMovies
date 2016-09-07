@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B214B4C5F5F5F4D6B6BB692 /* Pods_GoodMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCC0A9B922648FC30320C0F /* Pods_GoodMovies.framework */; };
+		4E00CDD71D806311002C96F7 /* LoginRegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00CDD61D806311002C96F7 /* LoginRegisterRouter.swift */; };
 		4E370AB81D6A2F2200C52A16 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */; };
 		4E370ABA1D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */; };
 		4E370ABC1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */; };
@@ -80,6 +81,7 @@
 
 /* Begin PBXFileReference section */
 		1FCC0A9B922648FC30320C0F /* Pods_GoodMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoodMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E00CDD61D806311002C96F7 /* LoginRegisterRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRegisterRouter.swift; sourceTree = "<group>"; };
 		4E370AB71D6A2F2200C52A16 /* LoadingOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		4E370AB91D6A3EE000C52A16 /* MovieLoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieLoadingTableViewCell.swift; sourceTree = "<group>"; };
 		4E370ABB1D6A4DC300C52A16 /* MovieAllLoadedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieAllLoadedTableViewCell.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				C2321B201D5DCB1400223DBF /* LoginViewModel.swift */,
 				C2DD76621D61DB8000626786 /* RegisterViewController.swift */,
 				C2DD76641D61DBA300626786 /* RegisterViewModel.swift */,
+				4E00CDD61D806311002C96F7 /* LoginRegisterRouter.swift */,
 			);
 			name = LoginRegister;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				C2ECC3961D64372F0024A257 /* Movie.swift in Sources */,
 				C23026B51D80283E003AAAFF /* StorageAdapter.swift in Sources */,
 				C226243B1D6D8C3F00DEE400 /* UserProfileInfoViewCell.swift in Sources */,
+				4E00CDD71D806311002C96F7 /* LoginRegisterRouter.swift in Sources */,
 				4E8BE3931D7EF04000BA68D2 /* TimelineCell.swift in Sources */,
 				C281708D1D6EC52800E00408 /* UserProfileViewModel.swift in Sources */,
 				C2E07CAC1D66E9E300244D5E /* Network.swift in Sources */,
@@ -639,7 +643,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymoviesL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -652,7 +656,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymoviesL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
