@@ -244,6 +244,8 @@ class UserProfileViewController: UITableViewController {
             cell.profilePicture.layer.borderWidth = 2
             cell.profilePicture.layer.borderColor = tC.CGColor
             cell.layoutMargins = UIEdgeInsetsZero
+            tableView.backgroundColor = bC
+            tableView.tableFooterView?.backgroundColor = Color.clouds
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.pickerReuseID) as! UserProfilePickerCell

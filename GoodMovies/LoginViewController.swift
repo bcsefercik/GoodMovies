@@ -36,11 +36,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             loading.hideOverlayView()
             router.goToMain()
         case .emptyError:
-            PopupMessage.shared.showMessage(self.navigationController?.view, text: "All fields are required.", type:  .error)
+            PopupMessage.shared.showMessage(self.view, text: "All fields are required.", type:  .error)
             loginButton.enabled = true
             loading.hideOverlayView()
         case .dbError:
-            PopupMessage.shared.showMessage(self.navigationController?.view, text: "The email address and password you entered did not match our recors. Please double check and try again.", type:  .error)
+            PopupMessage.shared.showMessage(self.view, text: "The email address and password you entered did not match our recors. Please double check and try again.", type:  .error)
             loginButton.enabled = true
             loading.hideOverlayView()
         }

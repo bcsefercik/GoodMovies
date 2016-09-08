@@ -6,7 +6,7 @@ class UserTransaction {
     private let database = DatabaseAdapter()
     private let storage = StorageAdapter()
     
-    private let defaultPicture = "http://staffprofiles.bournemouth.ac.uk/library/images/nopicture-male.jpg"
+    private let defaultPicture = "https://firebasestorage.googleapis.com/v0/b/mymovies-e0a6f.appspot.com/o/nopicture-male.jpg?alt=media&token=a61d114d-af36-4be8-aff6-8347e5ba63b4"
     var cUserID: String {
         get {
             return database.uid!
