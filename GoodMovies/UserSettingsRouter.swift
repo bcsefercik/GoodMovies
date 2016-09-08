@@ -20,4 +20,16 @@ class UserSettingsRouter : Router{
             UIView.setAnimationsEnabled(oldState)
             }, completion: nil)
     }
+    
+    
+    func goToChangePassword(sender: UINavigationController){
+        let nextViewController = storyboard.instantiateViewControllerWithIdentifier("USChangePasswordScreen") as! USChangePasswordViewController
+        sender.showViewController(nextViewController, sender: sender)
+    }
+    
+    func goToChangeEmail(sender: UINavigationController, email: String){
+        let nextViewController = storyboard.instantiateViewControllerWithIdentifier("USChangeEmailScreen") as! USChangeEmailViewController
+        nextViewController.oldEmail = email
+        sender.showViewController(nextViewController, sender: sender)
+    }
 }

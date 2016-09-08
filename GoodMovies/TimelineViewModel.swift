@@ -40,7 +40,7 @@ class TimelineViewModel{
 
 
 extension TimelineViewModel.State{
-    enum Change {
+    enum Change : Equatable {
         case entries(CollectionChange)
         case loading(LoadingState)
     }
@@ -59,5 +59,29 @@ extension TimelineViewModel.State{
         self.entries.removeAll()
         self.entries = entries
         return .entries(.reload)
+    }
+}
+
+func ==(lhs: TimelineViewModel.State.Change, rhs: TimelineViewModel.State.Change) -> Bool{
+    switch lhs {
+    case .entries(let change):
+        switch rhs {
+        case .entries(let cr):
+            switch change {
+            case .reload:
+                switch cr {
+                case .reload:
+                    return true
+                default:
+                    return false
+                }
+            default:
+                return false
+            }
+        default:
+            return false
+        }
+    default:
+        return false
     }
 }

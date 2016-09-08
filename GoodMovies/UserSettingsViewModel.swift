@@ -71,6 +71,56 @@ class UserSettingsViewModel{
         }
     }
     
+    func changePassword(oldPassword: String?, newPassword: String?, newPasswordAgain: String?) {
+        self.emit(self.state.addActivity())
+        if oldPassword == "" || oldPassword == nil || newPassword == "" || newPassword == nil || newPasswordAgain == "" || newPasswordAgain == nil {
+            self.emit(.message("Please fill all fields.", .error))
+            self.emit(self.state.removeActivity())
+        } else if newPassword != newPasswordAgain{
+            self.emit(.message("Your new passwords must be same.", .error))
+            self.emit(self.state.removeActivity())
+        } else {
+            usertransaction.changePassword(state.user!.username, oldPassword: oldPassword!, newPassword: newPassword!, newPasswordAgain: newPasswordAgain!){ response in
+                self.emit(self.state.removeActivity())
+                switch response {
+                case .success:
+                    self.emit(.message("Your password hass been changed successfully.", .successful))
+                case .fail(let msg):
+                    self.emit(.message(msg, .error))
+                default:
+                    break
+                }
+            }
+        }
+        
+    }
+    
+    func changeEmail(email: String, completion:((String?) -> Void)?){
+        self.emit(self.state.addActivity())
+        if isValidEmail(email){
+            usertransaction.changeEmail(email){ response in
+                self.emit(self.state.removeActivity())
+                switch response {
+                case .success:
+                    self.emit(.message("Your email has been changed successfully.", .successful))
+                    completion?(email)
+                default:
+                    self.emit(.message("Something went wrong. :(", .error))
+                }
+            }
+        } else {
+            self.emit(self.state.removeActivity())
+            self.emit(.message("Please enter a valid email.", .error))
+        }
+    }
+    
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "^(?:(?:(?:(?: )*(?:(?:(?:\\t| )*\\r\\n)?(?:\\t| )+))+(?: )*)|(?: )+)?(?:(?:(?:[-A-Za-z0-9!#$%&’*+/=?^_'{|}~]+(?:\\.[-A-Za-z0-9!#$%&’*+/=?^_'{|}~]+)*)|(?:\"(?:(?:(?:(?: )*(?:(?:[!#-Z^-~]|\\[|\\])|(?:\\\\(?:\\t|[ -~]))))+(?: )*)|(?: )+)\"))(?:@)(?:(?:(?:[A-Za-z0-9](?:[-A-Za-z0-9]{0,61}[A-Za-z0-9])?)(?:\\.[A-Za-z0-9](?:[-A-Za-z0-9]{0,61}[A-Za-z0-9])?)*)|(?:\\[(?:(?:(?:(?:(?:[0-9]|(?:[1-9][0-9])|(?:1[0-9][0-9])|(?:2[0-4][0-9])|(?:25[0-5]))\\.){3}(?:[0-9]|(?:[1-9][0-9])|(?:1[0-9][0-9])|(?:2[0-4][0-9])|(?:25[0-5]))))|(?:(?:(?: )*[!-Z^-~])*(?: )*)|(?:[Vv][0-9A-Fa-f]+\\.[-A-Za-z0-9._~!$&'()*+,;=:]+))\\])))(?:(?:(?:(?: )*(?:(?:(?:\\t| )*\\r\\n)?(?:\\t| )+))+(?: )*)|(?: )+)?$"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let result = emailTest.evaluateWithObject(testStr)
+        return result
+    }
+    
     func emit(change: State.Change){
         stateChangeHandler?(change)
     }

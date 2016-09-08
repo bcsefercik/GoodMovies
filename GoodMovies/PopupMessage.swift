@@ -21,10 +21,11 @@ public class PopupMessage{
         overlayView = UIView(frame: CGRect(x: view.frame.midX-130, y: view.frame.midY-50, width: 260, height: 100))
         overlayView.layer.cornerRadius = 26
         
-        textLabel = UILabel(frame: CGRect(x: 10, y: 5, width: 240, height: 80))
+        textLabel = UILabel(frame: CGRect(x: 10, y: 10, width: 240, height: 80))
         textLabel.textAlignment = .Center
         textLabel.textColor = UIColor.whiteColor()
-        textLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 26)
+        textLabel.font = UIFont(name: "HelveticaNeue-Light", size: 20)
+        textLabel.numberOfLines = 3
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.text = text
         

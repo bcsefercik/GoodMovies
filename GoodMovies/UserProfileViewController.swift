@@ -39,7 +39,7 @@ struct UserProfilePresentation{
     }
 }
 
-class UserProfileViewController: UITableViewController {
+class UserProfileViewController: UITableViewController, UINavigationControllerDelegate {
     
     private struct Const{
         static let infoReuseID = "userProfileInfoCell"
@@ -61,7 +61,7 @@ class UserProfileViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.delegate = self
         
         self.applyState(model.state)
         
@@ -76,10 +76,15 @@ class UserProfileViewController: UITableViewController {
         navigationItem.backBarButtonItem?.tintColor = Color.clouds
         navigationController?.navigationBar.tintColor = Color.clouds
         tableView.tableFooterView = UIView()
+        
+        
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
     }
     
     override func viewWillAppear(animated: Bool) {
         model.loadUserMovies(userID)
+        self.navigationItem.rightBarButtonItem = nil
     }
     
     func isCurrentUser() -> Bool{
@@ -103,6 +108,9 @@ class UserProfileViewController: UITableViewController {
             switch change {
             case .reload:
                 infoRowCount = 2
+                self.navigationItem.rightBarButtonItem = nil
+                self.navigationItem.rightBarButtonItems = nil
+                self.setupButtons()
                 presentation.update(withState: model.state, type: type)
                 presentation.updateProfileStatus(withState: model.state)
                 tableView.reloadData()
@@ -160,6 +168,8 @@ class UserProfileViewController: UITableViewController {
     
     override func viewWillDisappear(animated: Bool) {
         LoadingOverlay.shared.hideOverlayView()
+        
+        self.navigationItem.rightBarButtonItem = nil
     }
 
     func setupButtons(){
@@ -204,10 +214,14 @@ class UserProfileViewController: UITableViewController {
             }()
         }
         item.customView = rightBarButton
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         self.navigationItem.setRightBarButtonItem(item, animated: true)
     }
     
     @objc private func handleTopButton(){
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         switch presentation.profileStatus {
         case .currentUser:
             router.goToSettings(self.navigationController!)

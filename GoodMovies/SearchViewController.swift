@@ -222,7 +222,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             
             let watched = UITableViewRowAction(style: .Normal, title: Constants.didIcon) { (action, indexPath) in
                 self.tableView.setEditing(false, animated: true)
-                self.model.addToList(indexPath.row , newStatus: MovieStatus.willWatch)
+                self.model.addToList(indexPath.row , newStatus: MovieStatus.didWatch)
             }
             
             watched.backgroundColor = UIColor.lightGrayColor()

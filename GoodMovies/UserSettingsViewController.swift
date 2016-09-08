@@ -33,7 +33,7 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
                     "Account",
                     "Other"]
     let rows = [["Picture","Background color", "Text color"],
-               ["Password", "Name", "Email"],
+               ["Password", "Email", "Name"],
                ["Logout"]]
 
     private var profileImageView = UIImageView()
@@ -178,6 +178,15 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
                 chooseBackground()
             case 2:
                 chooseForeground()
+            default:
+                break
+            }
+        case 1:
+            switch indexPath.row {
+            case 0:
+                router.goToChangePassword(self.navigationController!)
+            case 1:
+                router.goToChangeEmail(self.navigationController!, email: self.presentation.userInfo!.email)
             default:
                 break
             }

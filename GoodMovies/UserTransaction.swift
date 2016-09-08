@@ -136,7 +136,7 @@ class UserTransaction {
                     userInfo.updateValue(String(count), forKey: "willWatchCount")
                     self.database.nodeCount("movies/\(realUserID)/didWatch/"){ count,_ in
                         userInfo.updateValue(String(count), forKey: "didWatchCount")
-                        guard let uUsername = userInfo["username"], uName = userInfo["name"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
+                        guard let uUsername = userInfo["username"], uName = userInfo["name"], uEmail = userInfo["email"], uWillWatchCount = userInfo["willWatchCount"], uDidWatchCount = userInfo["didWatchCount"], uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
                             finalResponse = .error(.empty)
                             completion(nil, finalResponse)
                             return
@@ -151,7 +151,7 @@ class UserTransaction {
                             uFgColor = userInfo["fgColor"]!
                             uBgColor = userInfo["bgColor"]!
                         }
-                        let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount)!, followingCount: Int(uFollowingCount)!, picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
+                        let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount)!, followingCount: Int(uFollowingCount)!, picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor, email: uEmail)
                         
                         completion(user,finalResponse)
                         return
@@ -182,7 +182,7 @@ class UserTransaction {
                 for v in values {
                     userInfo.updateValue(v.1, forKey: v.0)
                 }
-                        guard let uUsername = userInfo["username"], uName = userInfo["name"],  uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
+                        guard let uUsername = userInfo["username"], uName = userInfo["name"], uEmail = userInfo["email"],  uFollowerCount = userInfo["followerCount"], uFollowingCount = userInfo["followingCount"], uPicture = userInfo["profilePicture"]?.stringByReplacingOccurrencesOfString("empty", withString: self.defaultPicture) else {
                             finalResponse = .error(.empty)
                             completion(nil, finalResponse)
                             return
@@ -199,8 +199,8 @@ class UserTransaction {
                             uFgColor = userInfo["fgColor"]!
                             uBgColor = userInfo["bgColor"]!
                         }
-                        let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount)!, followingCount: Int(uFollowingCount)!, picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor)
-                        
+                let user = User(uid: realUserID, username: uUsername, name: uName, willWatchCount: Int(uWillWatchCount)!, didWatchCount: Int(uDidWatchCount)!, followerCount: Int(uFollowerCount)!, followingCount: Int(uFollowingCount)!, picture: uPicture, foregroundColor: uFgColor, backgroundColor: uBgColor, email: uEmail)
+                
                         completion(user,finalResponse)
          
             default:
@@ -430,6 +430,37 @@ class UserTransaction {
     func setColor(color: String, type: String, completion:(() -> Void)?){
         database.insert(self.cUserID, path: "users/", values: [type: color]){ _ in
             completion?()
+        }
+    }
+    
+    func changePassword(userName: String, oldPassword: String, newPassword: String, newPasswordAgain: String, completion:((DBResponse) -> Void)?){
+        
+        FIRAuth.auth()?.signInWithEmail("\(userName)@mymoviesapp.com", password: oldPassword, completion: { (user, error) in
+            
+            if error != nil {
+                completion?(.fail("Please correct your old password."))
+                return
+            }else{
+                let user = FIRAuth.auth()?.currentUser
+                
+                user?.updatePassword(newPassword) { error in
+                    if error != nil {
+                        completion?(.fail("Something went wrong."))
+                        return
+                    } else {
+                        completion?(.success)
+                        return
+                    }
+                }
+                return
+            }
+        })
+
+    }
+    
+    func changeEmail(email:String, completion: ((DBResponse) -> Void)?){
+        database.insert(self.cUserID, path: "users/", values: ["email": email]){ response in
+            completion?(response)
         }
     }
 }

@@ -68,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/MovieInfoTableViewController.swift"
-            timestampString = "494837145.248358"
+            timestampString = "495020384.609897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -105,7 +105,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "70"
             endingLineNumber = "70"
-            landmarkName = "collectionView(_:didSelectItemAtIndexPath:)"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -116,11 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/MovieInfoTableViewController.swift"
-            timestampString = "494837145.248358"
+            timestampString = "495020384.609897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "posterTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -137,8 +137,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "89"
             endingLineNumber = "89"
-            landmarkName = "follow()"
-            landmarkType = "5">
+            landmarkName = "UserProfileViewModel"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -148,11 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/MovieInfoTableViewController.swift"
-            timestampString = "494837145.248358"
+            timestampString = "495020384.609897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "setupButtons()"
             landmarkType = "5">
          </BreakpointContent>
@@ -164,7 +164,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/TimelineViewController.swift"
-            timestampString = "494928826.842369"
+            timestampString = "495017639.354372"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "115"
@@ -185,7 +185,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
             endingLineNumber = "36"
-            landmarkName = "init(rgbString:)"
+            landmarkName = "removeActivity()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -196,12 +196,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/User.swift"
-            timestampString = "494942394.670904"
+            timestampString = "495023779.877429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "changePicture(_:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "changeMovieCount(_:type:)"
             landmarkType = "5">
             <Locations>
                <Location
@@ -265,6 +265,38 @@
             startingLineNumber = "51"
             endingLineNumber = "51"
             landmarkName = "isSignedIn()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GoodMovies/UserProfileViewController.swift"
+            timestampString = "495019826.064918"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "setupButtons()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GoodMovies/UserProfileViewController.swift"
+            timestampString = "495019826.064918"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "setupButtons()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

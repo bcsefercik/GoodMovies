@@ -11,8 +11,9 @@ struct User{
     var picture: NSURL?
     var fgColor: String
     var bgColor: String
+    var email: String
     
-    init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String, foregroundColor: String, backgroundColor: String){
+    init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String, foregroundColor: String, backgroundColor: String, email: String){
         self.uid = uid
         self.username = username
         self.name = name
@@ -33,10 +34,12 @@ struct User{
         if self.bgColor == "" {
             self.bgColor = "255,255,255"
         }
+        
+        self.email = email
     }
     
     init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String){
-        self.init(uid: uid, username: username, name: name, willWatchCount: willWatchCount, didWatchCount: didWatchCount, followerCount: followerCount, followingCount: followingCount, picture: picture, foregroundColor: "", backgroundColor: "")
+        self.init(uid: uid, username: username, name: name, willWatchCount: willWatchCount, didWatchCount: didWatchCount, followerCount: followerCount, followingCount: followingCount, picture: picture, foregroundColor: "", backgroundColor: "", email: "")
     }
     
     mutating func changeFollowerCount(by: Int){

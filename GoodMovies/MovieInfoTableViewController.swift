@@ -20,7 +20,7 @@ struct MovieDetailPresentation{
 }
 
 
-class MovieInfoTableViewController: UITableViewController {
+class MovieInfoTableViewController: UITableViewController, UINavigationControllerDelegate {
     private struct Const {
         static let titleReuseID = "movieTitleCellID"
         static let posterReuseID = "moviePosterCellID"
@@ -58,11 +58,13 @@ class MovieInfoTableViewController: UITableViewController {
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
         }
+        navigationController?.delegate = self
         
         tableView.tableFooterView = UIView()
-        
+        self.navigationItem.rightBarButtonItem = nil
         setupButtons()
         self.navigationController?.hidesBarsOnSwipe = false
+        
     }
     
     func applyState(state: MovieInfoViewModel.State){
@@ -156,7 +158,8 @@ class MovieInfoTableViewController: UITableViewController {
         item1.customView = willButton
         let item2 = UIBarButtonItem()
         item2.customView = didButton
-        
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         self.navigationItem.setRightBarButtonItems([item2,item1], animated: true)
         
         self.navigationController?.navigationBar.tintColor = Color.clouds
@@ -189,18 +192,24 @@ class MovieInfoTableViewController: UITableViewController {
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return secCount
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return rowCount
     }
 
     override func viewWillDisappear(animated : Bool) {
         super.viewWillDisappear(animated)
         LoadingOverlay.shared.hideOverlayView()
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
+        self.setupButtons()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

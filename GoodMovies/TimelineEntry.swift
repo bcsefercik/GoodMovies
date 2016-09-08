@@ -1,5 +1,5 @@
 import Foundation
-struct TimelineEntry{
+struct TimelineEntry: Equatable{
     
     let movieName: String
     let movieYear: String
@@ -29,5 +29,13 @@ struct TimelineEntry{
         self.username = username
         self.userPicture = NSURL(string: userPicture)!
         self.userID = userID
+    }
+}
+
+func ==(lhs: TimelineEntry, rhs: TimelineEntry) -> Bool{
+    if lhs.imdbID == rhs.imdbID && lhs.userID == rhs.userID{
+        return true
+    } else {
+        return false
     }
 }
