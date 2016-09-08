@@ -127,7 +127,7 @@ class UserSettingsViewModel{
 }
 
 extension UserSettingsViewModel.State{
-    enum Change {
+    enum Change : Equatable {
         case user
         case message(String,PopupMessageType)
         case loading(LoadingState)
@@ -146,5 +146,18 @@ extension UserSettingsViewModel.State{
     mutating func setUser(withUser: User) ->Change{
         user = withUser
         return .user
+    }
+}
+func ==(lhs: UserSettingsViewModel.State.Change, rhs: UserSettingsViewModel.State.Change) -> Bool{
+    switch lhs {
+    case .user:
+        switch rhs {
+        case .user:
+            return true
+        default:
+            return false
+        }
+    default:
+        return false
     }
 }

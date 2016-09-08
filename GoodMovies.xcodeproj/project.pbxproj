@@ -44,6 +44,7 @@
 		C2A25C8B1D81503500936BFE /* TimelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A25C831D814ED500936BFE /* TimelineTests.swift */; };
 		C2A25C8E1D815A6900936BFE /* USChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A25C8D1D815A6900936BFE /* USChangePasswordViewController.swift */; };
 		C2A25C901D8173CF00936BFE /* USChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A25C8F1D8173CF00936BFE /* USChangeEmailViewController.swift */; };
+		C2A25C921D8183A200936BFE /* UserSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A25C911D8183A200936BFE /* UserSettingsTests.swift */; };
 		C2B9CBAD1D6C159C00AF64D1 /* MovieInfoPosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B9CBAC1D6C159C00AF64D1 /* MovieInfoPosterCell.swift */; };
 		C2B9CBAF1D6C227A00AF64D1 /* MovieInfoCreditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B9CBAE1D6C227A00AF64D1 /* MovieInfoCreditCell.swift */; };
 		C2B9CBB11D6C2CD100AF64D1 /* MovieInfoPlotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B9CBB01D6C2CD100AF64D1 /* MovieInfoPlotCell.swift */; };
@@ -133,6 +134,7 @@
 		C2A25C831D814ED500936BFE /* TimelineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineTests.swift; sourceTree = "<group>"; };
 		C2A25C8D1D815A6900936BFE /* USChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USChangePasswordViewController.swift; sourceTree = "<group>"; };
 		C2A25C8F1D8173CF00936BFE /* USChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USChangeEmailViewController.swift; sourceTree = "<group>"; };
+		C2A25C911D8183A200936BFE /* UserSettingsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsTests.swift; sourceTree = "<group>"; };
 		C2B9CBAC1D6C159C00AF64D1 /* MovieInfoPosterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieInfoPosterCell.swift; sourceTree = "<group>"; };
 		C2B9CBAE1D6C227A00AF64D1 /* MovieInfoCreditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieInfoCreditCell.swift; sourceTree = "<group>"; };
 		C2B9CBB01D6C2CD100AF64D1 /* MovieInfoPlotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieInfoPlotCell.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				C2A25C681D814C8500936BFE /* Info.plist */,
 				C2A25C831D814ED500936BFE /* TimelineTests.swift */,
+				C2A25C911D8183A200936BFE /* UserSettingsTests.swift */,
 			);
 			path = GoodMoviesTests;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2A25C8B1D81503500936BFE /* TimelineTests.swift in Sources */,
+				C2A25C921D8183A200936BFE /* UserSettingsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,7 +780,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymoviesLL;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -789,7 +793,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GoodMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymoviesLL;
+				PRODUCT_BUNDLE_IDENTIFIER = bcs.mymovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
