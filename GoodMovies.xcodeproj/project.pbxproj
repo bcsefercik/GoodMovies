@@ -479,7 +479,6 @@
 					};
 					C2DE13161D5DC88B00698C12 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = W77VB7SU8E;
 					};
 				};
 			};
