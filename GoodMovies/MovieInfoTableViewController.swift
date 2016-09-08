@@ -130,10 +130,8 @@ class MovieInfoTableViewController: UITableViewController, UINavigationControlle
         willButton.layer.borderColor = Color.clouds.CGColor
         willButton.setTitle(Const.willIcon, forState: .Normal)
         willButton.frame = CGRectMake(0, 0, 65, 30)
-        willButton.translatesAutoresizingMaskIntoConstraints = false
         willButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         willButton.addTarget(self, action: #selector(handleAddToList), forControlEvents: .TouchUpInside)
-        
         
         let didButton = UIButton(type: .System)
         didButton.layer.cornerRadius = 5
@@ -141,7 +139,6 @@ class MovieInfoTableViewController: UITableViewController, UINavigationControlle
         didButton.layer.borderColor = Color.clouds.CGColor
         didButton.setTitle(Const.didIcon, forState: .Normal)
         didButton.frame = CGRectMake(0, 0, 65, 30)
-        didButton.translatesAutoresizingMaskIntoConstraints = false
         didButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         didButton.addTarget(self, action: #selector(handleAddToList), forControlEvents: .TouchUpInside)
         

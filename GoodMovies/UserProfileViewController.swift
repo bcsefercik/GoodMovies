@@ -180,7 +180,6 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
                 let button = UIButton(type: .System)
                 button.setTitle("Settings", forState: .Normal)
                 button.sizeToFit()
-                button.translatesAutoresizingMaskIntoConstraints = false
                 button.setTitleColor(Color.clouds, forState: .Normal)
                 button.addTarget(self, action: #selector(handleTopButton), forControlEvents: .TouchUpInside)
                 return button
@@ -194,7 +193,6 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
                 button.layer.backgroundColor = Color.flatGreen.CGColor
                 button.setTitle("Following", forState: .Normal)
                 button.frame = CGRectMake(0, 0, 91, 30)
-                button.translatesAutoresizingMaskIntoConstraints = false
                 button.setTitleColor(Color.clouds, forState: .Normal)
                 button.addTarget(self, action: #selector(handleTopButton), forControlEvents: .TouchUpInside)
                 return button
@@ -207,7 +205,6 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
                 button.layer.borderColor = Color.clouds.CGColor
                 button.setTitle("Follow", forState: .Normal)
                 button.frame = CGRectMake(0, 0, 65, 30)
-                button.translatesAutoresizingMaskIntoConstraints = false
                 button.setTitleColor(Color.clouds, forState: .Normal)
                 button.addTarget(self, action: #selector(handleTopButton), forControlEvents: .TouchUpInside)
                 return button

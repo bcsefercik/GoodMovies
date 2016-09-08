@@ -68,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/MovieInfoTableViewController.swift"
-            timestampString = "495020384.609897"
+            timestampString = "495026599.2662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -116,11 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/MovieInfoTableViewController.swift"
-            timestampString = "495020384.609897"
+            timestampString = "495026599.2662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "posterTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -148,11 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/MovieInfoTableViewController.swift"
-            timestampString = "495020384.609897"
+            timestampString = "495026599.2662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "setupButtons()"
             landmarkType = "5">
          </BreakpointContent>
@@ -164,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/TimelineViewController.swift"
-            timestampString = "495017639.354372"
+            timestampString = "495026390.738134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -275,11 +275,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/UserProfileViewController.swift"
-            timestampString = "495019826.064918"
+            timestampString = "495026752.208221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "setupButtons()"
             landmarkType = "5">
          </BreakpointContent>
@@ -291,11 +291,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoodMovies/UserProfileViewController.swift"
-            timestampString = "495019826.064918"
+            timestampString = "495026752.208221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "setupButtons()"
             landmarkType = "5">
          </BreakpointContent>

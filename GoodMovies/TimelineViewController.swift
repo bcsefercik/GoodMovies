@@ -49,8 +49,12 @@ class TimelineViewController: UITableViewController {
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
         imageView.image = UIImage(named: "whitelogo")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .ScaleAspectFit
+        
+        self.navigationItem.title = nil
+        self.navigationItem.titleView = nil
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         self.navigationItem.titleView = imageView
         
     }
