@@ -60,7 +60,7 @@ struct User{
     }
 }
 
-struct UserSimple{
+struct UserSimple : Equatable{
     let name, username, uid: String
     let picture: NSURL?
     
@@ -72,6 +72,9 @@ struct UserSimple{
     }
 }
 
+func == (lhs: UserSimple, rhs: UserSimple) -> Bool{
+    return lhs.uid == rhs.uid
+}
 
 struct UserConstants{
     static let currentUserID = "currentUserID"

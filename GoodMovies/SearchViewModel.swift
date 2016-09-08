@@ -171,7 +171,7 @@ class SearchViewModel{
 
 extension SearchViewModel.State {
     
-    enum Change {
+    enum Change: Equatable {
         case none
         case movies(CollectionChange)
         case loading(LoadingState)
@@ -224,5 +224,19 @@ extension SearchViewModel.State {
     
     func reload() -> Change {
         return .movies(.reload)
+    }
+}
+
+func == (lhs: SearchViewModel.State.Change, rhs: SearchViewModel.State.Change) -> Bool {
+    switch lhs {
+    case .movies(let l):
+        switch rhs {
+        case .movies(let r):
+            return l == r
+        default:
+            return false
+        }
+    default:
+        return false
     }
 }

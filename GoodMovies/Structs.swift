@@ -7,7 +7,7 @@
 //
 import Foundation
 
-enum CollectionChange {
+enum CollectionChange: Equatable {
     case initialize
     case insertion(Int)
     case deletion(Int)
@@ -45,3 +45,16 @@ struct Constants {
 }
 
 
+func == (lhs: CollectionChange, rhs: CollectionChange) -> Bool{
+    switch lhs {
+    case .reload:
+        switch rhs {
+        case .reload:
+            return true
+        default:
+            return false
+        }
+    default:
+        return false
+    }
+}
