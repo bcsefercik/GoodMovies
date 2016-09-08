@@ -151,7 +151,7 @@ class UserProfileViewModel{
 
 extension UserProfileViewModel.State {
     
-    enum Change {
+    enum Change : Equatable {
         case none
         case movies(CollectionChange, MovieStatus)
         case loading(LoadingState)
@@ -217,5 +217,19 @@ extension UserProfileViewModel.State {
 
     mutating func setCurrentType(newType: MovieStatus){
         currentType = newType
+    }
+}
+
+func ==(lhs: UserProfileViewModel.State.Change, rhs: UserProfileViewModel.State.Change) -> Bool{
+    switch rhs {
+    case .none:
+        switch rhs {
+        case .none:
+            return true
+        default:
+            return false
+        }
+    default:
+        return false
     }
 }
