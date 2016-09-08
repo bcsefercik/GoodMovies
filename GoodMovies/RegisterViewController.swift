@@ -15,8 +15,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var mailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var loading: LoadingView!
     
+    private let loading = LoadingOverlay.shared
     
     private let model = RegisterViewModel()
     private let router = LoginRegisterRouter()
@@ -27,12 +27,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         model.stateChangeHandler = { [weak self] change in
             self?.applyStateChange(change)
         }
-
         
         setupForm()
-        
-        loading = addLoading()
-        loading.setLabel("Signing up...")
     }
     
     
@@ -49,7 +45,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         let email = username + "@mymoviesapp.com"
         
         registerButton.enabled = false
-        loading.showIn(true)
+        loading.showOverlay(self.view, text: "Loading...")
         
         self.model.signUp(email, password: password, username: mail, name: name)
     }
@@ -63,48 +59,29 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         switch change{
             
         case .emptyError:
-            registerAlert("", text: "All fields are required.")
+            PopupMessage.shared.showMessage(self.view, text: "All fields are required.", type: .error)
             registerButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         case .invalidEmailError:
-            registerAlert("Invalid Email", text: "Please enter a correct email address.")
+            PopupMessage.shared.showMessage(self.view, text: "Please enter a correct email address.", type: .error)
             registerButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         case .takenEmailError:
-            registerAlert("", text: "This email address is already registered.")
+            PopupMessage.shared.showMessage(self.view, text: "This email address is already registered.", type: .error)
             registerButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         case .takenUsernameError:
-            registerAlert("", text: "This username is already taken.")
+            PopupMessage.shared.showMessage(self.view, text: "This username is already taken.", type: .error)
             registerButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         case .dbError:
-            let alert = UIAlertController(
-                title: "Something went wrong...",
-                message: "Please correct your inputs.",
-                preferredStyle: .Alert
-            )
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-            alert.addAction(cancelAction)
-            presentViewController(alert, animated: true, completion: nil)
-            
+            PopupMessage.shared.showMessage(self.view, text: "Something went wrong...", type: .error)            
             registerButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         case .registered:
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-            //Go to tabbar VC
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let tabcon = storyboard.instantiateViewControllerWithIdentifier("TabBarVC") as! UITabBarController
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            UIView.transitionWithView(appDelegate.window!, duration: 0.5, options: .TransitionCrossDissolve, animations: {
-                let oldState: Bool = UIView.areAnimationsEnabled()
-                UIView.setAnimationsEnabled(false)
-                appDelegate.window?.rootViewController = tabcon
-                UIView.setAnimationsEnabled(oldState)
-                }, completion: nil)
+            router.goToMain()
             registerButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         }
 
     }
@@ -140,19 +117,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         return true
     }
-    
-    private func registerAlert(title: String, text: String){
-        let alert = UIAlertController(
-            title: title,
-            message: text,
-            preferredStyle: .Alert
-        )
-        let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-        alert.addAction(cancelAction)
-        presentViewController(alert, animated: true, completion: nil)
-        
 
-    }
 
 
 }

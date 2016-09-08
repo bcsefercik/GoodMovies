@@ -27,6 +27,8 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     private var presentation = UserSettingsPresentation()
     private let router = UserSettingsRouter()
     
+    private let picker = BCSColorPicker.picker
+    
     let sections = ["Profile",
                     "Account",
                     "Other"]
@@ -51,6 +53,10 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
         tableView.backgroundColor = Color.clouds
         
         navigationItem.title = "Settings"
+        
+        picker.colorPalette = FlatColors.allColors
+        picker.numberOfColorsInARow = 5
+        picker.height = 390
     }
     
     func applyState(state: UserSettingsViewModel.State){
@@ -65,13 +71,13 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
             presentation.update(withState: model.state)
             tableView.reloadData()
         case .message(let msg, let type):
-            break
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: msg, type:  type)
         case .loading(let loadingState):
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
             }
             if loadingState.isActive {
-                LoadingOverlay.shared.showOverlay(self.view, text: "Loading...")
+                LoadingOverlay.shared.showOverlay(self.navigationController!.view, text: "Loading...")
             } else {
                 LoadingOverlay.shared.hideOverlayView()
             }
@@ -111,6 +117,20 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func chooseBackground(){
+        picker.showColorPicker(self.navigationController!, animated: true){ color,index in
+            if color != nil {
+                self.model.setColor(FlatColors.allColors[index], type: "bgColor")
+            }
+        }
+    }
+    
+    func chooseForeground(){
+        picker.showColorPicker(self.navigationController!, animated: true){ color,index in
+            self.model.setColor(color!, type: "fgColor")
+        }
+    }
 
     // MARK: - Table view data source
 
@@ -134,7 +154,7 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(Const.standardReuseIdentifier, forIndexPath: indexPath) as! SettingsStandardViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(Const.standardReuseIdentifier, forIndexPath: indexPath) as! SettingsStandardViewCell
         cell.titleLabel.text = self.rows[indexPath.section][indexPath.row]
         
         switch indexPath.section {
@@ -154,6 +174,10 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
             switch indexPath.row {
             case 0:
                 handleSelectProfileImageView()
+            case 1:
+                chooseBackground()
+            case 2:
+                chooseForeground()
             default:
                 break
             }

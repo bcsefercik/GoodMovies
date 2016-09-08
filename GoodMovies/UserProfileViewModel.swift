@@ -10,6 +10,12 @@ class UserProfileViewModel{
         var currentType = MovieStatus.willWatch
         var userInfo: User?
         var profileStatus = UserProfileViewModel.Status.none
+        
+        var movieCount: Int{
+            get{
+                return didWatch.count + willWatch.count
+            }
+        }
     }
 
     
@@ -24,8 +30,6 @@ class UserProfileViewModel{
         }
         
         usertransaction.fetchUserInfoSimple(userID){ [weak self] (user,response) in
-            //TODO: error
-            
             guard let strongSelf = self, profileUser = user else { return }
             
             strongSelf.emit(strongSelf.state.addActivity())
@@ -40,13 +44,15 @@ class UserProfileViewModel{
     func loadUserMovies(user: User){
         self.emit(self.state.addActivity())
         
-        self.usertransaction.fetchUserMovies(user.uid, type: self.state.currentType){ response,movies in
+        self.usertransaction.fetchUserMovies(user.uid, type: .willWatch){ _,wmovies in
+            self.usertransaction.fetchUserMovies(user.uid, type: .didWatch){ response,dmovies in
             
             if response == .success || response == .error(.empty){
                 switch self.state.profileStatus {
                 case .currentUser:
                     self.emit(.loadButtons)
-                    self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
+                    self.state.reloadMovies((self.state.currentType == .willWatch) ? dmovies : wmovies, type: (self.state.currentType == .willWatch) ? .didWatch : .willWatch)
+                    self.emit(self.state.reloadMovies((self.state.currentType == .willWatch) ? wmovies : dmovies, type: self.state.currentType))
                 default:
                     self.usertransaction.isFollowing((self.state.userInfo?.uid)!, followerID: self.usertransaction.cUserID){ _,f in
                         if f {
@@ -55,13 +61,13 @@ class UserProfileViewModel{
                             self.state.profileStatus = .none
                         }
                         self.emit(.loadButtons)
-                        self.emit(self.state.reloadMovies(movies, type: self.state.currentType))
+                        self.state.reloadMovies((self.state.currentType == .willWatch) ? dmovies : wmovies, type: (self.state.currentType == .willWatch) ? .didWatch : .willWatch)
+                        self.emit(self.state.reloadMovies((self.state.currentType == .willWatch) ? wmovies : dmovies, type: self.state.currentType))
                     }
                 }
                 
-            } else {
-            
-            //TODO: error
+            }
+                
             }
         }
         self.emit(self.state.removeActivity())
@@ -75,7 +81,7 @@ class UserProfileViewModel{
                 self.state.userInfo?.changeFollowerCount(-1)
                 self.emit(.loadButtons)
             default:
-                //TODO: error
+                self.emit(.message("Something went wrong.",.error))
                 break
             }
         }
@@ -89,7 +95,7 @@ class UserProfileViewModel{
                 self.state.userInfo?.changeFollowerCount(1)
                 self.emit(.loadButtons)
             default:
-                //TODO: error
+                self.emit(.message("Something went wrong.",.error))
                 break
             }
         }
@@ -115,7 +121,7 @@ class UserProfileViewModel{
                         self.emit(self.state.reloadMovies(self.state.didWatch, type: self.state.currentType))
                     }
                 } else {
-                    //TODO: error
+                    self.emit(.message("Couldn't delete the movie.",.error))
                 }
                 self.emit(self.state.removeActivity())
             }
@@ -151,6 +157,7 @@ extension UserProfileViewModel.State {
         case loading(LoadingState)
         case loadUserInfo(User)
         case loadButtons
+        case message(String,PopupMessageType)
     }
     mutating func setUser(info: User){
         userInfo = info
@@ -210,16 +217,5 @@ extension UserProfileViewModel.State {
 
     mutating func setCurrentType(newType: MovieStatus){
         currentType = newType
-    }
-    
-    mutating func appendMovies(movies: [Movie], type: MovieStatus) -> Change {
-        switch type {
-        case .didWatch:
-            self.didWatch.appendContentsOf(movies)
-            return .movies(.reload, .didWatch)
-        default:
-            self.willWatch.appendContentsOf(movies)
-            return .movies(.reload, .willWatch)
-        }
     }
 }

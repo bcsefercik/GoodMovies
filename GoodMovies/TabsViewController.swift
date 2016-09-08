@@ -13,21 +13,10 @@ class TabsViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-//        do {
-//            try FIRAuth.auth()?.signOut()
-//        } catch let logoutError {
-//            print(logoutError)
-//        }
-//        
+     
         tabBar.translucent = true
         tabBar.barTintColor = Color.clouds
         tabBar.tintColor = Color.midnightBlue
-        
-
-        // Do any additional setup after loading the view.
     }    
 }
  

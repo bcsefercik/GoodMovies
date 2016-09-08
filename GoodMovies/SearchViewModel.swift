@@ -103,6 +103,7 @@ class SearchViewModel{
                 completion(.success, fetchedMovies)
                 return
             default:
+                self?.emit(.message("Couldn't find the movie.", .error))
                 completion(.error(DBResponseError.empty), nil)
                 return
             }
@@ -149,6 +150,18 @@ class SearchViewModel{
         }
     }
     
+    func addToList(index: Int, newStatus: MovieStatus){
+        let md = state.movies[index]
+        self.emit(self.state.addActivity())
+        
+        let movie = Movie(name: md.name , year: md.year, imdbID: md.imdbID, poster: md.poster.absoluteString, status: newStatus)
+        usertransaction.addMovie(movie){ response in
+            self.emit(self.state.removeActivity())
+            self.emit(.message("\(movie.name) is added to your list.", .successful))
+        }
+    }
+
+    
     func emit(change: State.Change){
         stateChangeHandler?(change)
     }
@@ -162,6 +175,7 @@ extension SearchViewModel.State {
         case none
         case movies(CollectionChange)
         case loading(LoadingState)
+        case message(String,PopupMessageType)
     }
     
     mutating func addActivity() -> Change {

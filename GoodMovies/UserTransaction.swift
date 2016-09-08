@@ -34,7 +34,7 @@ class UserTransaction {
                         self.fetchUserInfo(self.database.uid!){ userInfo,response in
                             if response == .success{
                                 guard let user = userInfo else {
-                                    //TODO: error
+                                    completion?(.fail("failed"))
                                     return
                                 }
                                 self.database.fetchKeys("followers/\(self.database.uid!)/"){ response,result in
@@ -42,13 +42,13 @@ class UserTransaction {
                                         self.database.insert("\(self.database.uid!)_\(movie.imdbID)", path: "timelines/\(r)/", values: ["userID": user.uid, "username": user.username, "profilePicture": (user.picture?.absoluteString)!, "imdbID": movie.imdbID, "moviePoster": movie.poster.absoluteString, "movieName": movie.name, "movieYear": movie.year, "date": -movie.date, "status": (movie.status == .willWatch ? "willWatch" : "didWatch")]){ response in
                                             if response == .success {
                                             } else {
-                                                //TODO: error
+                                                completion?(.fail("failed"))
                                             }
                                         }
                                     }
                                 }
                             } else {
-                                //TODO: error
+                                completion?(.fail("failed"))
                             }
                         }
                     }
@@ -78,7 +78,7 @@ class UserTransaction {
                             }
                         }
                     } else {
-                        //TODO: error
+                        completion?(.error(.incomplete))
                     }
                 }
 
@@ -245,41 +245,31 @@ class UserTransaction {
                                                                 }
                                                             }
                                                         default:
-                                                            //TODO: error
-                                                            print("error6")
-                                                            break
+                                                            completion?(.fail("failed"))
                                                         }
                                                     }
 
                                                 } else {
-                                                    //TODO: error
-                                                    print("error5")
+                                                    completion?(.fail("failed"))
                                                 }
                                             }
                                         }
                                     default:
-                                        //TODO: error
-                                        print("error4")
+                                        completion?(.fail("failed"))
                                     break
                                     }
                                 }
                             default:
-                                //TODO: error
-                                print("error3")
-                                break
+                                completion?(.fail("failed"))
                             }
                         }
                     default:
-                        //TODO: error
-                        print("error2")
-                        break
+                        completion?(.fail("failed"))
                     }
                     
                 }
             default:
-                //TODO: error
-                print("error1")
-                break
+                completion?(.fail("failed"))
             }
         }
     }
@@ -306,23 +296,20 @@ class UserTransaction {
                                             strongSelf.database.delete(r, path: "timelines/\(strongSelf.cUserID)/")
                                         }
                                     } else {
-                                        //TODO: error
+                                        completion?(.fail("failed"))
                                     }
                                 }
                             default:
-                                //TODO: error
-                                break
+                                completion?(.fail("failed"))
                             }
                         }
                     default:
-                        //TODO: error
-                        break
+                        completion?(.fail("failed"))
                     }
                     
                 }
             default:
-                //TODO: error
-                break
+                completion?(.fail("failed"))
             }
         }
     }
@@ -438,7 +425,11 @@ class UserTransaction {
         } catch {
             completion?(.fail("error"))
         }
-        
-        
+    }
+    
+    func setColor(color: String, type: String, completion:(() -> Void)?){
+        database.insert(self.cUserID, path: "users/", values: [type: color]){ _ in
+            completion?()
+        }
     }
 }

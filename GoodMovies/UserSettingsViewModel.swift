@@ -47,6 +47,17 @@ class UserSettingsViewModel{
         }
     }
     
+    func setColor(color: UIColor, type: String){
+        self.emit(self.state.addActivity())
+        let (r,g,b,_) = color.components
+        let colorString = "\(String(Int(r))),\(String(Int(g))),\(String(Int(b)))"
+        usertransaction.setColor(colorString, type: type){
+            self.emit(self.state.removeActivity())
+            self.emit(.message("Color is changed succesfully!", PopupMessageType.successful))
+            self.emit(self.state.removeActivity())
+        }
+    }
+    
     func logout(completion: (() -> Void)?){
         self.emit(self.state.addActivity())
         usertransaction.logout(){ reponse in

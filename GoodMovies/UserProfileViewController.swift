@@ -117,7 +117,8 @@ class UserProfileViewController: UITableViewController {
             default:
                 tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
             }
-        
+        case .message(let msg, let type):
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: msg, type:  type)
         case .loadButtons:
             presentation.updateProfileStatus(withState: model.state)
             setupButtons()
@@ -223,15 +224,26 @@ class UserProfileViewController: UITableViewController {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.infoReuseID) as! UserProfileInfoViewCell
+            let bC = UIColor(rgbString: (model.state.userInfo?.bgColor)!)
+            cell.backgroundColor = bC
+            let tC = UIColor(rgbString: (model.state.userInfo?.fgColor)!)
             cell.nameLabel.text = presentation.profileUser?.name.capitalizedString
-            cell.moviesLabel.text = "\(presentation.profileUser!.didWatchCount + presentation.profileUser!.willWatchCount)"
+            cell.nameLabel.textColor = tC
+            cell.moviesLabel.text = "\(model.state.movieCount)"
+            cell.moviesLabel.textColor = tC
             cell.followersLabel.text = "\(presentation.profileUser!.followerCount)"
+            cell.followersLabel.textColor = tC
             cell.followingLabel.text = "\(presentation.profileUser!.followingCount!)"
+            cell.followingLabel.textColor = tC
+            cell.smallMovies.textColor = tC
+            cell.smallFollowers.textColor = tC
+            cell.smallFollowings.textColor = tC
             cell.profilePicture.kf_setImageWithURL(presentation.profileUser!.picture!)
             cell.profilePicture.layer.masksToBounds = true
             cell.profilePicture.layer.cornerRadius = 60
+            cell.profilePicture.layer.borderWidth = 2
+            cell.profilePicture.layer.borderColor = tC.CGColor
             cell.layoutMargins = UIEdgeInsetsZero
-            cell.backgroundColor = UIColor.whiteColor()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.pickerReuseID) as! UserProfilePickerCell

@@ -121,7 +121,7 @@ class TimelineViewController: UITableViewController {
             cell.separatorInset = UIEdgeInsetsZero
             cell.layoutMargins = UIEdgeInsetsZero
             
-            cell.backgroundColor = (indexPath.row % 2 == 0) ? Color.clouds : UIColor.whiteColor()
+            cell.backgroundColor = Color.clouds
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(Const.emptyCellReuseID, forIndexPath: indexPath)

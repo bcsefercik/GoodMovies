@@ -14,5 +14,8 @@ class UserProfileInfoViewCell: UITableViewCell {
     @IBOutlet weak var followersLabel: UILabel!
     @IBOutlet weak var followingLabel: UILabel!
     @IBOutlet weak var profilePicture: UIImageView!
+    @IBOutlet weak var smallMovies: UILabel!
+    @IBOutlet weak var smallFollowers: UILabel!
+    @IBOutlet weak var smallFollowings: UILabel!
     
 }

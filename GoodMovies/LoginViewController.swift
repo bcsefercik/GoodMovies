@@ -14,7 +14,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
-    @IBOutlet weak var loading: LoadingView!
+    private let loading = LoadingOverlay.shared
     
     private let model = LoginViewModel()
     private let router = LoginRegisterRouter()
@@ -28,55 +28,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         
         setupForm()
-        
-        loading = addLoading()
-        loading.setLabel("Signing in...")
     }
     
     func applyStateChange(change: LoginViewModel.LoginState.Change) {
         switch change{
         case .loggedIn:
-            print("LoginViewController: Succesfful login")
-            loading.hide(true)
-            
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-            //Go to tabbar VC
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let tabcon = storyboard.instantiateViewControllerWithIdentifier("TabBarVC") as! UITabBarController
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            UIView.transitionWithView(appDelegate.window!, duration: 0.5, options: .TransitionCrossDissolve, animations: {
-                let oldState: Bool = UIView.areAnimationsEnabled()
-                UIView.setAnimationsEnabled(false)
-                appDelegate.window?.rootViewController = tabcon
-                UIView.setAnimationsEnabled(oldState)
-                }, completion: nil)
-            
-            
+            loading.hideOverlayView()
+            router.goToMain()
         case .emptyError:
-            let alert = UIAlertController(
-                title: "",
-                message: "All fields are required.",
-                preferredStyle: .Alert
-            )
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-            alert.addAction(cancelAction)
-            presentViewController(alert, animated: true, completion: nil)
-            
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: "All fields are required.", type:  .error)
             loginButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         case .dbError:
-            let alert = UIAlertController(
-                title: "Please try again...",
-                message: "The email address and password you entered did not match our recors. Please double check and try again.",
-                preferredStyle: .Alert
-            )
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-            alert.addAction(cancelAction)
-            presentViewController(alert, animated: true, completion: nil)
-            
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: "The email address and password you entered did not match our recors. Please double check and try again.", type:  .error)
             loginButton.enabled = true
-            loading.hide(true)
+            loading.hideOverlayView()
         }
         
     }
@@ -86,7 +52,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let password = passwordField.text!
         
         loginButton.enabled = false
-        loading.showIn(true)
+        loading.showOverlay(self.view, text: "Loading...")
         
         self.model.signIn(mail, password: password)
     }
@@ -123,36 +89,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-}
-
-
-extension UIViewController{
-    func addLoading() -> LoadingView{
-        let lv = UINib(nibName: "LoadingView", bundle:
-            NSBundle(forClass:self.dynamicType)).instantiateWithOwner(nil,
-                                                                      options: nil)[0] as! LoadingView
-        
-        self.view.addSubview(lv)
-        
-        lv.translatesAutoresizingMaskIntoConstraints = false
-        
-        let horizontalConstraint = NSLayoutConstraint(item: lv, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-        self.view.addConstraint(horizontalConstraint)
-        
-        let verticalConstraint = NSLayoutConstraint(item: lv, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
-        self.view.addConstraint(verticalConstraint)
-
-        let views = ["lv": lv]
-        
-        let widthConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        self.view.addConstraints(widthConstraints)
-        
-        let heightConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[lv(130)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        self.view.addConstraints(heightConstraints)
-        lv.layer.cornerRadius = 13
-        lv.hide()
-       return lv
-    }
 }
 
 

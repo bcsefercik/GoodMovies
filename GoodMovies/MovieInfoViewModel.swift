@@ -74,6 +74,7 @@ extension MovieInfoViewModel.State {
         case movie(MovieStatus)
         case loading(LoadingState)
         case reloadButtons
+        case message(String,PopupMessageType)
     }
     
     mutating func addActivity() -> Change {

@@ -64,7 +64,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         self.navigationItem.titleView = searchBar
         navigationItem.title = nil
         
-        model.search(searchFor: "bcs")
+        model.search(searchFor: "sky")
         
         self.applyState(model.state)
         
@@ -95,10 +95,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     func applyStateChange(change: SearchViewModel.State.Change){
         switch change {
         case .movies(let change):
-            
             presentation.update(withState: model.state)
-            
-            
             switch change {
             case .reload:
                 tableView.reloadData()
@@ -116,16 +113,10 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             } else {
                 LoadingOverlay.shared.hideOverlayView()
             }
+        case .message(let msg, let type):
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: msg, type:  type)
         case .none:
-            tableView.setContentOffset(CGPoint.init(x: 0, y: -60) , animated: false)
-            let alert = UIAlertController(
-                title: "",
-                message: "No movies found.",
-                preferredStyle: .Alert
-            )
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-            alert.addAction(cancelAction)
-            presentViewController(alert, animated: true, completion: nil)
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: "Nothing found.", type:  .error)
             
         }
     }
@@ -152,7 +143,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return presentation.count+1
     }
 
@@ -164,7 +154,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier(Const.userReuseID) as! SearchUserViewCell
                 let userPresentation = presentation.users[indexPath.row]
                 cell.profilePicture.kf_setImageWithURL(userPresentation.picture)
-                cell.profilePicture.layer.cornerRadius = 31
+                cell.profilePicture.layer.cornerRadius = 25
                 cell.profilePicture.layer.masksToBounds = true
                 cell.userNameLabel.text = userPresentation.name.capitalizedString
                 cell.userUsernameLabel.text = userPresentation.username
@@ -224,17 +214,20 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let lastElement = presentation.movies.count
         if indexPath.row != lastElement && !presentation.userSearch{
-            let willWatch = UITableViewRowAction(style: .Normal, title: "🤔") { (action, indexPath) in
-                // delete item at indexPath
+            let willWatch = UITableViewRowAction(style: .Normal, title: Constants.willIcon) { (action, indexPath) in
+                self.tableView.setEditing(false, animated: true)
+                self.model.addToList(indexPath.row, newStatus: MovieStatus.willWatch)
             }
-            willWatch.backgroundColor = Color.wetAsphalt
+            willWatch.backgroundColor = UIColor.whiteColor()
             
-            let watched = UITableViewRowAction(style: .Normal, title: "😎") { (action, indexPath) in
+            let watched = UITableViewRowAction(style: .Normal, title: Constants.didIcon) { (action, indexPath) in
+                self.tableView.setEditing(false, animated: true)
+                self.model.addToList(indexPath.row , newStatus: MovieStatus.willWatch)
             }
             
-            watched.backgroundColor = Color.midnightBlue
+            watched.backgroundColor = UIColor.lightGrayColor()
             
-            return [willWatch, watched]
+            return [watched, willWatch]
         }
         return []
     }

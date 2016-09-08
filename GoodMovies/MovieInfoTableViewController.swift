@@ -93,7 +93,8 @@ class MovieInfoTableViewController: UITableViewController {
             if loadingState.needsUpdate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = loadingState.isActive
             }
-            
+        case .message(let msg, let type):
+            PopupMessage.shared.showMessage(self.navigationController?.view, text: msg, type:  type)
         case .none:
             let alert = UIAlertController(
                 title: "",

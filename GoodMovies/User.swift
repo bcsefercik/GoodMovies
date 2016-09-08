@@ -9,8 +9,8 @@ struct User{
     var followerCount: Int
     let followingCount: Int?
     var picture: NSURL?
-    let fgColor: String
-    let bgColor: String
+    var fgColor: String
+    var bgColor: String
     
     init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String, foregroundColor: String, backgroundColor: String){
         self.uid = uid
@@ -26,7 +26,13 @@ struct User{
         self.followingCount = followingCount
         self.picture = NSURL(string: picture)!
         self.fgColor = foregroundColor
+        if self.fgColor == "" {
+            self.fgColor = "0,0,0"
+        }
         self.bgColor = backgroundColor
+        if self.bgColor == "" {
+            self.bgColor = "255,255,255"
+        }
     }
     
     init(uid: String, username: String, name: String, willWatchCount: Int, didWatchCount: Int, followerCount: Int?, followingCount: Int?, picture: String){
