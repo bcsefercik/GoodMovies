@@ -285,9 +285,10 @@ class UserTransaction {
                     switch response{
                     case .success:
                         strongSelf.database.delete(toUnfollow.uid, path: "following/\(strongSelf.cUserID)/"){ response in
+                            
+                            completion?(.success)
                             strongSelf.database.increment(-1, path: "users/\(strongSelf.database.uid!)/followingCount")
                             strongSelf.database.increment(-1, path: "users/\(toUnfollow.uid)/followerCount")
-                            completion?(.success)
                             switch response{
                             case .success:
                                 strongSelf.database.searchKeyStartings("\(toUnfollow.uid)_", path: "timelines/\(strongSelf.cUserID)/"){ response,result in
