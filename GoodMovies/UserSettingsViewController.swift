@@ -119,7 +119,7 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     }
     
     func chooseBackground(){
-        picker.showColorPicker(self.navigationController!, animated: true){ color,index in
+        picker.showColorPicker(self.tabBarController!, animated: true){ color,index in
             if color != nil {
                 self.model.setColor(FlatColors.allColors[index], type: "bgColor")
             }
@@ -127,8 +127,10 @@ class UserSettingsViewController: UITableViewController, UIImagePickerController
     }
     
     func chooseForeground(){
-        picker.showColorPicker(self.navigationController!, animated: true){ color,index in
-            self.model.setColor(color!, type: "fgColor")
+        picker.showColorPicker(self.tabBarController!, animated: true){ color,index in
+            if color != nil {
+                self.model.setColor(FlatColors.allColors[index], type: "bgColor")
+            }
         }
     }
 

@@ -180,7 +180,7 @@ class MovieInfoTableViewController: UITableViewController, UINavigationControlle
         newImageView.contentMode = .ScaleAspectFit
         newImageView.userInteractionEnabled = true
         LoadingOverlay.shared.showOverlay(self.navigationController!.view, text: "Loading image...")
-        self.navigationController?.view.addSubview(newImageView)
+        self.tabBarController?.view.addSubview(newImageView)
     }
 
     func dismissFullscreenImage(sender: UITapGestureRecognizer) {
