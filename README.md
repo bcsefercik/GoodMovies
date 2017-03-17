@@ -1,4 +1,4 @@
-# My Movies App
+# Good Movies iOS App
 
 ## Description
 
